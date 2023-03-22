@@ -4,13 +4,13 @@ function IndexPage() {
   return (
     <div>
       <Head>
-        <title>Message</title>
+        <title>Share</title>
         <meta property="og:title" content="My page title" key="title" />
       </Head>
       <Head>
         <meta property="og:title" content="My new title" key="title" />
       </Head>
-      <p>Hello world! Message</p>
+      <p>Hello world! Share</p>
     </div>
   )
 }

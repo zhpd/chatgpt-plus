@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { nanoid } from 'nanoid'
-import './index.less'
+// import './index.less'
 
 let global_drawer_nodes: HTMLDivElement[] = [],
   global_modal_nodes: HTMLDivElement[] = []
@@ -33,18 +33,18 @@ interface DrawerPr extends DrawerProps {
  * @param params
  */
 const RenderDrawer: React.FC<DrawerPr> = React.forwardRef((props, ref) => {
-  const [visible, setVisible] = useState(false)
+  const [open, setOpen] = useState(false)
   useEffect(() => {
     // 延迟加载显示
     setTimeout(() => {
-      setVisible(true)
+      setOpen(true)
     }, 50)
   }, [])
 
   useImperativeHandle(ref, () => ({
     node: props.node,
     close: () => {
-      setVisible(false)
+      setOpen(false)
     },
   }))
   return (
@@ -54,13 +54,13 @@ const RenderDrawer: React.FC<DrawerPr> = React.forwardRef((props, ref) => {
       placement={props?.placement || 'right'}
       size={props?.size || 'large'}
       onClose={(e) => {
-        setVisible(false)
+        setOpen(false)
         if (props?.onClose) {
           props.onClose(e)
         }
       }}
       {...props}
-      visible={visible}
+      open={open}
     >
       {props.children}
     </Drawer>
@@ -180,19 +180,19 @@ interface ModalPr extends ModalProps {
  * @param params
  */
 const RenderModal: React.FC<ModalPr> = React.forwardRef((props, ref) => {
-  const [visible, setVisible] = useState(false)
+  const [open, setOpen] = useState(false)
   const _ref = useRef<any>()
   useEffect(() => {
     // 延迟加载显示
     setTimeout(() => {
-      setVisible(true)
+      setOpen(true)
     }, 50)
   }, [])
 
   useImperativeHandle(ref, () => ({
     node: props.node,
     close: () => {
-      setVisible(false)
+      setOpen(false)
     },
   }))
 
@@ -200,7 +200,7 @@ const RenderModal: React.FC<ModalPr> = React.forwardRef((props, ref) => {
     <Modal
       destroyOnClose={true}
       title={props?.title || ''}
-      width={props?.width || 720}
+      width={props?.width || 480}
       bodyStyle={{
         maxHeight: window.innerHeight / 1.5 + 'px',
         overflowY: 'auto',
@@ -208,19 +208,19 @@ const RenderModal: React.FC<ModalPr> = React.forwardRef((props, ref) => {
       }}
       centered={true}
       onCancel={(e) => {
-        setVisible(false)
+        setOpen(false)
         if (props?.onCancel) {
           props.onCancel(e)
         }
       }}
       onOk={(e) => {
-        setVisible(false)
+        setOpen(false)
         if (props?.onOk) {
           props.onOk(e)
         }
       }}
       {...props}
-      visible={visible}
+      open={open}
     >
       {props.children}
     </Modal>
