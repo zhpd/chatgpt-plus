@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  app:
+    image: zhpd/chatgpt-plus # 总是使用latest,更新时重新pull该tag镜像即可
+    ports:
+      - 3000:3000
+    environment:
+      # 请求方式
+      API_TYPE: chatgpt-api # chatgpt-api 或者 chatgpt-proxy
+      # chatgpt-api
+      OPENAI_API_KEY: xxx
+      # chatgpt-proxy
+      OPENAI_ACCESS_TOKEN: xxx
+      # 反向代理
+      API_REVERSE_PROXY: xxx
+  nginx:
+    image: nginx:alpine
+    ports:
+      - '80:80'
+    expose:
+      - '80'
+    volumes:
+      - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - app

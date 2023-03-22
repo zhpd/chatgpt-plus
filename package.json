@@ -1,0 +1,58 @@
+{
+  "name": "chatgpt-plus",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ChatGPT-Plus Application.",
+  "author": "Zhpd <zpd106@sina.com>",
+  "keywords": [
+    "chatgpt",
+    "chatgpt-plus",
+    "openai",
+    "chatbot",
+    "gpt3",
+    "gpt4",
+    "nextjs"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
+  "homepage": "https://chat.gptc.cc",
+  "bugs": "https://github.com/zhpd/chatgpt-plus/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhpd/chatgpt-plus"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "deploy": "npm run build && npm run release-ci",
+    "release": "dotenv -- release-it ",
+    "release-ci": "dotenv -- release-it --ci"
+  },
+  "dependencies": {
+    "antd": "^5.3.2",
+    "katex": "^0.16.4",
+    "markdown-it": "^13.0.1",
+    "nanoid": "^4.0.1",
+    "next": "13.2.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.0.2"
+  },
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^5.1.1",
+    "@types/katex": "^0.16.0",
+    "@types/markdown-it": "^12.2.3",
+    "@types/node": "18.15.5",
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.11",
+    "auto-changelog": "^2.4.0",
+    "dotenv-cli": "^7.1.0",
+    "eslint": "8.36.0",
+    "eslint-config-next": "13.2.4",
+    "release-it": "^15.9.1"
+  }
+}
