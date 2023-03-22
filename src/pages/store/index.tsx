@@ -1,3 +1,4 @@
+import { Button, Result } from 'antd'
 import Head from 'next/head'
 
 function IndexPage() {
@@ -10,7 +11,14 @@ function IndexPage() {
       <Head>
         <meta property="og:title" content="My new title" key="title" />
       </Head>
-      <p>Hello world! Store</p>
+      <Result
+        title="正在添加更多AI功能，敬请期待！"
+        extra={
+          <Button href="https://github.com/zhpd/chatgpt-plus" target="_blank" type="primary" key="console">
+            Go Github
+          </Button>
+        }
+      />
     </div>
   )
 }

@@ -1,13 +1,14 @@
 import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
 import React from 'react'
+import type { AppProps } from 'next/app'
+import { appWithTranslation } from 'next-i18next'
 import { ConfigProvider, App as AntdApp, theme as antdTheme } from 'antd'
 import { StyleProvider } from '@ant-design/cssinjs'
 import 'antd/dist/reset.css'
 import Layout from '@/components/Layout'
-import { SiteProvider} from '@/context/site'
+import { SiteProvider } from '@/contexts/site'
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <SiteProvider>
       <ConfigProvider>
@@ -22,3 +23,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </SiteProvider>
   )
 }
+
+export default appWithTranslation(App)

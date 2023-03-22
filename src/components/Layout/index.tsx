@@ -1,13 +1,27 @@
 import { useRouter } from 'next/router'
-import { ConfigProvider, Layout, Menu, theme as antdTheme, Avatar, Space, Button } from 'antd'
-import { MenuFoldOutlined, MenuUnfoldOutlined, SkinOutlined, ApiOutlined, BulbOutlined, SettingOutlined, ShareAltOutlined, MessageOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons'
+import { ConfigProvider, Layout, Menu, theme as antdTheme, Avatar, Space, Button, Typography } from 'antd'
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  RocketOutlined,
+  SkinOutlined,
+  ApiOutlined,
+  BulbOutlined,
+  SettingOutlined,
+  ShareAltOutlined,
+  MessageOutlined,
+  UserOutlined,
+  SkinFilled,
+} from '@ant-design/icons'
 const { Header, Sider, Content } = Layout
 import React, { useEffect, useState } from 'react'
 import { tool } from '@/utils'
-import { useSiteContext } from '@/context/site'
+import { useSiteContext } from '@/contexts/site'
+import { useTranslation } from 'next-i18next'
 
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
+  const { t } = useTranslation('common')
   const { theme, setTheme } = useSiteContext()
   const router = useRouter()
   const [colorBgContainer, setColorBgContainer] = useState(token.colorBgContainer)
@@ -15,18 +29,22 @@ export default function LayoutBase(props: any) {
   const [collapsed, setCollapsed] = useState(true)
   const iconColor = '#CCC'
   const menuList = [
-    { name: '聊天', path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: '提示', path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: '分享', path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: '商店', path: '/store', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: t('message'), path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: t('prompt'), path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: t('share'), path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: t('store'), path: '/store', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
   ]
+  const [menu, setMenu] = useState<any>(menuList[0])
 
   const toUrl = (url: string) => {
     router.push(url)
   }
 
-  const getActive = (path: string = '') => {
+  const getActive = (path: string) => {
     const { pathname } = router
+    if (pathname == '/') {
+      return path == '/chat'
+    }
     if (pathname == path) {
       return true
     }
@@ -50,18 +68,23 @@ export default function LayoutBase(props: any) {
       <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px' }}>
         <Sider theme="dark" width={120} trigger={null} collapsible collapsed={collapsed}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
-            <Avatar style={{ marginTop: '20px' }} size={48} shape="square" icon={<UserOutlined />} />
-            <Space direction="vertical" size={'small'} style={{ marginTop: 80 }}>
+            <Avatar style={{ marginTop: 5 }} size={48} shape="square" icon={<RocketOutlined />} />
+            <Space direction="vertical" size={'middle'} style={{ marginTop: 60 }}>
               {menuList.map((item, index) => {
                 return (
                   <Button
                     key={item.path}
-                    onClick={() => toUrl(item.path)}
+                    onClick={() => {
+                      setMenu(item)
+                      toUrl(item.path)
+                    }}
                     ghost={getActive(item.path) ? false : true}
                     size={'large'}
                     icon={item.icon}
                     style={{ border: 'none', color: getActive(item.path) ? item.iconColorActive : item.iconColor }}
-                  ></Button>
+                  >
+                    {collapsed ? '' : item.name}
+                  </Button>
                 )
               })}
             </Space>
@@ -74,7 +97,7 @@ export default function LayoutBase(props: any) {
                 ghost
                 style={{ border: 'none' }}
                 size={'large'}
-                icon={<SkinOutlined style={{ color: iconColor }} />}
+                icon={theme === 'dark' ? <SkinFilled style={{ color: iconColor }} /> : <SkinOutlined style={{ color: iconColor }} />}
               ></Button>
               <Button
                 onClick={() => {
@@ -88,16 +111,23 @@ export default function LayoutBase(props: any) {
                 size={'large'}
                 icon={<SettingOutlined style={{ color: iconColor }} />}
               ></Button>
+              <Button
+                onClick={() => setCollapsed(!collapsed)}
+                ghost
+                style={{ border: 'none' }}
+                size={'large'}
+                icon={React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                  className: 'trigger',
+                  style: { color: iconColor },
+                })}
+              ></Button>
             </Space>
           </div>
         </Sider>
         <Layout className="site-layout">
-          <Header style={{ padding: 0, background: colorBgContainer }}>
-            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-              className: 'trigger',
-              style: { marginLeft: '10px' },
-              onClick: () => setCollapsed(!collapsed),
-            })}
+          <Header style={{ paddingLeft: 20, paddingRight: 20, background: colorBgContainer, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography.Title level={3}>{menu.name}</Typography.Title>
+            <Avatar style={{ marginTop: 0 }} size={48} shape="square" icon={<UserOutlined />} />
           </Header>
           <Content
             style={{
