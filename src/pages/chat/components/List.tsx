@@ -86,7 +86,7 @@ function IndexPage() {
   return (
     <div style={{ borderRight: `1px solid ${token.colorBorder}`, width: 260, padding: 16, overflow: 'hidden', position: 'relative' }}>
       <Button type="dashed" block size="large">
-        {t('chat.new chat')}
+        {t('chat.newChat')}
       </Button>
       <List
         itemLayout="horizontal"
@@ -103,7 +103,7 @@ function IndexPage() {
               padding: '4px 2px 4px 6px',
               marginTop: '12px',
               borderColor: uuid == item.uuid ? token.colorPrimaryHover : undefined,
-              backgroundColor: uuid == item.uuid ? (theme == 'dark' ? '#424242' : '#e8e8e8') : undefined,
+              backgroundColor: uuid == item.uuid ? (theme == 'dark' ? token.colorPrimaryHover : '#e8e8e8') : undefined,
             }}
             onClick={() => openChat(item.uuid)}
           >
@@ -125,11 +125,14 @@ function IndexPage() {
                 avatar={<Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />}
                 title={
                   <div style={{ textAlign: 'left' }}>
-                    <span style={{ color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }}>{item.title}</span>
+                    <span style={{ color: uuid == item.uuid ? (theme === 'dark' ? '#fff' : token.colorPrimaryActive) : token.colorText }}>{item.title}</span>
                   </div>
                 }
                 description={
-                  <Typography.Paragraph style={{ marginBottom: 0, fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }} ellipsis={{ rows: 1 }}>
+                  <Typography.Paragraph
+                    style={{ marginBottom: 0, fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? (theme === 'dark' ? '#eee' : token.colorPrimaryActive) : token.colorText }}
+                    ellipsis={{ rows: 1 }}
+                  >
                     {item.message || 'No message'}
                   </Typography.Paragraph>
                 }
@@ -154,7 +157,7 @@ function IndexPage() {
         }}
       >
         <Button type="primary" block size="large">
-          {t('chat.try gpt-4')}
+          {t('chat.tryGpt4')}
         </Button>
       </div>
     </div>

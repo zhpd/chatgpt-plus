@@ -1,9 +1,12 @@
-import { Avatar } from 'antd'
+import { useSiteContext } from '@/contexts/site'
+import { Avatar, theme as antdTheme } from 'antd'
 import Image from 'next/image'
 import Markdown from './Markdown'
 
 function Box(props: any) {
   const { item } = props
+  const { theme } = useSiteContext()
+  const { token } = antdTheme.useToken()
   return (
     <div
       key={item.dateTime}
@@ -15,7 +18,9 @@ function Box(props: any) {
       <div style={{ maxWidth: 'calc(100% - 30px)' }}>
         <div style={{ height: 25, color: '#c2cad3', textAlign: item.inversion == true ? 'right' : 'left' }}>{item.dateTime}</div>
         <div>
-          <Markdown>{item.text}</Markdown>
+          <Markdown theme={theme} token={token} place={item.inversion == true ? 'right' : 'left'}>
+            {item.text}
+          </Markdown>
         </div>
       </div>
     </div>

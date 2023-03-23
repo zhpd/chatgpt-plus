@@ -1,20 +1,17 @@
 import Head from 'next/head'
 import { useTranslation } from 'next-i18next'
+import { useSiteContext } from '@/contexts/site'
+import { useEffect } from 'react'
 
 function IndexPage() {
+  const { setTitle } = useSiteContext()
   const { t } = useTranslation()
-  const title = t('window.title', { title: t('c.prompt') })
-  // @ts-ignore
-  IndexPage.title = title
+  useEffect(() => {
+    const title = t('window.title', { title: t('c.prompt') })
+    setTitle(title)
+  }, [setTitle, t])
   return (
     <div>
-      <Head>
-        <title>Prompt</title>
-        <meta property="og:title" content="My page title" key="title" />
-      </Head>
-      <Head>
-        <meta property="og:title" content="My new title" key="title" />
-      </Head>
       <p>Hello world! Prompt</p>
     </div>
   )

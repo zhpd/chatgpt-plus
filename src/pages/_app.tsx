@@ -8,7 +8,6 @@ import 'antd/dist/reset.css'
 import Layout from '@/components/Layout'
 import { SiteProvider } from '@/contexts/site'
 import '@/locales'
-
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 // @ts-ignore
@@ -22,15 +21,12 @@ export async function getStaticProps({ locale }) {
 }
 
 function App({ Component, pageProps }: AppProps) {
-  // @ts-ignore
-  const title = Component.title ?? ''
-
   return (
     <SiteProvider>
       <ConfigProvider>
         <AntdApp>
           <StyleProvider hashPriority="high">
-            <Layout title={title}>
+            <Layout>
               <Component {...pageProps} />
             </Layout>
           </StyleProvider>

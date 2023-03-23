@@ -1,20 +1,17 @@
 import { Button, Result } from 'antd'
 import Head from 'next/head'
 import { useTranslation } from 'next-i18next'
+import { useSiteContext } from '@/contexts/site'
+import { useEffect } from 'react'
 function IndexPage() {
+  const { setTitle } = useSiteContext()
   const { t } = useTranslation()
-  const title = t('window.title', { title: t('c.store') })
-  // @ts-ignore
-  IndexPage.title = title
+  useEffect(() => {
+    const title = t('window.title', { title: t('c.store') })
+    setTitle(title)
+  }, [setTitle, t])
   return (
     <div>
-      <Head>
-        <title>Store</title>
-        <meta property="og:title" content="My page title" key="title" />
-      </Head>
-      <Head>
-        <meta property="og:title" content="My new title" key="title" />
-      </Head>
       <Result
         title="正在添加更多AI功能，敬请期待！"
         extra={

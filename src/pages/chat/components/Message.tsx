@@ -1,9 +1,11 @@
 import { useSiteContext } from '@/contexts/site'
-import { Avatar, Card, FloatButton, theme as antdTheme } from 'antd'
+import { Avatar, Button, Card, FloatButton, Input, Space, theme as antdTheme, Tooltip } from 'antd'
+import { ExpandAltOutlined, SendOutlined } from '@ant-design/icons'
 import { useTranslation } from 'next-i18next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
 import Box from './Box'
 
 function Message() {
@@ -11,6 +13,8 @@ function Message() {
   const { token } = antdTheme.useToken()
   const { theme } = useSiteContext()
   const { t } = useTranslation()
+  const [coiled, setCoiled] = useState<boolean>(true)
+  const [prompt, setPrompt] = useState<string>('')
   const [uuid, setUuid] = useState<any>(null)
   const [list, setList] = useState<any>([])
   const _data = {
@@ -229,18 +233,80 @@ function Message() {
     }
   }, [router?.query])
 
+  useEffect(() => {
+    // console.log('prompt', prompt)
+  }, [prompt])
+
+  const sendMessage = (text: string) => {
+    if (!text) return
+    const _list = [...list]
+    _list.push({
+      dateTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+      text,
+      inversion: true,
+      error: false,
+      conversationOptions: null,
+      requestOptions: {
+        prompt: text,
+        options: null,
+      },
+    })
+    setList(_list)
+    setPrompt('')
+    // 滚动到最底部
+    const ele = document.getElementById('messageBox')
+    if (ele) {
+      setTimeout(() => {
+        ele.scrollTo(0, ele.scrollHeight)
+      }, 50)
+    }
+  }
+
   return (
-    <div id="messageBox" style={{ border: '0px solid #efeff5', flex: 1, padding: 16, overflow: 'auto' }}>
-      {list.map((item: any) => {
-        return <Box key={item.dateTime} item={item} />
-      })}
+    <div id="messageBox" style={{ border: '0px solid #efeff5', flex: 1, padding: '16 16 0 16', overflow: 'auto', width: '100%', position: 'relative' }}>
+      <div style={{ flex: 1, padding: '16 16 0 16', overflow: 'auto', width: '100%', position: 'relative' }}>
+        {list.map((item: any) => {
+          return <Box key={item.dateTime} item={item} />
+        })}
+      </div>
       <FloatButton.BackTop
-        style={{ marginBottom: 50, marginRight: 20 }}
+        style={{ marginBottom: 105, marginRight: 16 }}
         // @ts-ignore
         target={() => {
           return document.getElementById('messageBox')
         }}
       />
+      <div
+        style={{
+          width: '100%',
+          textAlign: 'center',
+          padding: '15px 0',
+          position: 'sticky',
+          display: 'inline-flex',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: theme === 'dark' ? undefined : '#fff',
+          justifyContent: 'center',
+        }}
+      >
+        <Tooltip title={t('chat.coiledText', { status: coiled ? t('c.open') : t('c.close') })}>
+          <Button type={coiled ? 'primary' : 'dashed'} size="large" style={{ marginLeft: 10, marginRight: 10 }} icon={<ExpandAltOutlined rotate={-45} />} onClick={() => setCoiled(!coiled)}></Button>
+        </Tooltip>
+        <Input.TextArea
+          autoFocus={true}
+          allowClear
+          autoSize={true}
+          style={{ width: 'calc(80% - 20px)', overflow: 'hidden',paddingRight:-5 }}
+          placeholder={t('chat.inputPlaceholder') || ''}
+          size={'large'}
+          value={prompt}
+          onChange={(e) => setPrompt(e.currentTarget.value)}
+        ></Input.TextArea>
+        <Button type="primary" size="large" icon={<SendOutlined rotate={-45} />} disabled={prompt ? false : true} style={{ marginLeft: 10, marginRight: 10 }} onClick={sendMessage.bind(null, prompt)}>
+          {t('chat.send')}
+        </Button>
+      </div>
     </div>
   )
 }

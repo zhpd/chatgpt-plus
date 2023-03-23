@@ -23,17 +23,17 @@ import Head from 'next/head'
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
   const { t } = useTranslation()
-  const { theme, setTheme } = useSiteContext()
+  const { title, theme, setTheme } = useSiteContext()
   const router = useRouter()
   const [colorBgContainer, setColorBgContainer] = useState(token.colorBgContainer)
   const [colorPrimary, setColorPrimary] = useState(token.colorPrimary)
   const [collapsed, setCollapsed] = useState(true)
   const iconColor = '#CCC'
   const menuList = [
-    { name: t('c.message'), path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: t('c.prompt'), path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: t('c.share'), path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: t('c.store'), path: '/store', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.message', path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.prompt', path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.share', path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.store', path: '/store', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
   ]
   const [menu, setMenu] = useState<any>(menuList[0])
 
@@ -67,10 +67,10 @@ export default function LayoutBase(props: any) {
       }}
     >
       <Head>
-        <title>{props?.title || 'ChatGPT-Plus'}</title>
-        <meta property="og:title" content={props?.title} key={props?.title} />
+        <title>{title || 'ChatGPT-Plus'}</title>
+        <meta property="og:title" content={title} key={title} />
       </Head>
-      <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px', backgroundColor:'#000' }}>
+      <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px', backgroundColor: '#000' }}>
         <Sider theme="dark" width={120} trigger={null} collapsible collapsed={collapsed}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
             <Avatar style={{ marginTop: 5 }} size={48} shape="square" icon={<RocketOutlined />} />
@@ -88,7 +88,7 @@ export default function LayoutBase(props: any) {
                     icon={item.icon}
                     style={{ border: 'none', color: getActive(item.path) ? item.iconColorActive : item.iconColor }}
                   >
-                    {collapsed ? '' : item.name}
+                    {collapsed ? '' : t(item.name)}
                   </Button>
                 )
               })}
@@ -141,7 +141,7 @@ export default function LayoutBase(props: any) {
               justifyContent: 'space-between',
             }}
           >
-            <Typography.Title level={3}>{menu.name}</Typography.Title>
+            <Typography.Title level={3}>{t(menu.name)}</Typography.Title>
             <Avatar style={{ marginTop: 0 }} size={48} shape="square" icon={<UserOutlined />} />
           </Header>
           <Content
@@ -153,7 +153,7 @@ export default function LayoutBase(props: any) {
               background: colorBgContainer,
             }}
           >
-            <main style={{ height: '100%', }}>{props.children}</main>
+            <main style={{ height: '100%' }}>{props.children}</main>
           </Content>
         </Layout>
       </Layout>
