@@ -1,7 +1,11 @@
 import { Button, Result } from 'antd'
 import Head from 'next/head'
-
+import { useTranslation } from 'next-i18next'
 function IndexPage() {
+  const { t } = useTranslation()
+  const title = t('window.title', { title: t('c.store') })
+  // @ts-ignore
+  IndexPage.title = title
   return (
     <div>
       <Head>
