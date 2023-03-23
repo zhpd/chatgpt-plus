@@ -1,0 +1,30 @@
+{
+  "c": {
+    "message": "Message",
+    "prompt": "Prompt",
+    "share": "Share",
+    "store": "Store",
+    "delete": "Delete",
+    "deleteSuccess": "Delete Success",
+    "save": "Save",
+    "saveSuccess": "Save Success",
+    "reset": "Reset",
+    "action": "Action",
+    "export": "Export",
+    "exportSuccess": "Export Success",
+    "import": "Import",
+    "importSuccess": "Import Success",
+    "clear": "Clear",
+    "clearSuccess": "Clear Success",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "download": "Download",
+    "noData": "No Data",
+    "wrong": "Something went wrong, please try again later.",
+    "success": "Success",
+    "failed": "Failed",
+    "verify": "Verify",
+    "unauthorizedTips": "Unauthorized, please verify first."
+  }
+}

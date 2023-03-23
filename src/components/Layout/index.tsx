@@ -21,7 +21,7 @@ import { useTranslation } from 'next-i18next'
 
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
-  const { t } = useTranslation('common')
+  const { t } = useTranslation()
   const { theme, setTheme } = useSiteContext()
   const router = useRouter()
   const [colorBgContainer, setColorBgContainer] = useState(token.colorBgContainer)
@@ -29,10 +29,10 @@ export default function LayoutBase(props: any) {
   const [collapsed, setCollapsed] = useState(true)
   const iconColor = '#CCC'
   const menuList = [
-    { name: t('message'), path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: t('prompt'), path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: t('share'), path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: t('store'), path: '/store', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: t('c.message'), path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: t('c.prompt'), path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: t('c.share'), path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: t('c.store'), path: '/store', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
   ]
   const [menu, setMenu] = useState<any>(menuList[0])
 

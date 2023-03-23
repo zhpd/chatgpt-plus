@@ -7,6 +7,19 @@ import { StyleProvider } from '@ant-design/cssinjs'
 import 'antd/dist/reset.css'
 import Layout from '@/components/Layout'
 import { SiteProvider } from '@/contexts/site'
+import '@/locales'
+
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+// @ts-ignore
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale)),
+      // Will be passed to the page component as props
+    },
+  }
+}
 
 function App({ Component, pageProps }: AppProps) {
   return (
