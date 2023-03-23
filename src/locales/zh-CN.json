@@ -1,4 +1,7 @@
 {
+  "window": {
+    "title": "ChatGPT-Plus {{title}}"
+  },
   "c": {
     "message": "消息",
     "prompt": "提示",
@@ -26,5 +29,9 @@
     "failed": "操作失败",
     "verify": "验证",
     "unauthorizedTips": "未经授权，请先进行验证。"
+  },
+  "chat": {
+    "new chat": "+ 新消息",
+    "try gpt-4": "Try GPT-4"
   }
 }

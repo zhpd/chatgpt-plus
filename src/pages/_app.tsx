@@ -22,12 +22,15 @@ export async function getStaticProps({ locale }) {
 }
 
 function App({ Component, pageProps }: AppProps) {
+  // @ts-ignore
+  const title = Component.title ?? ''
+
   return (
     <SiteProvider>
       <ConfigProvider>
         <AntdApp>
           <StyleProvider hashPriority="high">
-            <Layout>
+            <Layout title={title}>
               <Component {...pageProps} />
             </Layout>
           </StyleProvider>

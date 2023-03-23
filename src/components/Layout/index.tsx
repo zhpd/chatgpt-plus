@@ -18,6 +18,7 @@ import React, { useEffect, useState } from 'react'
 import { tool } from '@/utils'
 import { useSiteContext } from '@/contexts/site'
 import { useTranslation } from 'next-i18next'
+import Head from 'next/head'
 
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
@@ -65,6 +66,10 @@ export default function LayoutBase(props: any) {
         algorithm: theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
       }}
     >
+      <Head>
+        <title>{props?.title || 'ChatGPT-Plus'}</title>
+        <meta property="og:title" content={props?.title} key={props?.title} />
+      </Head>
       <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px' }}>
         <Sider theme="dark" width={120} trigger={null} collapsible collapsed={collapsed}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
@@ -125,19 +130,30 @@ export default function LayoutBase(props: any) {
           </div>
         </Sider>
         <Layout className="site-layout">
-          <Header style={{ paddingLeft: 20, paddingRight: 20, background: colorBgContainer, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Header
+            style={{
+              paddingLeft: 20,
+              paddingRight: 20,
+              background: colorBgContainer,
+              borderBottom: `1px solid ${theme == 'dark' ? '#424242' : '#e8e8e8'}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
             <Typography.Title level={3}>{menu.name}</Typography.Title>
             <Avatar style={{ marginTop: 0 }} size={48} shape="square" icon={<UserOutlined />} />
           </Header>
           <Content
             style={{
               margin: '24px 16px',
-              padding: 24,
+              // padding: 24,
               minHeight: 280,
+              overflow: 'hidden',
               background: colorBgContainer,
             }}
           >
-            <main>{props.children}</main>
+            <main style={{ height: '100%', }}>{props.children}</main>
           </Content>
         </Layout>
       </Layout>

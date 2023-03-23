@@ -99,9 +99,16 @@ a {
   color: inherit;
   text-decoration: none;
 }
+p {
+  margin-top: 0;
+  /* margin-bottom: 1em; */
+  margin-bottom: 0em;
+}
 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
 }
+
+::-webkit-scrollbar{ display: none}
