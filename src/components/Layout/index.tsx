@@ -70,7 +70,7 @@ export default function LayoutBase(props: any) {
         <title>{props?.title || 'ChatGPT-Plus'}</title>
         <meta property="og:title" content={props?.title} key={props?.title} />
       </Head>
-      <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px' }}>
+      <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px', backgroundColor:'#000' }}>
         <Sider theme="dark" width={120} trigger={null} collapsible collapsed={collapsed}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
             <Avatar style={{ marginTop: 5 }} size={48} shape="square" icon={<RocketOutlined />} />
