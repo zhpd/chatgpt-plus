@@ -7,7 +7,7 @@ function IndexPage() {
   const { setTitle } = useSiteContext()
   const { t } = useTranslation()
   useEffect(() => {
-    const title = t('window.title', { title: t('c.store') })
+    const title = t('window.title', { title: t('c.plugin') })
     setTitle(title)
   }, [setTitle, t])
   return (

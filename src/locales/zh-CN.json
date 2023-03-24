@@ -6,6 +6,7 @@
   "c": {
     "message": "消息",
     "prompt": "提示",
+    "plugin": "插件",
     "share": "分享",
     "store": "商店",
     "open": "开启",
@@ -36,6 +37,8 @@
   "chat": {
     "newChat": "+ 新消息",
     "send": "发送",
+    "setting": "设置",
+    "api_warning": "插件系统正在开发中, 请勿使用插件功能。",
     "inputPlaceholder": "来说点什么吧...",
     "coiledText": "连续对话 {{status}}",
     "tryGpt4": "Try GPT-4"

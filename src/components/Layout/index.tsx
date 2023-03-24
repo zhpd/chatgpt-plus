@@ -12,6 +12,7 @@ import {
   MessageOutlined,
   UserOutlined,
   SkinFilled,
+  ShoppingOutlined,
 } from '@ant-design/icons'
 const { Header, Sider, Content } = Layout
 import React, { useEffect, useState } from 'react'
@@ -27,17 +28,22 @@ export default function LayoutBase(props: any) {
   const router = useRouter()
   const [colorBgContainer, setColorBgContainer] = useState(token.colorBgContainer)
   const [colorPrimary, setColorPrimary] = useState(token.colorPrimary)
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(true)
   const iconColor = '#CCC'
   const menuList = [
     { name: 'c.message', path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     { name: 'c.prompt', path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.plugin', path: '/plugin', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.store', path: '/store', icon: <ShoppingOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     { name: 'c.share', path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: 'c.store', path: '/store', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
   ]
   const [menu, setMenu] = useState<any>(menuList[0])
 
   const toUrl = (url: string) => {
+    const { pathname } = router
+    if (url.indexOf(pathname) > -1) {
+      return
+    }
     router.push(url)
   }
 
@@ -71,7 +77,14 @@ export default function LayoutBase(props: any) {
         <meta property="og:title" content={title} key={title} />
       </Head>
       <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px', backgroundColor: '#000' }}>
-        <Sider theme={'dark'} trigger={null} width={120} collapsible collapsed={collapsed}>
+        <Sider
+          theme={theme === 'dark' ? 'dark' : 'light'}
+          trigger={null}
+          width={120}
+          collapsible
+          collapsed={collapsed}
+          style={{ borderRight: `${theme === 'dark' ? 0 : 1}px solid ${token.colorBorder}` }}
+        >
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
             <Avatar style={{ marginTop: 5 }} size={48} shape="square" icon={<RocketOutlined />} />
             <Space direction="vertical" size={'middle'} style={{ marginTop: 60 }}>
@@ -86,7 +99,7 @@ export default function LayoutBase(props: any) {
                     ghost={getActive(item.path) ? false : true}
                     size={'large'}
                     icon={item.icon}
-                    style={{ border: 'none', color: getActive(item.path) ? item.iconColorActive : item.iconColor }}
+                    style={{ border: getActive(item.path) ? undefined : 'none', color: getActive(item.path) ? item.iconColorActive : theme === 'dark' ? item.iconColor : '#555' }}
                   >
                     {collapsed ? '' : t(item.name)}
                   </Button>
@@ -102,7 +115,7 @@ export default function LayoutBase(props: any) {
                 ghost
                 style={{ border: 'none' }}
                 size={'large'}
-                icon={theme === 'dark' ? <SkinFilled style={{ color: iconColor }} /> : <SkinOutlined style={{ color: iconColor }} />}
+                icon={theme === 'dark' ? <SkinFilled style={{ color: iconColor }} /> : <SkinOutlined style={{ color: '#555' }} />}
               ></Button>
               <Button
                 onClick={() => {
@@ -114,7 +127,7 @@ export default function LayoutBase(props: any) {
                 ghost
                 style={{ border: 'none' }}
                 size={'large'}
-                icon={<SettingOutlined style={{ color: iconColor }} />}
+                icon={<SettingOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
               ></Button>
               <Button
                 onClick={() => setCollapsed(!collapsed)}
@@ -123,7 +136,7 @@ export default function LayoutBase(props: any) {
                 size={'large'}
                 icon={React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                   className: 'trigger',
-                  style: { color: iconColor },
+                  style: { color: theme === 'dark' ? iconColor : '#555' },
                 })}
               ></Button>
             </Space>
