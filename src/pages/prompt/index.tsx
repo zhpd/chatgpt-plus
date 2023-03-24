@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from '@/locales'
 import { useSiteContext } from '@/contexts/site'
 import { useEffect } from 'react'
 

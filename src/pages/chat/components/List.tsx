@@ -1,6 +1,6 @@
 import { Avatar, Button, List, Typography, message, Popconfirm, theme as antdTheme, Divider } from 'antd'
 import { DeleteOutlined, MessageOutlined } from '@ant-design/icons'
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from '@/locales'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -92,7 +92,7 @@ function IndexPage() {
         itemLayout="horizontal"
         dataSource={data}
         split={false}
-        style={{ marginTop: 10, paddingBottom: 100, overflow: 'scroll', height: '100%', maxHeight: 'inherit', scrollbarWidth: 'none' }}
+        style={{ marginTop: 10, paddingBottom: 100,paddingLeft:4, paddingRight:4, overflow: 'scroll', height: '100%', maxHeight: 'inherit', scrollbarWidth: 'none' }}
         renderItem={(item, index) => (
           <Button
             block

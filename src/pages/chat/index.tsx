@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Message from './components/Message'
 import List from './components/List'
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from '@/locales'
 import { useSiteContext } from '@/contexts/site'
 import { useEffect } from 'react'
 

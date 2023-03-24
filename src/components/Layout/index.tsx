@@ -17,7 +17,7 @@ const { Header, Sider, Content } = Layout
 import React, { useEffect, useState } from 'react'
 import { tool } from '@/utils'
 import { useSiteContext } from '@/contexts/site'
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from '@/locales'
 import Head from 'next/head'
 
 export default function LayoutBase(props: any) {
@@ -27,7 +27,7 @@ export default function LayoutBase(props: any) {
   const router = useRouter()
   const [colorBgContainer, setColorBgContainer] = useState(token.colorBgContainer)
   const [colorPrimary, setColorPrimary] = useState(token.colorPrimary)
-  const [collapsed, setCollapsed] = useState(true)
+  const [collapsed, setCollapsed] = useState(false)
   const iconColor = '#CCC'
   const menuList = [
     { name: 'c.message', path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
@@ -71,7 +71,7 @@ export default function LayoutBase(props: any) {
         <meta property="og:title" content={title} key={title} />
       </Head>
       <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px', backgroundColor: '#000' }}>
-        <Sider theme="dark" width={120} trigger={null} collapsible collapsed={collapsed}>
+        <Sider theme={'dark'} trigger={null} width={120} collapsible collapsed={collapsed}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
             <Avatar style={{ marginTop: 5 }} size={48} shape="square" icon={<RocketOutlined />} />
             <Space direction="vertical" size={'middle'} style={{ marginTop: 60 }}>

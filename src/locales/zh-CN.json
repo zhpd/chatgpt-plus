@@ -1,4 +1,5 @@
 {
+  "title": "ChatGPT-Plus",
   "window": {
     "title": "ChatGPT-Plus {{title}}"
   },
@@ -35,7 +36,7 @@
   "chat": {
     "newChat": "+ 新消息",
     "send": "发送",
-    "inputPlaceholder": "来说点什么吧...（Shift + Enter = 换行）",
+    "inputPlaceholder": "来说点什么吧...",
     "coiledText": "连续对话 {{status}}",
     "tryGpt4": "Try GPT-4"
   }
