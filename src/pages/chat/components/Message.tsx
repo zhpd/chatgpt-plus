@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import dayjs from 'dayjs'
 import Box from './Box'
+import { Chat } from '@/types/chat'
 
 const _data = {
   uuid: 1679282990940,
@@ -273,7 +274,7 @@ function Message() {
   return (
     <div id="messageBox" style={{ border: '0px solid #efeff5', flex: 1, padding: '16 16 0 16', overflow: 'auto', width: '100%', position: 'relative' }}>
       <div style={{ flex: 1, padding: '16 16 0 16', overflow: 'auto', width: '100%', position: 'relative' }}>
-        {list.map((item: any) => {
+        {list.map((item: Chat) => {
           return <Box key={item.dateTime} item={item} />
         })}
       </div>

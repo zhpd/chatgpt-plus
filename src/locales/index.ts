@@ -45,7 +45,7 @@ export const i18NextConfig: UserConfig = {
   ...nextI18NextConfig,
 }
 
-export function useTranslation(ns = '', options = {}) {
+export function useTranslation(ns = [], options = {}) {
   return {
     t: i18next.t,
     i18n: i18next,

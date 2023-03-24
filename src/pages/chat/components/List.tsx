@@ -3,8 +3,51 @@ import { DeleteOutlined, MessageOutlined } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSiteContext } from '@/contexts/site'
+
+const _data = [
+  {
+    uuid: 1,
+    title: 'ChatGPT',
+    message: 'Ant Design Title 1',
+  },
+  {
+    uuid: 2,
+    title: 'ChatGPT',
+    message: 'Ant Design Title 2',
+  },
+  {
+    uuid: 3,
+    title: 'ChatGPT',
+    // message: 'Ant Design Title 3',
+  },
+  {
+    uuid: 4,
+    title: 'ChatGPT',
+    // message: 'Ant Design Title 4',
+  },
+  {
+    uuid: 5,
+    title: 'ChatGPT',
+    message: 'Ant Design Title 1',
+  },
+  {
+    uuid: 6,
+    title: 'ChatGPT',
+    message: 'Ant Design Title 2',
+  },
+  {
+    uuid: 7,
+    title: 'ChatGPT',
+    // message: 'Ant Design Title 3',
+  },
+  {
+    uuid: 8,
+    title: 'ChatGPT',
+    // message: 'Ant Design Title 4',
+  },
+]
 
 function IndexPage() {
   const router = useRouter()
@@ -12,48 +55,14 @@ function IndexPage() {
   const { theme } = useSiteContext()
   const { t } = useTranslation()
   const [uuid, setUuid] = useState<any>(null)
-  const data = [
-    {
-      uuid: 1,
-      title: 'ChatGPT',
-      message: 'Ant Design Title 1',
+
+  const openChat = useCallback(
+    (id: number) => {
+      console.log(id)
+      router.push(`/chat?uuid=${id}`)
     },
-    {
-      uuid: 2,
-      title: 'ChatGPT',
-      message: 'Ant Design Title 2',
-    },
-    {
-      uuid: 3,
-      title: 'ChatGPT',
-      // message: 'Ant Design Title 3',
-    },
-    {
-      uuid: 4,
-      title: 'ChatGPT',
-      // message: 'Ant Design Title 4',
-    },
-    {
-      uuid: 5,
-      title: 'ChatGPT',
-      message: 'Ant Design Title 1',
-    },
-    {
-      uuid: 6,
-      title: 'ChatGPT',
-      message: 'Ant Design Title 2',
-    },
-    {
-      uuid: 7,
-      title: 'ChatGPT',
-      // message: 'Ant Design Title 3',
-    },
-    {
-      uuid: 8,
-      title: 'ChatGPT',
-      // message: 'Ant Design Title 4',
-    },
-  ]
+    [router]
+  )
 
   useEffect(() => {
     const _uuid = router.query?.uuid
@@ -61,16 +70,11 @@ function IndexPage() {
       console.log(_uuid)
       setUuid(_uuid)
     } else {
-      if (data && data.length > 0) {
-        openChat(data[0]['uuid'])
+      if (_data && _data.length > 0) {
+        openChat(_data[0]['uuid'])
       }
     }
-  }, [router?.query])
-
-  const openChat = (id: number) => {
-    console.log(id)
-    router.push(`/chat?uuid=${id}`)
-  }
+  }, [openChat, router.query?.uuid])
 
   const confirm = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -90,9 +94,9 @@ function IndexPage() {
       </Button>
       <List
         itemLayout="horizontal"
-        dataSource={data}
+        dataSource={_data}
         split={false}
-        style={{ marginTop: 10, paddingBottom: 100,paddingLeft:4, paddingRight:4, overflow: 'scroll', height: '100%', maxHeight: 'inherit', scrollbarWidth: 'none' }}
+        style={{ marginTop: 10, paddingBottom: 100, paddingLeft: 4, paddingRight: 4, overflow: 'scroll', height: '100%', maxHeight: 'inherit', scrollbarWidth: 'none' }}
         renderItem={(item, index) => (
           <Button
             block
