@@ -1,11 +1,26 @@
 export interface Chat {
+  uuid: string
+  name?: string
+  avatar?: string
+  description?: string
+  type?: string
+  status?: string
+  lastMessage?: Message // last message
+  lastMessageText?: string // last message text
+  lastMessageTime?: string // last message time
+  messageList?: Message[] // all messages
+}
+
+export interface Message {
+  id?: string
+  uuid?: string
   dateTime: string
   text: string
   inversion?: boolean
   error?: boolean
   loading?: boolean
   conversationOptions?: ConversationRequest | null
-  requestOptions: { prompt: string; options?: ConversationRequest | null }
+  requestOptions?: { prompt: string; options?: ConversationRequest | null } | null
 }
 
 export interface History {

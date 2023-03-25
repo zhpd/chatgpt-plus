@@ -1,68 +1,23 @@
-import { Avatar, Button, List, Typography, message, Popconfirm, theme as antdTheme, Divider } from 'antd'
+import { Avatar, Button, List, Typography, App, Popconfirm, theme as antdTheme, Divider } from 'antd'
 import { DeleteOutlined, MessageOutlined } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { useSiteContext } from '@/contexts/site'
-
-export type ChatProps = {
-  uuid: string
-  title: string
-  message?: string
-  time?: string
-}
-
-const _data: ChatProps[] = [
-  {
-    uuid: '1',
-    title: 'ChatGPT',
-    message: 'Ant Design Title 1',
-  },
-  {
-    uuid: '2',
-    title: 'ChatGPT',
-    message: 'Ant Design Title 2',
-  },
-  {
-    uuid: '3',
-    title: 'ChatGPT',
-    // message: 'Ant Design Title 3',
-  },
-  {
-    uuid: '4',
-    title: 'ChatGPT',
-    // message: 'Ant Design Title 4',
-  },
-  {
-    uuid: '5',
-    title: 'ChatGPT',
-    message: 'Ant Design Title 1',
-  },
-  {
-    uuid: '6',
-    title: 'ChatGPT',
-    message: 'Ant Design Title 2',
-  },
-  {
-    uuid: '7',
-    title: 'ChatGPT',
-    // message: 'Ant Design Title 3',
-  },
-  {
-    uuid: '8',
-    title: 'ChatGPT',
-    // message: 'Ant Design Title 4',
-  },
-]
+import { Chat } from '@/types/chat'
+import { useChatContext } from '@/contexts/chat'
+import { nanoid } from 'nanoid'
 
 function IndexPage(props: { style?: React.CSSProperties }) {
   const router = useRouter()
   const { token } = antdTheme.useToken()
   const { theme } = useSiteContext()
+  const { message, modal, notification } = App.useApp()
+  const { chatList, setChatList, activeChat, newChat, delChat } = useChatContext()
   const { t } = useTranslation()
   const [uuid, setUuid] = useState<string>('')
-  const [list, setList] = useState<ChatProps[]>([..._data])
+  const [list, setList] = useState<Chat[]>([])
 
   const openChat = useCallback(
     (uuid: string) => {
@@ -73,16 +28,12 @@ function IndexPage(props: { style?: React.CSSProperties }) {
   )
 
   useEffect(() => {
-    const _uuid = router.query?.uuid as string
-    if (_uuid) {
-      console.log(_uuid)
-      setUuid(_uuid)
-    } else {
-      if (_data && _data.length > 0) {
-        openChat(_data[0]['uuid'])
-      }
-    }
-  }, [openChat, router.query?.uuid])
+    setList(chatList)
+  }, [chatList])
+
+  useEffect(() => {
+    setUuid(activeChat?.uuid as string)
+  }, [activeChat])
 
   const confirm = (e: React.MouseEvent<HTMLElement>, uuid: string) => {
     e.stopPropagation()
@@ -96,21 +47,26 @@ function IndexPage(props: { style?: React.CSSProperties }) {
     console.log(e)
     message.error('Click on No')
   }
+
+  const addChat = () => {
+    // 创建新聊天
+    const chat: Chat = {
+      uuid: nanoid(),
+      name: 'ChatGPT',
+      lastMessageText: 'No message',
+    }
+    newChat(chat)
+    console.log('newChat', chat)
+  }
+
   const deleteChat = (uuid: string) => {
     // 从数据中删除聊天
-    const _list = list.filter((item: any) => item.uuid !== uuid)
-    setList(_list)
-    // 如果删除的是当前聊天，跳转到第一个聊天
-    if (uuid == (router.query?.uuid as string)) {
-      if (_list && _list.length > 0) {
-        openChat(_list[0]['uuid'])
-      }
-    }
-    console.log('deleteChat', uuid, _list)
+    delChat(uuid)
+    console.log('delChat', uuid)
   }
   return (
     <div style={{ borderRight: `1px solid ${token.colorBorder}`, width: 260, padding: 16, overflow: 'hidden', position: 'relative', ...props?.style }}>
-      <Button type="dashed" block size="large">
+      <Button type="dashed" block size="large" onClick={addChat}>
         {t('chat.newChat')}
       </Button>
       <List
@@ -134,44 +90,47 @@ function IndexPage(props: { style?: React.CSSProperties }) {
           >
             <List.Item
               style={{ padding: 2 }}
-              actions={[
-                // @ts-ignore
-                <Popconfirm
-                  key="del"
-                  title="Delete the chat"
-                  description="Are you sure to delete this chat?"
-                  onConfirm={(e?: React.MouseEvent<HTMLElement>) => {
-                    confirm(e as React.MouseEvent<HTMLElement>, item.uuid)
-                    return
-                  }}
-                  onCancel={(e?: React.MouseEvent<HTMLElement>) => {
-                    cancel(e as React.MouseEvent<HTMLElement>)
-                  }}
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <DeleteOutlined
-                    onClick={(e) => {
-                      e.stopPropagation()
-                    }}
-                  />
-                </Popconfirm>,
-              ]}
+              // actions={[
+              //   // @ts-ignore
+              //   <Popconfirm
+              //     key="del"
+              //     title="Delete the chat"
+              //     description="Are you sure to delete this chat?"
+              //     onConfirm={(e?: React.MouseEvent<HTMLElement>) => {
+              //       confirm(e as React.MouseEvent<HTMLElement>, item.uuid)
+              //       return
+              //     }}
+              //     onCancel={(e?: React.MouseEvent<HTMLElement>) => {
+              //       cancel(e as React.MouseEvent<HTMLElement>)
+              //     }}
+              //     okText="Yes"
+              //     cancelText="No"
+              //   >
+              //     <DeleteOutlined
+              //       onClick={(e) => {
+              //         e.stopPropagation()
+              //       }}
+              //     />
+              //   </Popconfirm>,
+              // ]}
             >
               <List.Item.Meta
                 style={{ alignItems: 'center' }}
                 avatar={<Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />}
                 title={
-                  <div style={{ textAlign: 'left' }}>
-                    <span style={{ color: uuid == item.uuid ? (theme === 'dark' ? '#fff' : token.colorPrimaryActive) : token.colorText }}>{item.title}</span>
-                  </div>
+                  <Typography.Paragraph
+                    ellipsis={{ rows: 1 }}
+                    style={{ marginBottom: 0, textAlign: 'left', color: uuid == item.uuid ? (theme === 'dark' ? '#fff' : token.colorPrimaryActive) : token.colorText }}
+                  >
+                    {item.name}
+                  </Typography.Paragraph>
                 }
                 description={
                   <Typography.Paragraph
                     style={{ marginBottom: 0, fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? (theme === 'dark' ? '#eee' : token.colorPrimaryActive) : token.colorText }}
                     ellipsis={{ rows: 1 }}
                   >
-                    {item.message || 'No message'}
+                    {item.lastMessageText || 'No message'}
                   </Typography.Paragraph>
                 }
               />

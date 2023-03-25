@@ -9,6 +9,7 @@ import { SiteProvider } from '@/contexts/site'
 import { i18NextConfig } from '@/locales'
 import { appWithTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { ChatProvider } from '@/contexts/chat'
 
 // @ts-ignore
 export async function getStaticProps({ locale }) {
@@ -23,15 +24,17 @@ export async function getStaticProps({ locale }) {
 function App({ Component, pageProps }: AppProps) {
   return (
     <SiteProvider>
-      <ConfigProvider>
-        <AntdApp>
-          <StyleProvider hashPriority="high">
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </StyleProvider>
-        </AntdApp>
-      </ConfigProvider>
+      <ChatProvider>
+        <ConfigProvider>
+          <AntdApp>
+            <StyleProvider hashPriority="high">
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </StyleProvider>
+          </AntdApp>
+        </ConfigProvider>
+      </ChatProvider>
     </SiteProvider>
   )
 }

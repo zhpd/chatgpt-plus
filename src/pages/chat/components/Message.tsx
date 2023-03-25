@@ -1,6 +1,6 @@
 import { useSiteContext } from '@/contexts/site'
-import { Avatar, Button, Card, Drawer, FloatButton, Input, InputRef, message, notification, Space, theme as antdTheme, Tooltip, Typography } from 'antd'
-import { ExpandAltOutlined, SendOutlined, ApiOutlined, DisconnectOutlined, LinkOutlined, ControlOutlined, EllipsisOutlined, MoreOutlined } from '@ant-design/icons'
+import { Avatar, Button, Card, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography } from 'antd'
+import { ExpandAltOutlined, DeleteOutlined, SendOutlined, ApiOutlined, DisconnectOutlined, LinkOutlined, ControlOutlined, EllipsisOutlined, MoreOutlined } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -8,19 +8,21 @@ import { useEffect, useRef, useState } from 'react'
 import dayjs from 'dayjs'
 import Empty from './Empty'
 import Box from './Box'
-import { Chat } from '@/types/chat'
+import { Chat, Message } from '@/types/chat'
 import Setting from './Setting'
 import { useEventTarget } from 'ahooks'
+import { useChatContext } from '@/contexts/chat'
+import { nanoid } from 'nanoid'
 
-const _data = {
-  uuid: 1679282990940,
+const _data: Chat = {
+  uuid: '1679282990940',
   name: '小冰',
   avatar: '',
   description: '你的私人小秘书',
   type: 'robot',
   status: 'online',
   lastMessage: {
-    uuid: 1679282990940,
+    uuid: '1679282990940',
     text: '你好，我是小冰，你的私人小秘书，有什么可以帮到你的吗？',
     dateTime: '2021-08-12T09:30:00.000Z',
     inversion: false,
@@ -28,7 +30,7 @@ const _data = {
     conversationOptions: null,
     requestOptions: null,
   },
-  data: [
+  messageList: [
     {
       dateTime: '2023/3/20 11:32:26',
       text: '帮我用js写一个登录请求的方法',
@@ -230,6 +232,8 @@ function Message() {
   const router = useRouter()
   const { token } = antdTheme.useToken()
   const { theme } = useSiteContext()
+  const { message, modal, notification } = App.useApp()
+  const { activeChat, newChat, newMessage, delChat, upChat } = useChatContext()
   const { t } = useTranslation()
   const refInput = useRef<InputRef>(null)
   // const [input, setInput] = useState<string>('')
@@ -237,9 +241,9 @@ function Message() {
   const [canSend, setCanSend] = useState<boolean>(false)
   const [coiled, setCoiled] = useState<boolean>(true)
   const [openSet, setOpenSet] = useState<boolean>(false)
-  const [uuid, setUuid] = useState<any>(null)
-  const [info, setInfo] = useState<any>({})
-  const [list, setList] = useState<any>([])
+  const [uuid, setUuid] = useState<string>('')
+  const [info, setInfo] = useState<Chat>()
+  const [list, setList] = useState<Message[]>([])
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',
@@ -253,23 +257,24 @@ function Message() {
   }
 
   useEffect(() => {
-    const _uuid = router.query?.uuid
-    if (_uuid) {
-      if (_uuid === uuid) return
-      console.log(_uuid)
-      setUuid(_uuid)
-      setInfo(_data)
-      setList(() => {
+    console.log(activeChat, activeChat?.uuid)
+    if (activeChat) {
+      setUuid(activeChat?.uuid as string)
+      setInfo(activeChat as Chat)
+      setList(activeChat?.messageList || [])
+      setTimeout(() => {
         // 滚动到最底部
         const ele = document.getElementById('messageBox')
         if (ele) {
           ele.scrollTo(0, ele.scrollHeight)
         }
-        return []
-        // return _data.data
-      })
+      }, 150)
+    } else {
+      setUuid('')
+      setInfo(undefined)
+      setList([])
     }
-  }, [router?.query?.uuid, uuid])
+  }, [activeChat])
 
   // send message
   const sendMessage = () => {
@@ -279,8 +284,9 @@ function Message() {
     text = text.replace(/\n/g, '\n\n')
     console.log('text', text)
     if (!text) return
-    const _list = [...list]
-    _list.push({
+    const message = {
+      id: nanoid(),
+      uuid: activeChat?.uuid,
       dateTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
       text,
       inversion: true,
@@ -290,8 +296,25 @@ function Message() {
         prompt: text,
         options: null,
       },
-    })
+    }
+    // 如果初始化刚进来，没有新聊天，则自动创建一个新聊天
+    if (!activeChat) {
+      const _uuid = nanoid()
+      setUuid(_uuid)
+      newChat({
+        uuid: _uuid,
+        name: 'ChatGPT',
+        lastMessageText: 'No message',
+        messageList: [message],
+      })
+      setCanSend(false)
+      reset()
+      return
+    }
+    const _list = [...list]
+    _list.push(message)
     setList(_list)
+    newMessage(uuid, message)
     setCanSend(false)
     reset()
     // 滚动到最底部
@@ -301,6 +324,17 @@ function Message() {
         ele.scrollTo(0, ele.scrollHeight)
       }, 50)
     }
+  }
+
+  const editName = (_name: string) => {
+    upChat(uuid, {
+      name: _name,
+    })
+  }
+  const editDesc = (_description: string) => {
+    upChat(uuid, {
+      description: _description,
+    })
   }
 
   return (
@@ -328,11 +362,31 @@ function Message() {
         <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={info?.avatar || require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />
           <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}>
-            <Typography.Paragraph editable style={{ fontSize: 16, fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}>
+            <Typography.Paragraph
+              editable={{
+                autoSize: true,
+                onChange: (val) => {
+                  console.log(val)
+                  editName(val)
+                },
+                onEnd: () => {},
+                text: info?.name,
+              }}
+              style={{ fontSize: 16, width: '100%', fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}
+            >
               {info?.name}
             </Typography.Paragraph>
-            <Typography.Paragraph editable style={{ fontSize: 12, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}>
-              {info?.description}
+            <Typography.Paragraph
+              editable={{
+                autoSize: true,
+                onChange: (val) => {
+                  editDesc(val)
+                },
+                onEnd: () => {},
+              }}
+              style={{ fontSize: 12, width: '100%', color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}
+            >
+              {info?.description || info?.uuid}
             </Typography.Paragraph>
           </div>
         </div>
@@ -343,7 +397,7 @@ function Message() {
             style={{ marginLeft: 5, marginRight: 5 }}
             icon={<ControlOutlined />}
             onClick={() => {
-              setList(_data.data)
+              setList(_data.messageList as Message[])
             }}
           ></Button>
           <Button
@@ -362,14 +416,29 @@ function Message() {
             icon={coiled ? <LinkOutlined rotate={-45} /> : <DisconnectOutlined rotate={-45} />}
             onClick={() => setCoiled(!coiled)}
           ></Button>
+          <Popconfirm
+            key="del"
+            title="Delete the chat"
+            description="Are you sure to delete this chat?"
+            onConfirm={(e?: React.MouseEvent<HTMLElement>) => {
+              delChat(uuid)
+              return
+            }}
+            onCancel={(e?: React.MouseEvent<HTMLElement>) => {}}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type={'default'} size="middle" style={{ marginLeft: 5, marginRight: 5 }} icon={<DeleteOutlined />}></Button>
+          </Popconfirm>
           <Button
             type={'default'}
             size="middle"
             style={{ marginLeft: 5, marginRight: 5 }}
-            icon={coiled ? <LinkOutlined rotate={-45} /> : <DisconnectOutlined rotate={-45} />}
-            onClick={() => setCoiled(!coiled)}
+            icon={<MoreOutlined />}
+            onClick={() => {
+              // setOpenSet(!openSet)
+            }}
           ></Button>
-          <Button type={'default'} size="middle" style={{ marginLeft: 5, marginRight: 5 }} icon={<MoreOutlined />} onClick={() => setOpenSet(!openSet)}></Button>
         </Space>
       </div>
       <div id="messageBox" style={{ flex: 1, padding: '16 16 0 16', position: 'relative', overflowX: 'hidden', overflowY: openSet ? 'hidden' : 'auto' }}>
@@ -377,8 +446,8 @@ function Message() {
           <Empty style={{ flex: 1 }}></Empty>
         ) : (
           <div style={{ flex: 1 }}>
-            {list.map((item: Chat) => {
-              return <Box key={item.dateTime} item={item} />
+            {list.map((item: Message) => {
+              return <Box key={item.id} uuid={uuid} item={item} />
             })}
           </div>
         )}
@@ -397,7 +466,7 @@ function Message() {
       <div
         style={{
           width: '100%',
-          height: 70,
+          minHeight: '70px',
           textAlign: 'center',
           padding: '15px 0',
           position: 'sticky',
@@ -424,7 +493,7 @@ function Message() {
           autoFocus={true}
           allowClear
           autoSize={true}
-          style={{ width: 'calc(80% - 20px)', overflow: 'hidden', paddingRight: -5 }}
+          style={{ width: 'calc(80% - 20px)', paddingRight: -5 }}
           placeholder={t('chat.inputPlaceholder') || ''}
           size={'large'}
           value={input}
@@ -435,6 +504,9 @@ function Message() {
             } else {
               setCanSend(false)
             }
+          }}
+          onPressEnter={(e) => {
+            sendMessage()
           }}
         ></Input.TextArea>
         <Button type="primary" ghost={false} size="large" icon={<SendOutlined rotate={-45} />} disabled={canSend ? false : true} style={{ marginLeft: 10, marginRight: 10 }} onClick={sendMessage}>

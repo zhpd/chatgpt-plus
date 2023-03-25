@@ -20,6 +20,7 @@ import { tool } from '@/utils'
 import { useSiteContext } from '@/contexts/site'
 import { useTranslation } from '@/locales'
 import Head from 'next/head'
+import Image from 'next/image'
 
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
@@ -90,7 +91,12 @@ export default function LayoutBase(props: any) {
           style={{ borderRight: `${theme === 'dark' ? 0 : 1}px solid ${token.colorBorder}` }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
-            <Avatar style={{ marginTop: 5 }} size={48} shape="square" icon={<RocketOutlined />} />
+            <Avatar
+              style={{ marginTop: 5, padding: 4, backgroundColor: token.colorBgTextActive }}
+              size={48}
+              shape="square"
+              src={<Image src={require('@/assets/chatgpt.png')} width={36} height={36} alt="avatar" />}
+            />
             <Space direction="vertical" size={'middle'} style={{ marginTop: 60 }}>
               {menuList.map((item, index) => {
                 return (

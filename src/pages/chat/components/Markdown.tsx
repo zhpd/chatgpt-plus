@@ -14,7 +14,14 @@ const them = {
   dark: oneDark,
   light: { ...oneLight, backgroundColor: '#fff' },
 }
-function Markdown(props: any) {
+export type MarkdownProps = {
+  children: string
+  place?: 'left' | 'right'
+  theme?: 'dark' | 'light' | 'auto'
+  token?: any
+}
+
+function Markdown(props: MarkdownProps) {
   const { place, theme, token } = props
 
   const backgroundColor = () => {
@@ -43,7 +50,7 @@ function Markdown(props: any) {
   )
 
   return (
-    <div style={{ backgroundColor: backgroundColor(), borderRadius: 6, padding: 8 }}>
+    <div style={{ backgroundColor: backgroundColor(), borderRadius: 6, padding: 8, overflow: 'auto' }}>
       <ReactMarkdown
         // eslint-disable-next-line react/no-children-prop
         children={props?.children}

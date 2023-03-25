@@ -2,7 +2,15 @@ import { useEventEmitter } from 'ahooks'
 import { EventEmitter } from 'ahooks/lib/useEventEmitter'
 import { createContext, useContext, useState } from 'react'
 
-export type SiteType = { theme: 'dark' | 'light' | 'auto'; setTheme: Function; lang: string; setLang: Function; title: string; setTitle: Function; event$: EventEmitter<void> }
+export type SiteType = {
+  theme: 'dark' | 'light' | 'auto'
+  setTheme: Function
+  lang: string
+  setLang: Function
+  title: string
+  setTitle: Function
+  event$: EventEmitter<void>
+}
 
 const Context = createContext<SiteType>({
   theme: 'light',
