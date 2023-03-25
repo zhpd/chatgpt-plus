@@ -10,9 +10,17 @@ function IndexPage() {
     const title = t('window.title', { title: t('c.store') })
     setTitle(title)
   }, [setTitle, t])
+
+  const emptyStyle: React.CSSProperties = {
+    height: '100%',
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  }
   return (
     <Empty
-      style={{ marginTop: '30%' }}
+      style={{ ...emptyStyle }}
       description="正在添加更多AI功能，敬请期待！"
       // title="正在添加更多AI功能，敬请期待！"
       // extra={
