@@ -21,6 +21,7 @@ import { useSiteContext } from '@/contexts/site'
 import { useTranslation } from '@/locales'
 import Head from 'next/head'
 import Image from 'next/image'
+import AuthAvatar from '../AuthAvatar'
 
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
@@ -165,7 +166,7 @@ export default function LayoutBase(props: any) {
             }}
           >
             <Typography.Title level={3}>{t(menu.name)}</Typography.Title>
-            <Avatar style={{ marginTop: 0 }} size={48} shape="square" icon={<UserOutlined />} />
+            <AuthAvatar style={{ marginTop: 0 }} size={48} shape="square" icon={<UserOutlined />} />
           </Header>
           <Content
             style={{

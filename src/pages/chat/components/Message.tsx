@@ -363,27 +363,35 @@ function Message() {
           <Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={info?.avatar || require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />
           <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}>
             <Typography.Paragraph
-              editable={{
-                autoSize: true,
-                onChange: (val) => {
-                  console.log(val)
-                  editName(val)
-                },
-                onEnd: () => {},
-                text: info?.name,
-              }}
+              editable={
+                activeChat
+                  ? {
+                      autoSize: true,
+                      onChange: (val) => {
+                        console.log(val)
+                        editName(val)
+                      },
+                      onEnd: () => {},
+                      text: info?.name,
+                    }
+                  : false
+              }
               style={{ fontSize: 16, width: '100%', fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}
             >
               {info?.name}
             </Typography.Paragraph>
             <Typography.Paragraph
-              editable={{
-                autoSize: true,
-                onChange: (val) => {
-                  editDesc(val)
-                },
-                onEnd: () => {},
-              }}
+              editable={
+                activeChat
+                  ? {
+                      autoSize: true,
+                      onChange: (val) => {
+                        editDesc(val)
+                      },
+                      onEnd: () => {},
+                    }
+                  : false
+              }
               style={{ fontSize: 12, width: '100%', color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}
             >
               {info?.description || info?.uuid}

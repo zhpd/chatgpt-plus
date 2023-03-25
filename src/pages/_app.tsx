@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import React from 'react'
 import type { AppProps } from 'next/app'
+import { SessionProvider } from 'next-auth/react'
 import { ConfigProvider, App as AntdApp, theme as antdTheme } from 'antd'
 import { StyleProvider } from '@ant-design/cssinjs'
 import 'antd/dist/reset.css'
@@ -21,21 +22,23 @@ export async function getStaticProps({ locale }) {
   }
 }
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <SiteProvider>
-      <ChatProvider>
-        <ConfigProvider>
-          <AntdApp>
-            <StyleProvider hashPriority="high">
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </StyleProvider>
-          </AntdApp>
-        </ConfigProvider>
-      </ChatProvider>
-    </SiteProvider>
+    <SessionProvider session={session}>
+      <SiteProvider>
+        <ChatProvider>
+          <ConfigProvider>
+            <AntdApp>
+              <StyleProvider hashPriority="high">
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </StyleProvider>
+            </AntdApp>
+          </ConfigProvider>
+        </ChatProvider>
+      </SiteProvider>
+    </SessionProvider>
   )
 }
 
