@@ -6,66 +6,74 @@ import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { useSiteContext } from '@/contexts/site'
 
-const _data = [
+export type ChatProps = {
+  uuid: string
+  title: string
+  message?: string
+  time?: string
+}
+
+const _data: ChatProps[] = [
   {
-    uuid: 1,
+    uuid: '1',
     title: 'ChatGPT',
     message: 'Ant Design Title 1',
   },
   {
-    uuid: 2,
+    uuid: '2',
     title: 'ChatGPT',
     message: 'Ant Design Title 2',
   },
   {
-    uuid: 3,
+    uuid: '3',
     title: 'ChatGPT',
     // message: 'Ant Design Title 3',
   },
   {
-    uuid: 4,
+    uuid: '4',
     title: 'ChatGPT',
     // message: 'Ant Design Title 4',
   },
   {
-    uuid: 5,
+    uuid: '5',
     title: 'ChatGPT',
     message: 'Ant Design Title 1',
   },
   {
-    uuid: 6,
+    uuid: '6',
     title: 'ChatGPT',
     message: 'Ant Design Title 2',
   },
   {
-    uuid: 7,
+    uuid: '7',
     title: 'ChatGPT',
     // message: 'Ant Design Title 3',
   },
   {
-    uuid: 8,
+    uuid: '8',
     title: 'ChatGPT',
     // message: 'Ant Design Title 4',
   },
 ]
 
-function IndexPage() {
+function IndexPage(props: { style?: React.CSSProperties }) {
   const router = useRouter()
   const { token } = antdTheme.useToken()
   const { theme } = useSiteContext()
   const { t } = useTranslation()
-  const [uuid, setUuid] = useState<any>(null)
+  const [uuid, setUuid] = useState<string>('')
+  const [list, setList] = useState<ChatProps[]>([..._data])
 
   const openChat = useCallback(
-    (id: number) => {
-      console.log(id)
-      router.push(`/chat?uuid=${id}`)
+    (uuid: string) => {
+      console.log(uuid)
+      router.push(`/chat?uuid=${uuid}`)
     },
     [router]
   )
 
   useEffect(() => {
-    const _uuid = router.query?.uuid
+    const _uuid = router.query?.uuid as string
     if (_uuid) {
       console.log(_uuid)
       setUuid(_uuid)
@@ -76,9 +84,10 @@ function IndexPage() {
     }
   }, [openChat, router.query?.uuid])
 
-  const confirm = (e: React.MouseEvent<HTMLElement>) => {
+  const confirm = (e: React.MouseEvent<HTMLElement>, uuid: string) => {
     e.stopPropagation()
     console.log(e)
+    deleteChat(uuid)
     message.success('Click on Yes')
   }
 
@@ -87,14 +96,26 @@ function IndexPage() {
     console.log(e)
     message.error('Click on No')
   }
+  const deleteChat = (uuid: string) => {
+    // 从数据中删除聊天
+    const _list = list.filter((item: any) => item.uuid !== uuid)
+    setList(_list)
+    // 如果删除的是当前聊天，跳转到第一个聊天
+    if (uuid == (router.query?.uuid as string)) {
+      if (_list && _list.length > 0) {
+        openChat(_list[0]['uuid'])
+      }
+    }
+    console.log('deleteChat', uuid, _list)
+  }
   return (
-    <div style={{ borderRight: `1px solid ${token.colorBorder}`, width: 260, padding: 16, overflow: 'hidden', position: 'relative' }}>
+    <div style={{ borderRight: `1px solid ${token.colorBorder}`, width: 260, padding: 16, overflow: 'hidden', position: 'relative', ...props?.style }}>
       <Button type="dashed" block size="large">
         {t('chat.newChat')}
       </Button>
       <List
         itemLayout="horizontal"
-        dataSource={_data}
+        dataSource={list}
         split={false}
         style={{ marginTop: 10, paddingBottom: 100, paddingLeft: 4, paddingRight: 4, overflow: 'scroll', height: '100%', maxHeight: 'inherit', scrollbarWidth: 'none' }}
         renderItem={(item, index) => (
@@ -115,7 +136,20 @@ function IndexPage() {
               style={{ padding: 2 }}
               actions={[
                 // @ts-ignore
-                <Popconfirm key="del" title="Delete the chat" description="Are you sure to delete this chat?" onConfirm={confirm} onCancel={cancel} okText="Yes" cancelText="No">
+                <Popconfirm
+                  key="del"
+                  title="Delete the chat"
+                  description="Are you sure to delete this chat?"
+                  onConfirm={(e?: React.MouseEvent<HTMLElement>) => {
+                    confirm(e as React.MouseEvent<HTMLElement>, item.uuid)
+                    return
+                  }}
+                  onCancel={(e?: React.MouseEvent<HTMLElement>) => {
+                    cancel(e as React.MouseEvent<HTMLElement>)
+                  }}
+                  okText="Yes"
+                  cancelText="No"
+                >
                   <DeleteOutlined
                     onClick={(e) => {
                       e.stopPropagation()

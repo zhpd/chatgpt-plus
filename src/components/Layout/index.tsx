@@ -24,7 +24,7 @@ import Head from 'next/head'
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
   const { t } = useTranslation()
-  const { title, theme, setTheme } = useSiteContext()
+  const { title, theme, setTheme, event$ } = useSiteContext()
   const router = useRouter()
   const [colorBgContainer, setColorBgContainer] = useState(token.colorBgContainer)
   const [colorPrimary, setColorPrimary] = useState(token.colorPrimary)
@@ -42,8 +42,12 @@ export default function LayoutBase(props: any) {
   const toUrl = (url: string) => {
     const { pathname } = router
     if (url.indexOf(pathname) > -1) {
+      // @ts-ignore
+      event$.emit({ type: 'tabSwich', url, pathname })
       return
     }
+    // @ts-ignore
+    event$.emit({ type: 'tabSwich', url, pathname })
     router.push(url)
   }
 

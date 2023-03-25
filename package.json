@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^5.1.1",
+    "@svgr/webpack": "^7.0.0",
     "@types/katex": "^0.16.0",
     "@types/markdown-it": "^12.2.3",
     "@types/node": "18.15.5",

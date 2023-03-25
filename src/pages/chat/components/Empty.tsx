@@ -57,7 +57,7 @@ function Empty(props: any) {
       </Row>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexFlow: 'wrap',marginTop: 15 }}>
         {data.map((row, i) => (
-          <Col key={i} style={{ flex: 1 }} span={6} offset={i == 0 ? 1.5 : 0} xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6, offset: i == 0 ? 1.5 : 0 }}>
+          <Col key={i} style={{ flex: 1 }} span={6} offset={i == 0 ? 1.5 : 0} xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 24 }} lg={{ span: 6, offset: i == 0 ? 1.5 : 0 }}>
             {row.map((tt, j) => (
               <Col className="gutter-row" key={j}>
                 {tt.type == 'top' ? (

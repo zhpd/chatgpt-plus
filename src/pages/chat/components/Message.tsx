@@ -1,5 +1,5 @@
 import { useSiteContext } from '@/contexts/site'
-import { Avatar, Button, Card, Drawer, FloatButton, Input, InputRef, message, notification, Space, theme as antdTheme, Tooltip } from 'antd'
+import { Avatar, Button, Card, Drawer, FloatButton, Input, InputRef, message, notification, Space, theme as antdTheme, Tooltip, Typography } from 'antd'
 import { ExpandAltOutlined, SendOutlined, ApiOutlined, DisconnectOutlined, LinkOutlined, ControlOutlined, EllipsisOutlined, MoreOutlined } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
@@ -10,9 +10,24 @@ import Empty from './Empty'
 import Box from './Box'
 import { Chat } from '@/types/chat'
 import Setting from './Setting'
+import { useEventTarget } from 'ahooks'
 
 const _data = {
   uuid: 1679282990940,
+  name: '小冰',
+  avatar: '',
+  description: '你的私人小秘书',
+  type: 'robot',
+  status: 'online',
+  lastMessage: {
+    uuid: 1679282990940,
+    text: '你好，我是小冰，你的私人小秘书，有什么可以帮到你的吗？',
+    dateTime: '2021-08-12T09:30:00.000Z',
+    inversion: false,
+    error: false,
+    conversationOptions: null,
+    requestOptions: null,
+  },
   data: [
     {
       dateTime: '2023/3/20 11:32:26',
@@ -217,11 +232,13 @@ function Message() {
   const { theme } = useSiteContext()
   const { t } = useTranslation()
   const refInput = useRef<InputRef>(null)
-  const [input, setInput] = useState<string>('')
+  // const [input, setInput] = useState<string>('')
+  const [input, { reset, onChange }] = useEventTarget({ initialValue: '' })
   const [canSend, setCanSend] = useState<boolean>(false)
   const [coiled, setCoiled] = useState<boolean>(true)
   const [openSet, setOpenSet] = useState<boolean>(false)
   const [uuid, setUuid] = useState<any>(null)
+  const [info, setInfo] = useState<any>({})
   const [list, setList] = useState<any>([])
 
   const containerStyle: React.CSSProperties = {
@@ -238,8 +255,10 @@ function Message() {
   useEffect(() => {
     const _uuid = router.query?.uuid
     if (_uuid) {
+      if (_uuid === uuid) return
       console.log(_uuid)
       setUuid(_uuid)
+      setInfo(_data)
       setList(() => {
         // 滚动到最底部
         const ele = document.getElementById('messageBox')
@@ -250,16 +269,12 @@ function Message() {
         // return _data.data
       })
     }
-  }, [router?.query?.uuid])
-
-  useEffect(() => {
-    // console.log('prompt input:', input)
-  }, [input])
+  }, [router?.query?.uuid, uuid])
 
   // send message
   const sendMessage = () => {
     // @ts-ignore
-    let text = refInput.current?.resizableTextArea?.textArea?.value
+    let text = input || ''
     // 替换富文本换行\n为\n\n
     text = text.replace(/\n/g, '\n\n')
     console.log('text', text)
@@ -278,7 +293,7 @@ function Message() {
     })
     setList(_list)
     setCanSend(false)
-    setInput('')
+    reset()
     // 滚动到最底部
     const ele = document.getElementById('messageBox')
     if (ele) {
@@ -310,7 +325,17 @@ function Message() {
           padding: '16px',
         }}
       >
-        <Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />
+        <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={info?.avatar || require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />
+          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}>
+            <Typography.Paragraph editable style={{ fontSize: 16, fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}>
+              {info?.name}
+            </Typography.Paragraph>
+            <Typography.Paragraph editable style={{ fontSize: 12, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}>
+              {info?.description}
+            </Typography.Paragraph>
+          </div>
+        </div>
         <Space>
           <Button
             type={'default'}
@@ -329,6 +354,13 @@ function Message() {
             onClick={() => {
               message.warning(t('chat.api_warning'))
             }}
+          ></Button>
+          <Button
+            type={'default'}
+            size="middle"
+            style={{ marginLeft: 5, marginRight: 5 }}
+            icon={coiled ? <LinkOutlined rotate={-45} /> : <DisconnectOutlined rotate={-45} />}
+            onClick={() => setCoiled(!coiled)}
           ></Button>
           <Button
             type={'default'}
@@ -395,12 +427,11 @@ function Message() {
           style={{ width: 'calc(80% - 20px)', overflow: 'hidden', paddingRight: -5 }}
           placeholder={t('chat.inputPlaceholder') || ''}
           size={'large'}
-          {...{ value: !canSend ? '' : undefined }}
+          value={input}
           onChange={(e) => {
+            onChange(e)
             if (e.target.value) {
               setCanSend(true)
-              // !very low, no handle
-              // setInput(e.target.value)
             } else {
               setCanSend(false)
             }

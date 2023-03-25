@@ -1,6 +1,5 @@
 import { useSiteContext } from '@/contexts/site'
 import { Avatar, Button, Cascader, Checkbox, DatePicker, Form, Input, InputNumber, Radio, Select, Switch, theme as antdTheme, TreeSelect, Upload } from 'antd'
-import TextArea from 'antd/es/input/TextArea'
 import { PlusOutlined } from '@ant-design/icons'
 
 function Setting(props: any) {
@@ -51,9 +50,6 @@ function Setting(props: any) {
         </Form.Item>
         <Form.Item label="InputNumber">
           <InputNumber />
-        </Form.Item>
-        <Form.Item label="TextArea">
-          <TextArea rows={4} />
         </Form.Item>
         <Form.Item label="Switch" valuePropName="checked">
           <Switch />
