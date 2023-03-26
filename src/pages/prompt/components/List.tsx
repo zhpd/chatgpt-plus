@@ -22,14 +22,6 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
   const [uuid, setUuid] = useState<string>('')
   const [list, setList] = useState<Prompt[]>([])
 
-  const openPrompt = useCallback(
-    (uuid: string) => {
-      console.log(uuid)
-      router.push(`/prompt?uuid=${uuid}`)
-    },
-    [router]
-  )
-
   useEffect(() => {
     setList(promptList)
   }, [promptList])
@@ -56,6 +48,10 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
     // 编辑窗口
     props?.setContent(<Edit action={'edit'} prompt={prompt}></Edit>)
   }
+  const openPrompt = (prompt: Prompt) => {
+    // 编辑窗口
+    props?.setContent(<Edit action={'edit'} prompt={prompt}></Edit>)
+  }
 
   const deletePrompt = (uuid: string) => {
     // 从数据中删除聊天
@@ -73,7 +69,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
   return (
     <div style={{ borderRight: `1px solid ${token.colorBorder}`, width: 260, padding: 16, overflow: 'hidden', position: 'relative', ...props?.style }}>
       <Button type="dashed" block size="large" onClick={addPrompt}>
-        {t('prompt.newPrompt')}
+        {'+ ' + t('prompt.newPrompt')}
       </Button>
       <List
         itemLayout="horizontal"
@@ -92,7 +88,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
               borderColor: uuid == item.uuid ? token.colorPrimaryHover : undefined,
               backgroundColor: uuid == item.uuid ? (theme == 'dark' ? token.colorPrimaryHover : '#e8e8e8') : undefined,
             }}
-            onClick={() => openPrompt(item.uuid)}
+            onClick={() => openPrompt(item)}
           >
             <List.Item
               style={{ padding: 2 }}

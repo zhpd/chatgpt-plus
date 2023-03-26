@@ -67,7 +67,7 @@ function IndexPage(props: { style?: React.CSSProperties }) {
   return (
     <div style={{ borderRight: `1px solid ${token.colorBorder}`, width: 260, padding: 16, overflow: 'hidden', position: 'relative', ...props?.style }}>
       <Button type="dashed" block size="large" onClick={addChat}>
-        {t('chat.newChat')}
+        {'+ ' + t('chat.newChat')}
       </Button>
       <List
         itemLayout="horizontal"

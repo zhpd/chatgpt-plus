@@ -35,7 +35,7 @@
     "unauthorizedTips": "未经授权，请先进行验证。"
   },
   "chat": {
-    "newChat": "+ 新消息",
+    "newChat": "新消息",
     "send": "发送",
     "setting": "设置",
     "api_warning": "插件系统正在开发中, 请勿使用插件功能。",
@@ -44,7 +44,8 @@
     "tryGpt4": "Try GPT-4"
   },
   "prompt": {
-    "newPrompt": "+ 创建提示语",
+    "newPrompt": "创建提示语",
+    "editPrompt": "编辑提示语",
     "save": "保存",
     "onlinePrompt": "在线提示语",
     "importExport": "导入导出"
