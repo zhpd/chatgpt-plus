@@ -42,5 +42,11 @@
     "inputPlaceholder": "来说点什么吧...",
     "coiledText": "连续对话 {{status}}",
     "tryGpt4": "Try GPT-4"
+  },
+  "prompt": {
+    "newPrompt": "+ 创建提示语",
+    "save": "保存",
+    "onlinePrompt": "在线提示语",
+    "importExport": "导入导出"
   }
 }

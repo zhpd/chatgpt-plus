@@ -3,14 +3,13 @@ import React from 'react'
 import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
 import { ConfigProvider, App as AntdApp, theme as antdTheme } from 'antd'
+import { appWithTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { StyleProvider } from '@ant-design/cssinjs'
 import 'antd/dist/reset.css'
 import Layout from '@/components/Layout'
-import { SiteProvider } from '@/contexts/site'
 import { i18NextConfig } from '@/locales'
-import { appWithTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { ChatProvider } from '@/contexts/chat'
+import { SiteProvider, ChatProvider, PromptProvider } from '@/contexts'
 
 // @ts-ignore
 export async function getStaticProps({ locale }) {
@@ -26,17 +25,19 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <SiteProvider>
-        <ChatProvider>
-          <ConfigProvider>
-            <AntdApp>
-              <StyleProvider hashPriority="high">
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </StyleProvider>
-            </AntdApp>
-          </ConfigProvider>
-        </ChatProvider>
+        <PromptProvider>
+          <ChatProvider>
+            <ConfigProvider>
+              <AntdApp>
+                <StyleProvider hashPriority="high">
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </StyleProvider>
+              </AntdApp>
+            </ConfigProvider>
+          </ChatProvider>
+        </PromptProvider>
       </SiteProvider>
     </SessionProvider>
   )
