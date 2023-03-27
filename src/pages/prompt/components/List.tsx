@@ -9,8 +9,8 @@ import { Prompt } from '@/types/prompt'
 import { usePromptContext } from '@/contexts/prompt'
 import { nanoid } from 'nanoid'
 import Edit from './Edit'
-import OnlinePrompt from './OnlinePrompt'
-import InportExport from './InportExport'
+import Store from './Store'
+import Export from './Export'
 
 function IndexPage(props: { setContent: Function; style?: React.CSSProperties }) {
   const router = useRouter()
@@ -21,6 +21,19 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
   const { t } = useTranslation()
   const [uuid, setUuid] = useState<string>('')
   const [list, setList] = useState<Prompt[]>([])
+
+  useEffect(() => {
+    const _action = router.query?.action as string
+    const _uuid = router.query?.uuid as string
+    if (_action) {
+      if (_action == 'edit' && _uuid) {
+        openAction(_action, { prompt: promptList.find((item) => item.uuid == _uuid) })
+      } else {
+        openAction(_action)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query?.action])
 
   useEffect(() => {
     setList(promptList)
@@ -39,37 +52,43 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
     message.error('Click on No')
   }
 
-  const addPrompt = () => {
-    setUuid('')
-    // 新建窗口
-    props?.setContent(<Edit action={'add'}></Edit>)
-  }
-  const openPrompt = (prompt: Prompt) => {
-    // 编辑窗口
-    props?.setContent(<Edit action={'edit'} prompt={prompt}></Edit>)
-    setUuid(prompt.uuid)
-  }
-
   const deletePrompt = (uuid: string) => {
     // 从数据中删除聊天
     delPrompt(uuid)
     setUuid('')
+    props?.setContent(<div></div>)
     console.log('delPrompt', uuid)
   }
 
-  const switchOnlinePrompt = () => {
+  const openAction = (action: string, _props: any = {}) => {
     setUuid('')
-    props?.setContent(<OnlinePrompt></OnlinePrompt>)
+    console.log('openAction', action, _props)
+    switch (action) {
+      case 'add':
+        router.push('/prompt?action=add')
+        props?.setContent(<Edit action={'add'}></Edit>)
+        break
+      case 'edit':
+        setUuid(_props?.prompt?.uuid)
+        router.push('/prompt?action=edit&uuid=' + _props?.prompt?.uuid)
+        props?.setContent(<Edit action={'edit'} prompt={_props?.prompt as Prompt}></Edit>)
+        break
+      case 'store':
+        router.push('/prompt?action=store')
+        props?.setContent(<Store></Store>)
+        break
+      case 'export':
+        router.push('/prompt?action=export')
+        props?.setContent(<Export></Export>)
+        break
+      default:
+        break
+    }
   }
-  const switchInportExport = () => {
-    setUuid('')
-    props?.setContent(<InportExport></InportExport>)
-  }
-
 
   return (
     <div style={{ borderRight: `1px solid ${token.colorBorder}`, width: 260, padding: 16, overflow: 'hidden', position: 'relative', ...props?.style }}>
-      <Button type="dashed" block size="large" onClick={addPrompt}>
+      <Button type="dashed" block size="large" onClick={() => openAction('add')}>
         {'+ ' + t('prompt.newPrompt')}
       </Button>
       <List
@@ -89,7 +108,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
               borderColor: uuid == item.uuid ? token.colorPrimaryHover : undefined,
               // backgroundColor: uuid == item.uuid ? (theme == 'dark' ? token.colorPrimaryHover : '#e8e8e8') : undefined,
             }}
-            onClick={() => openPrompt(item)}
+            onClick={() => openAction('edit', { prompt: item })}
           >
             <List.Item
               style={{ padding: 2 }}
@@ -151,10 +170,10 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
         }}
       >
         <Space direction={'vertical'}>
-          <Button type="primary" block size="large" icon={<ShoppingOutlined />} onClick={switchOnlinePrompt}>
+          <Button type="primary" block size="large" icon={<ShoppingOutlined />} onClick={() => openAction('store')}>
             {t('prompt.onlinePrompt')}
           </Button>
-          <Button type="primary" block size="large" icon={<ExportOutlined />} onClick={switchInportExport}>
+          <Button type="primary" block size="large" icon={<ExportOutlined />} onClick={() => openAction('export')}>
             {t('prompt.importExport')}
           </Button>
         </Space>

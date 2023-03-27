@@ -100,6 +100,7 @@ function Edit(props: { action: string; prompt?: Prompt }) {
         </Space>
       </div>
       <Form
+        form={form}
         labelCol={{ span: 6 }}
         style={{ marginTop: 20 }}
         wrapperCol={{ span: 14 }}

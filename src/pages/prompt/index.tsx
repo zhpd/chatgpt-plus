@@ -6,12 +6,17 @@ import { useCallback, useEffect, useState } from 'react'
 import { usePromptContext } from '@/contexts'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react-markdown/lib/ast-to-react'
+import Edit from './components/Edit'
+import InportExport from './components/Export'
+import OnlinePrompt from './components/Store'
+import { Prompt } from '@/types/prompt'
 
 function IndexPage() {
   const router = useRouter()
   const { setTitle, event$ } = useSiteContext()
   const { t } = useTranslation()
   const { promptList } = usePromptContext()
+  const [action, setAction] = useState<string>('')
   const [openList, setOpenList] = useState<boolean>(true)
   const [ContentElement, setContentElement] = useState<ReactNode>(<></>)
 
@@ -32,11 +37,15 @@ function IndexPage() {
   const setContent = (ele: ReactNode) => {
     setContentElement(ele)
   }
+
+  const renderBox = () => {
+    return ContentElement
+  }
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
         <List setContent={setContent} style={{ display: openList ? 'block' : 'none' }}></List>
-        <div style={{ border: '0px solid #efeff5', flex: 1, padding: '16 16 16 16', display: 'flex', flexDirection: 'row', overflow: 'auto', width: '100%' }}>{ContentElement}</div>
+        <div style={{ border: '0px solid #efeff5', flex: 1, padding: '16 16 16 16', display: 'flex', flexDirection: 'row', overflow: 'auto', width: '100%' }}>{renderBox()}</div>
       </div>
     </>
   )
