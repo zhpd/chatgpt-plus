@@ -40,7 +40,7 @@ export default function AuthAvatar(props: any) {
             if (url) {
               const _dom = (
                 <div style={{ width: '100%', height: '100%' }}>
-                  <iframe src={url as string} style={{ width: '100%', height: '400px', border: 'none', overflow: 'hidden' }}></iframe>
+                  <iframe src={url as string} style={{ width: '100%', height: '500px', padding: '0 !important', margin: '0 !important', border: 'none', overflow: 'hidden' }}></iframe>
                 </div>
               )
               modal.info({
