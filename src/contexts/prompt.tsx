@@ -51,7 +51,10 @@ export function PromptProvider({ children }) {
     if (!prompt) {
       return
     }
-    console.log(prompt)
+    console.log('addPrompt', prompt)
+    if (!prompt?.name || !prompt?.prompt) {
+      return
+    }
     const index = _promptList.findIndex((item) => item.uuid == prompt?.uuid)
     if (index > -1) {
       _promptList.splice(index, 1)
@@ -71,7 +74,10 @@ export function PromptProvider({ children }) {
     if (index > -1) {
       const _prompt = _promptList[index]
       const _nPrompt = Object.assign({}, { ..._prompt }, { ...obj })
-      console.log(_nPrompt, obj)
+      console.log('upPrompt', uuid, obj, _nPrompt)
+      if (!_nPrompt?.name || !_nPrompt?.prompt) {
+        return
+      }
       _promptList[index] = _nPrompt
       setPromptList(_promptList)
     }
