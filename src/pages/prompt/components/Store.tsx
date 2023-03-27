@@ -138,7 +138,9 @@ function OnlinePrompt() {
       >
         <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />
-          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}></div>
+          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}>
+            <Typography.Paragraph style={{ fontSize: 16, width: '100%', fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}>{t('prompt.promptStoreTitle')}</Typography.Paragraph>
+          </div>
         </div>
         <Space>
           <Space.Compact style={{ width: '100%' }}>
@@ -171,8 +173,13 @@ function OnlinePrompt() {
                     bordered={true}
                     style={{ width: '100%' }}
                   >
-                    <Typography.Paragraph ellipsis={{expandable:true, rows:2}}>{item.description}</Typography.Paragraph>
-                    <Typography.Text style={{ fontSize: 12,color: token.colorTextDisabled }}>{item.dateTime}</Typography.Text>
+                    <Typography.Paragraph ellipsis={{ expandable: true, rows: 2 }} copyable={false}>
+                      {item.description}
+                    </Typography.Paragraph>
+                    <Typography.Paragraph ellipsis={{ expandable: true, rows: 2 }} copyable={{}}>
+                      {item.prompt}
+                    </Typography.Paragraph>
+                    <Typography.Text style={{ fontSize: 12, color: token.colorTextDisabled }}>{item.dateTime}</Typography.Text>
                   </Card>
                 </Col>
               )

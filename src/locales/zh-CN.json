@@ -47,6 +47,7 @@
     "editPrompt": "编辑提示语",
     "save": "保存",
     "onlinePrompt": "在线提示语",
+    "promptStoreTitle": "推荐提示语Prompt",
     "importExport": "导入导出",
     "search": "搜索",
     "searchPlaceholder": "请输入提示词"
