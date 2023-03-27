@@ -84,7 +84,7 @@ function IndexPage(props: { style?: React.CSSProperties }) {
               padding: '4px 2px 4px 6px',
               marginTop: '12px',
               borderColor: uuid == item.uuid ? token.colorPrimaryHover : undefined,
-              backgroundColor: uuid == item.uuid ? (theme == 'dark' ? token.colorPrimaryHover : '#e8e8e8') : undefined,
+              // backgroundColor: uuid == item.uuid ? (theme == 'dark' ? token.colorPrimaryHover : '#e8e8e8') : undefined,
             }}
             onClick={() => openChat(item.uuid)}
           >
@@ -118,18 +118,12 @@ function IndexPage(props: { style?: React.CSSProperties }) {
                 style={{ alignItems: 'center' }}
                 avatar={<Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />}
                 title={
-                  <Typography.Paragraph
-                    ellipsis={{ rows: 1 }}
-                    style={{ marginBottom: 0, textAlign: 'left', color: uuid == item.uuid ? (theme === 'dark' ? '#fff' : token.colorPrimaryActive) : token.colorText }}
-                  >
+                  <Typography.Paragraph ellipsis={{ rows: 1 }} style={{ marginBottom: 0, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }}>
                     {item.name}
                   </Typography.Paragraph>
                 }
                 description={
-                  <Typography.Paragraph
-                    style={{ marginBottom: 0, fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? (theme === 'dark' ? '#eee' : token.colorPrimaryActive) : token.colorText }}
-                    ellipsis={{ rows: 1 }}
-                  >
+                  <Typography.Paragraph style={{ marginBottom: 0, fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }} ellipsis={{ rows: 1 }}>
                     {item.lastMessageText || 'No message'}
                   </Typography.Paragraph>
                 }

@@ -24,7 +24,7 @@ function Edit(props: { action: string; prompt?: Prompt }) {
   }, [props.action, props.prompt])
 
   const onFinish = (values: any) => {
-    console.log('Success:', values)
+    console.log('Success:', values, action)
     if (action == 'add') {
       // 新建
       const _prompt: Prompt = {
@@ -32,7 +32,7 @@ function Edit(props: { action: string; prompt?: Prompt }) {
         ...values,
         dateTime: new Date().getTime().toString(),
       }
-      addPrompt(values)
+      addPrompt(_prompt)
     } else {
       // 编辑
       upPrompt(prompt?.uuid as string, values)

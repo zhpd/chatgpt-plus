@@ -51,6 +51,7 @@ export function PromptProvider({ children }) {
     if (!prompt) {
       return
     }
+    console.log(prompt)
     const index = _promptList.findIndex((item) => item.uuid == prompt?.uuid)
     if (index > -1) {
       _promptList.splice(index, 1)

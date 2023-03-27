@@ -40,31 +40,32 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
   }
 
   const addPrompt = () => {
+    setUuid('')
     // 新建窗口
     props?.setContent(<Edit action={'add'}></Edit>)
-  }
-
-  const upPrompt = (prompt: Prompt) => {
-    // 编辑窗口
-    props?.setContent(<Edit action={'edit'} prompt={prompt}></Edit>)
   }
   const openPrompt = (prompt: Prompt) => {
     // 编辑窗口
     props?.setContent(<Edit action={'edit'} prompt={prompt}></Edit>)
+    setUuid(prompt.uuid)
   }
 
   const deletePrompt = (uuid: string) => {
     // 从数据中删除聊天
     delPrompt(uuid)
+    setUuid('')
     console.log('delPrompt', uuid)
   }
 
   const switchOnlinePrompt = () => {
+    setUuid('')
     props?.setContent(<OnlinePrompt></OnlinePrompt>)
   }
   const switchInportExport = () => {
+    setUuid('')
     props?.setContent(<InportExport></InportExport>)
   }
+
 
   return (
     <div style={{ borderRight: `1px solid ${token.colorBorder}`, width: 260, padding: 16, overflow: 'hidden', position: 'relative', ...props?.style }}>
@@ -86,7 +87,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
               padding: '4px 2px 4px 6px',
               marginTop: '12px',
               borderColor: uuid == item.uuid ? token.colorPrimaryHover : undefined,
-              backgroundColor: uuid == item.uuid ? (theme == 'dark' ? token.colorPrimaryHover : '#e8e8e8') : undefined,
+              // backgroundColor: uuid == item.uuid ? (theme == 'dark' ? token.colorPrimaryHover : '#e8e8e8') : undefined,
             }}
             onClick={() => openPrompt(item)}
           >
@@ -120,18 +121,12 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
                 style={{ alignItems: 'center' }}
                 avatar={null}
                 title={
-                  <Typography.Paragraph
-                    ellipsis={{ rows: 1 }}
-                    style={{ marginBottom: 0, textAlign: 'left', color: uuid == item.uuid ? (theme === 'dark' ? '#fff' : token.colorPrimaryActive) : token.colorText }}
-                  >
+                  <Typography.Paragraph ellipsis={{ rows: 1 }} style={{ marginBottom: 0, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }}>
                     {item.name}
                   </Typography.Paragraph>
                 }
                 description={
-                  <Typography.Paragraph
-                    style={{ marginBottom: 0, fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? (theme === 'dark' ? '#eee' : token.colorPrimaryActive) : token.colorText }}
-                    ellipsis={{ rows: 1 }}
-                  >
+                  <Typography.Paragraph style={{ marginBottom: 0, fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }} ellipsis={{ rows: 1 }}>
                     {item.description || 'No description'}
                   </Typography.Paragraph>
                 }

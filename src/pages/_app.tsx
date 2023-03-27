@@ -9,7 +9,7 @@ import { StyleProvider } from '@ant-design/cssinjs'
 import 'antd/dist/reset.css'
 import Layout from '@/components/Layout'
 import { i18NextConfig } from '@/locales'
-import { SiteProvider, ChatProvider, PromptProvider } from '@/contexts'
+import { SiteProvider, ChatProvider, PromptProvider, useSiteContext } from '@/contexts'
 
 // @ts-ignore
 export async function getStaticProps({ locale }) {
@@ -22,6 +22,8 @@ export async function getStaticProps({ locale }) {
 }
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  const { theme } = useSiteContext()
+  const { token } = antdTheme.useToken()
   return (
     <SessionProvider session={session}>
       <SiteProvider>

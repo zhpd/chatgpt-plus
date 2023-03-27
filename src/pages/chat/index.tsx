@@ -44,7 +44,7 @@ function IndexPage() {
 
   event$.useSubscription((val: any) => {
     if (val?.type == 'tabSwich') {
-      // 二次点击chat，则隐藏消息列表
+      // 二次点击，则隐藏消息列表
       if (val?.url.indexOf('/chat') > -1) {
         console.log(val)
         setOpenList(!openList)
