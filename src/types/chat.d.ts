@@ -5,6 +5,7 @@ export interface Chat {
   description?: string
   type?: string
   status?: string
+  place?: 'left' | 'right'
   lastMessage?: Message // last message
   lastMessageText?: string // last message text
   lastMessageTime?: string // last message time

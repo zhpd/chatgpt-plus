@@ -16,16 +16,16 @@ const them = {
 }
 export type MarkdownProps = {
   children: string
-  place?: 'left' | 'right'
+  role?: 'user' | 'system'
   theme?: 'dark' | 'light' | 'auto'
   token?: any
 }
 
 function Markdown(props: MarkdownProps) {
-  const { place, theme, token } = props
+  const { role, theme, token } = props
 
   const backgroundColor = () => {
-    if (place === 'right') {
+    if (role === 'user') {
       if (theme === 'dark') {
         return token.colorLinkHover
       } else {

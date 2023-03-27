@@ -1,6 +1,6 @@
 import { useSiteContext } from '@/contexts/site'
-import { Avatar, Button, Card, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography } from 'antd'
-import { ExpandAltOutlined, DeleteOutlined, SendOutlined, ApiOutlined, DisconnectOutlined, LinkOutlined, ControlOutlined, EllipsisOutlined, MoreOutlined } from '@ant-design/icons'
+import { Avatar, Button, Card, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Empty, Col, Row } from 'antd'
+import { StarOutlined, StarFilled } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -14,7 +14,7 @@ import { nanoid } from 'nanoid'
 const _data: Prompt = {
   uuid: '1679282990940',
   name: '小冰',
-  description: '你的私人小秘书',
+  description: '你的私人小秘书你的私人小秘书你的私人小秘书你的私人小秘书',
   prompt: '你好，我是小冰，你的私人小秘书',
   dateTime: '2023/3/20 11:32:26',
   type: 'text',
@@ -39,38 +39,79 @@ function OnlinePrompt() {
   const { token } = antdTheme.useToken()
   const { theme } = useSiteContext()
   const { message, modal, notification } = App.useApp()
-  const { addPrompt, delPrompt, upPrompt } = usePromptContext()
+  const { promptList, starPrompt, unstarPrompt } = usePromptContext()
   const { t } = useTranslation()
-  const refInput = useRef<InputRef>(null)
-  // const [input, setInput] = useState<string>('')
-  const [input, { reset, onChange }] = useEventTarget({ initialValue: '' })
-  const [canSend, setCanSend] = useState<boolean>(false)
-  const [coiled, setCoiled] = useState<boolean>(true)
-  const [openSet, setOpenSet] = useState<boolean>(false)
-  const [uuid, setUuid] = useState<string>('')
-  const [info, setInfo] = useState<Prompt>()
+  const [search, setSearch] = useState<string>('')
   const [list, setList] = useState<Prompt[]>([])
 
-  const containerStyle: React.CSSProperties = {
-    position: 'relative',
-    // height: 200,
-    // padding: 48,
-    // overflow: 'hidden',
-    // textAlign: 'center',
-    background: token.colorFillAlter,
-    border: `1px solid ${token.colorBorderSecondary}`,
-    borderRadius: token.borderRadiusLG,
-  }
+  useEffect(() => {
+    searchRequest()
+  }, [])
 
-  const editName = (_name: string) => {
-    upPrompt(uuid, {
-      name: _name,
+  useEffect(() => {
+    // 判断是否存在已经收藏过
+    const _list = list.map((item) => {
+      let index = promptList.findIndex((tt) => item.uuid == tt.uuid)
+      if (index > -1) {
+        item.isStar = true
+      }
+      return item
     })
-  }
-  const editDesc = (_description: string) => {
-    upPrompt(uuid, {
-      description: _description,
+    setList(_list)
+  }, [promptList])
+
+  // 搜索请求
+  const searchRequest = () => {
+    console.log('searchRequest', search)
+    // !todo 查询线上数据
+    const _ll = [
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+      { ..._data, uuid: nanoid() },
+    ]
+    // 判断是否存在已经收藏过
+    _ll.map((item) => {
+      let index = promptList.findIndex((tt) => item.uuid == tt.uuid)
+      if (index > -1) {
+        item.isStar = true
+      }
+      return item
     })
+
+    setList(_ll)
   }
 
   return (
@@ -100,59 +141,44 @@ function OnlinePrompt() {
           <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}></div>
         </div>
         <Space>
-          <Button
-            type={'default'}
-            size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
-            icon={<ApiOutlined />}
-            onClick={() => {
-              message.warning(t('prompt.api_warning'))
-            }}
-          ></Button>
-          <Button
-            type={'default'}
-            size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
-            icon={coiled ? <LinkOutlined rotate={-45} /> : <DisconnectOutlined rotate={-45} />}
-            onClick={() => setCoiled(!coiled)}
-          ></Button>
-          <Popconfirm
-            key="del"
-            title="Delete the prompt"
-            description="Are you sure to delete this prompt?"
-            onConfirm={(e?: React.MouseEvent<HTMLElement>) => {
-              delPrompt(uuid)
-              return
-            }}
-            onCancel={(e?: React.MouseEvent<HTMLElement>) => {}}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button type={'default'} size="middle" style={{ marginLeft: 5, marginRight: 5 }} icon={<DeleteOutlined />}></Button>
-          </Popconfirm>
-          <Button
-            type={'default'}
-            size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
-            icon={<MoreOutlined />}
-            onClick={() => {
-              // setOpenSet(!openSet)
-            }}
-          ></Button>
+          <Space.Compact style={{ width: '100%' }}>
+            <Input allowClear placeholder={t('prompt.searchPlaceholder') as string} value={search} onChange={(e) => setSearch(e.target.value)} onPressEnter={searchRequest} />
+            <Button type="primary" onClick={searchRequest}>
+              {t('prompt.search')}
+            </Button>
+          </Space.Compact>
         </Space>
       </div>
-      <div id="messageBox" style={{ flex: 1, padding: '16 16 0 16', position: 'relative', overflowX: 'hidden', overflowY: openSet ? 'hidden' : 'auto' }}>
-        {/* {list.length <= 0 ? (
-          <Empty style={{ flex: 1 }}></Empty>
+      <div id="messageBox" style={{ flex: 1, padding: '16 16 16 16', position: 'relative', overflowX: 'hidden', overflowY: 'auto' }}>
+        {list.length <= 0 ? (
+          <Empty style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}></Empty>
         ) : (
-          <div style={{ flex: 1 }}>
-            {list.map((item: Message) => {
-              return <Box key={item.id} uuid={uuid} item={item} />
+          <Row style={{ flexWrap: 'wrap', paddingLeft: 8, paddingTop: 8 }} gutter={[16, 16]}>
+            {list.map((item: Prompt) => {
+              return (
+                <Col key={item.uuid} span={6} xs={24} sm={24} md={12} lg={12} xl={8} xxl={8}>
+                  <Card
+                    size={'small'}
+                    extra={
+                      item.isStar ? (
+                        <StarFilled style={{ color: token.colorWarning }} onClick={() => unstarPrompt(item.uuid)} />
+                      ) : (
+                        <StarOutlined style={{ color: token.colorTextDisabled }} onClick={() => starPrompt(item)} />
+                      )
+                    }
+                    hoverable={true}
+                    title={item.name}
+                    bordered={true}
+                    style={{ width: '100%' }}
+                  >
+                    <Typography.Paragraph ellipsis={{expandable:true, rows:2}}>{item.description}</Typography.Paragraph>
+                    <Typography.Text style={{ fontSize: 12,color: token.colorTextDisabled }}>{item.dateTime}</Typography.Text>
+                  </Card>
+                </Col>
+              )
             })}
-          </div>
-        )} */}
-
-        <Drawer title={t('prompt.setting')} placement="right" maskClosable zIndex={0} open={openSet} onClose={() => setOpenSet(false)} getContainer={false}></Drawer>
+          </Row>
+        )}
         <FloatButton.BackTop
           style={{ marginBottom: 105, marginRight: 16 }}
           // @ts-ignore

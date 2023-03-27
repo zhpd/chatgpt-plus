@@ -6,12 +6,14 @@ import { useSiteContext } from '@/contexts/site'
 import { useCallback, useEffect, useState } from 'react'
 import { useChatContext } from '@/contexts/chat'
 import { useRouter } from 'next/router'
+import { Chat } from '@/types/chat'
+import { nanoid } from 'nanoid'
 
 function IndexPage() {
   const router = useRouter()
   const { setTitle, event$ } = useSiteContext()
   const { t } = useTranslation()
-  const { chatList, setActiveChat } = useChatContext()
+  const { chatList, newChat, setActiveChat } = useChatContext()
   const [uuid, setUuid] = useState<string>('')
   const [openList, setOpenList] = useState<boolean>(true)
 
@@ -26,7 +28,8 @@ function IndexPage() {
 
   useEffect(() => {
     const _uuid = router.query?.uuid as string
-    console.log(_uuid)
+    const _prompt = router.query?.prompt as string
+    console.log(_uuid, _prompt)
     if (_uuid) {
       setUuid(_uuid)
       const _chat = chatList.find((item) => item.uuid == _uuid)
@@ -35,12 +38,27 @@ function IndexPage() {
         setActiveChat(_chat)
       }
     } else {
-      if (chatList && chatList.length > 0) {
-        openChat(chatList[0]['uuid'])
+      if (_prompt) {
+        addChat(_prompt)
+      } else {
+        if (chatList && chatList.length > 0) {
+          openChat(chatList[0]['uuid'])
+        }
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query?.uuid])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query?.uuid, router.query?._prompt])
+
+  const addChat = (_prompt?: string) => {
+    // 创建新聊天
+    const chat: Chat = {
+      uuid: nanoid(),
+      name: 'ChatGPT',
+      lastMessageText: 'No message',
+    }
+    newChat(chat, _prompt)
+    console.log('newChat', chat, _prompt)
+  }
 
   event$.useSubscription((val: any) => {
     if (val?.type == 'tabSwich') {

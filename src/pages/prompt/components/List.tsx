@@ -1,5 +1,5 @@
 import { Avatar, Button, List, Typography, App, Popconfirm, theme as antdTheme, Divider, Space } from 'antd'
-import { ShoppingOutlined, ExportOutlined } from '@ant-design/icons'
+import { ShoppingOutlined, ExportOutlined, MessageOutlined } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -81,6 +81,9 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
         router.push('/prompt?action=export')
         props?.setContent(<Export></Export>)
         break
+      case 'message':
+        router.push('/chat?prompt' + _props?.prompt?.prompt)
+        break
       default:
         break
     }
@@ -112,29 +115,15 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
           >
             <List.Item
               style={{ padding: 2 }}
-              // actions={[
-              //   // @ts-ignore
-              //   <Popconfirm
-              //     key="del"
-              //     title="Delete the prompt"
-              //     description="Are you sure to delete this prompt?"
-              //     onConfirm={(e?: React.MouseEvent<HTMLElement>) => {
-              //       confirm(e as React.MouseEvent<HTMLElement>, item.uuid)
-              //       return
-              //     }}
-              //     onCancel={(e?: React.MouseEvent<HTMLElement>) => {
-              //       cancel(e as React.MouseEvent<HTMLElement>)
-              //     }}
-              //     okText="Yes"
-              //     cancelText="No"
-              //   >
-              //     <DeleteOutlined
-              //       onClick={(e) => {
-              //         e.stopPropagation()
-              //       }}
-              //     />
-              //   </Popconfirm>,
-              // ]}
+              actions={[
+                <MessageOutlined
+                  key="message"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    openAction('message', { prompt: item })
+                  }}
+                />,
+              ]}
             >
               <List.Item.Meta
                 style={{ alignItems: 'center' }}
@@ -145,7 +134,10 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
                   </Typography.Paragraph>
                 }
                 description={
-                  <Typography.Paragraph style={{ marginBottom: 0, fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }} ellipsis={{ rows: 1 }}>
+                  <Typography.Paragraph
+                    ellipsis={{ rows: 1 }}
+                    style={{ marginBottom: '0.5em', fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }}
+                  >
                     {item.description || 'No description'}
                   </Typography.Paragraph>
                 }

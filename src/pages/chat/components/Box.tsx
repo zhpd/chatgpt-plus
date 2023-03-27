@@ -8,8 +8,14 @@ import type { Message } from '@/types/chat'
 import { useState } from 'react'
 import { useChatContext } from '@/contexts/chat'
 
-function Box(props: { uuid: string; item: Message }) {
-  const { item, uuid } = props
+export type BoxProps = {
+  uuid: string
+  item: Message
+  place: 'left' | 'right'
+}
+
+function Box(props: BoxProps) {
+  const { item, uuid, place } = props
   const [copyOk, setCopyOk] = useState(false)
   const { theme } = useSiteContext()
   const { token } = antdTheme.useToken()
@@ -24,14 +30,14 @@ function Box(props: { uuid: string; item: Message }) {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'flex-start', flexDirection: item?.inversion == true ? 'row-reverse' : 'row', width: 'auto', height: 'auto', padding: '10px 15px' }}>
+    <div style={{ display: 'flex', justifyContent: 'flex-start', flexDirection: place == 'left' ? 'row' : 'row-reverse', width: 'auto', height: 'auto', padding: '10px 15px' }}>
       <div style={{ width: 48 }}>
         <Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />
       </div>
       <div style={{ maxWidth: 'calc(100% - 30px)' }}>
-        <div style={{ height: 25, color: '#c2cad3', textAlign: item?.inversion == true ? 'right' : 'left' }}>{item?.dateTime}</div>
-        <div style={{ display: 'flex', flexDirection: item?.inversion == true ? 'row-reverse' : 'row' }}>
-          <Markdown theme={theme} token={token} place={item?.inversion == true ? 'right' : 'left'}>
+        <div style={{ height: 25, color: '#c2cad3', textAlign: place == 'left' ? 'left' : 'right' }}>{item?.dateTime}</div>
+        <div style={{ display: 'flex', flexDirection: place == 'left' ? 'row' : 'row-reverse' }}>
+          <Markdown theme={theme} token={token} role={item?.inversion == true ? 'user' : 'system'}>
             {item?.text}
           </Markdown>
           <div style={{ display: 'flex', flexDirection: 'column' }}>

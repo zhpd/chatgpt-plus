@@ -1,7 +1,20 @@
 import { useSiteContext } from '@/contexts/site'
-import { Avatar, Button, Card, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography } from 'antd'
-import { ExpandAltOutlined, DeleteOutlined, SendOutlined, ApiOutlined, DisconnectOutlined, LinkOutlined, ControlOutlined, EllipsisOutlined, MoreOutlined } from '@ant-design/icons'
+import { Avatar, Button, Mentions, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography } from 'antd'
+import {
+  AlignRightOutlined,
+  AlignLeftOutlined,
+  DownloadOutlined,
+  DeleteOutlined,
+  SendOutlined,
+  ApiOutlined,
+  DisconnectOutlined,
+  LinkOutlined,
+  ControlOutlined,
+  EllipsisOutlined,
+  MoreOutlined,
+} from '@ant-design/icons'
 import { useTranslation } from '@/locales'
+import type { MentionsOptionProps } from 'antd/es/mentions'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
@@ -13,6 +26,7 @@ import Setting from './Setting'
 import { useEventTarget } from 'ahooks'
 import { useChatContext } from '@/contexts/chat'
 import { nanoid } from 'nanoid'
+import { usePromptContext } from '@/contexts'
 
 const _data: Chat = {
   uuid: '1679282990940',
@@ -234,16 +248,17 @@ function Message() {
   const { theme } = useSiteContext()
   const { message, modal, notification } = App.useApp()
   const { activeChat, newChat, newMessage, delChat, upChat } = useChatContext()
+  const { promptList } = usePromptContext()
   const { t } = useTranslation()
-  const refInput = useRef<InputRef>(null)
-  // const [input, setInput] = useState<string>('')
-  const [input, { reset, onChange }] = useEventTarget({ initialValue: '' })
+  const [input, setInput] = useState<string>('')
   const [canSend, setCanSend] = useState<boolean>(false)
   const [coiled, setCoiled] = useState<boolean>(true)
   const [openSet, setOpenSet] = useState<boolean>(false)
+  const [place, setPlace] = useState<'left' | 'right'>('right')
   const [uuid, setUuid] = useState<string>('')
   const [info, setInfo] = useState<Chat>()
   const [list, setList] = useState<Message[]>([])
+  const [plist, setPlist] = useState<{ label: string; value: string }[]>([])
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',
@@ -257,11 +272,24 @@ function Message() {
   }
 
   useEffect(() => {
+    if (promptList) {
+      const list = promptList.map((item) => {
+        return {
+          label: item.name as string,
+          value: item.prompt as string,
+        }
+      })
+      setPlist(list)
+    }
+  }, [promptList])
+
+  useEffect(() => {
     console.log(activeChat, activeChat?.uuid)
     if (activeChat) {
       setUuid(activeChat?.uuid as string)
       setInfo(activeChat as Chat)
       setList(activeChat?.messageList || [])
+      setPlace(activeChat?.place || 'right')
       setTimeout(() => {
         // 滚动到最底部
         const ele = document.getElementById('messageBox')
@@ -283,6 +311,7 @@ function Message() {
     // 替换富文本换行\n为\n\n
     text = text.replace(/\n/g, '\n\n')
     console.log('text', text)
+    // !todo 过滤输入字符串
     if (!text) return
     const message = {
       id: nanoid(),
@@ -308,7 +337,7 @@ function Message() {
         messageList: [message],
       })
       setCanSend(false)
-      reset()
+      setInput('')
       return
     }
     const _list = [...list]
@@ -316,7 +345,7 @@ function Message() {
     setList(_list)
     newMessage(uuid, message)
     setCanSend(false)
-    reset()
+    setInput('')
     // 滚动到最底部
     const ele = document.getElementById('messageBox')
     if (ele) {
@@ -334,6 +363,14 @@ function Message() {
   const editDesc = (_description: string) => {
     upChat(uuid, {
       description: _description,
+    })
+  }
+
+  const switchPlace = () => {
+    const _place = place == 'right' ? 'left' : 'right'
+    setPlace(_place)
+    upChat(uuid, {
+      place: _place,
     })
   }
 
@@ -417,13 +454,15 @@ function Message() {
               message.warning(t('chat.api_warning'))
             }}
           ></Button>
-          <Button
-            type={'default'}
-            size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
-            icon={coiled ? <LinkOutlined rotate={-45} /> : <DisconnectOutlined rotate={-45} />}
-            onClick={() => setCoiled(!coiled)}
-          ></Button>
+          <Tooltip trigger={['hover']} title={t('chat.coiledText', { status: coiled ? t('c.open') : t('c.close') })}>
+            <Button
+              type={coiled ? 'default' : 'dashed'}
+              size="middle"
+              style={{ marginLeft: 5, marginRight: 5, color: coiled ? token.colorPrimary : undefined }}
+              icon={coiled ? <LinkOutlined rotate={-45} /> : <DisconnectOutlined rotate={-45} />}
+              onClick={() => setCoiled(!coiled)}
+            ></Button>
+          </Tooltip>
           <Popconfirm
             key="del"
             title="Delete the chat"
@@ -436,9 +475,19 @@ function Message() {
             okText="Yes"
             cancelText="No"
           >
-            <Button type={'default'} size="middle" style={{ marginLeft: 5, marginRight: 5 }} icon={<DeleteOutlined />}></Button>
+            <Button type={'default'} size="middle" style={{ marginLeft: 5, marginRight: 5, color: token.colorError }} icon={<DeleteOutlined />}></Button>
           </Popconfirm>
+          <Button type={'default'} size="middle" style={{ marginLeft: 5, marginRight: 5 }} icon={place === 'left' ? <AlignLeftOutlined /> : <AlignRightOutlined />} onClick={switchPlace}></Button>
           <Button
+            type={'default'}
+            size="middle"
+            style={{ marginLeft: 5, marginRight: 5 }}
+            icon={<DownloadOutlined />}
+            onClick={() => {
+              message.info(t('c.devBuilding'))
+            }}
+          ></Button>
+          {/* <Button
             type={'default'}
             size="middle"
             style={{ marginLeft: 5, marginRight: 5 }}
@@ -446,7 +495,7 @@ function Message() {
             onClick={() => {
               // setOpenSet(!openSet)
             }}
-          ></Button>
+          ></Button> */}
         </Space>
       </div>
       <div id="messageBox" style={{ flex: 1, padding: '16 16 0 16', position: 'relative', overflowX: 'hidden', overflowY: openSet ? 'hidden' : 'auto' }}>
@@ -455,7 +504,7 @@ function Message() {
         ) : (
           <div style={{ flex: 1 }}>
             {list.map((item: Message) => {
-              return <Box key={item.id} uuid={uuid} item={item} />
+              return <Box key={item.id} uuid={uuid} item={item} place={place} />
             })}
           </div>
         )}
@@ -487,16 +536,33 @@ function Message() {
           justifyContent: 'center',
         }}
       >
-        <Tooltip title={t('chat.coiledText', { status: coiled ? t('c.open') : t('c.close') })}>
+        <Tooltip trigger={['hover']} title={t('chat.coiledText', { status: coiled ? t('c.open') : t('c.close') })}>
           <Button
-            type={coiled ? 'primary' : 'dashed'}
+            type={coiled ? 'default' : 'dashed'}
             size="large"
-            style={{ marginLeft: 10, marginRight: 10 }}
+            style={{ marginLeft: 10, marginRight: 10, color: coiled ? token.colorPrimary : undefined }}
             icon={coiled ? <LinkOutlined rotate={-45} /> : <DisconnectOutlined rotate={-45} />}
             onClick={() => setCoiled(!coiled)}
           ></Button>
         </Tooltip>
-        <Input.TextArea
+        <Mentions
+          style={{ width: '100%', paddingRight: -5, textAlign: 'left' }}
+          autoFocus={true}
+          placeholder={t('chat.inputPlaceholder') || ''}
+          autoSize={true}
+          value={input}
+          prefix={['/']}
+          onChange={(e) => {
+            setInput(e)
+            if (e) {
+              setCanSend(true)
+            } else {
+              setCanSend(false)
+            }
+          }}
+          options={[...plist]}
+        />
+        {/* <Input.TextArea
           ref={refInput}
           autoFocus={true}
           allowClear
@@ -506,7 +572,7 @@ function Message() {
           size={'large'}
           value={input}
           onChange={(e) => {
-            onChange(e)
+            setInput(e.target.value)
             if (e.target.value) {
               setCanSend(true)
             } else {
@@ -516,7 +582,7 @@ function Message() {
           onPressEnter={(e) => {
             sendMessage()
           }}
-        ></Input.TextArea>
+        ></Input.TextArea> */}
         <Button type="primary" ghost={false} size="large" icon={<SendOutlined rotate={-45} />} disabled={canSend ? false : true} style={{ marginLeft: 10, marginRight: 10 }} onClick={sendMessage}>
           {t('chat.send')}
         </Button>

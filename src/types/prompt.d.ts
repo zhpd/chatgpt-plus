@@ -5,6 +5,7 @@ export interface Prompt {
   prompt?: string // 提示词
   type?: 'text' // 类型
   self?: boolean // 是否自有
+  isStar?: boolean // 是否收藏
   status?: string // 状态
   dateTime?: string // 时间
   options?: { [key: string]: any }[] // 选项
