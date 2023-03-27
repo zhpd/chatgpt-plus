@@ -7,7 +7,6 @@ import remarkMath from 'remark-math'
 import rehypeRaw from 'rehype-raw'
 import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for you
-import { useSiteContext } from '@/contexts/site'
 import { useState } from 'react'
 import { Typography } from 'antd'
 
@@ -15,8 +14,31 @@ const them = {
   dark: oneDark,
   light: { ...oneLight, backgroundColor: '#fff' },
 }
-function Markdown(props: any) {
-  const { theme } = useSiteContext()
+export type MarkdownProps = {
+  children: string
+  role?: 'user' | 'system'
+  theme?: 'dark' | 'light' | 'auto'
+  token?: any
+}
+
+function Markdown(props: MarkdownProps) {
+  const { role, theme, token } = props
+
+  const backgroundColor = () => {
+    if (role === 'user') {
+      if (theme === 'dark') {
+        return token.colorLinkHover
+      } else {
+        return token.colorPrimaryBgHover
+      }
+    } else {
+      if (theme === 'dark') {
+        return '#1e1e20'
+      } else {
+        return '#ebebeb'
+      }
+    }
+  }
 
   // Add the CodeCopyBtn component to our PRE element
   // @ts-ignore
@@ -28,7 +50,7 @@ function Markdown(props: any) {
   )
 
   return (
-    <div style={{ backgroundColor: theme === 'dark' ? '#1e1e20' : '#ebebeb', borderRadius: 6, padding: 8 }}>
+    <div style={{ backgroundColor: backgroundColor(), borderRadius: 6, padding: 8, overflow: 'auto' }}>
       <ReactMarkdown
         // eslint-disable-next-line react/no-children-prop
         children={props?.children}

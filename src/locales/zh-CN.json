@@ -1,12 +1,16 @@
 {
+  "title": "ChatGPT-Plus",
   "window": {
     "title": "ChatGPT-Plus {{title}}"
   },
   "c": {
     "message": "消息",
     "prompt": "提示",
+    "plugin": "插件",
     "share": "分享",
     "store": "商店",
+    "open": "开启",
+    "close": "关闭",
     "delete": "删除",
     "deleteSuccess": "删除成功",
     "save": "保存",
@@ -24,14 +28,28 @@
     "confirm": "确定",
     "download": "下载",
     "noData": "暂无数据",
-    "wrong": "好像出错了，请稍后再试。",
     "success": "操作成功",
     "failed": "操作失败",
     "verify": "验证",
-    "unauthorizedTips": "未经授权，请先进行验证。"
+    "devBuilding": "正在开发中"
   },
   "chat": {
-    "new chat": "+ 新消息",
-    "try gpt-4": "Try GPT-4"
+    "newChat": "新消息",
+    "send": "发送",
+    "setting": "设置",
+    "api_warning": "插件系统正在开发中, 请勿使用插件功能。",
+    "inputPlaceholder": "来说点什么吧...",
+    "coiledText": "连续对话 {{status}}",
+    "tryGpt4": "Try GPT-4"
+  },
+  "prompt": {
+    "newPrompt": "创建提示语",
+    "editPrompt": "编辑提示语",
+    "save": "保存",
+    "onlinePrompt": "在线提示语",
+    "promptStoreTitle": "推荐提示语Prompt",
+    "importExport": "导入导出",
+    "search": "搜索",
+    "searchPlaceholder": "请输入提示词"
   }
 }

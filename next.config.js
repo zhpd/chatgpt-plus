@@ -1,11 +1,31 @@
 /** @type {import('next').NextConfig} */
-const path = require('path')
+const { i18n } = require('./next-i18next.config')
+
 const nextConfig = {
   reactStrictMode: false,
   i18n: {
-    locales: ['zh-CN', 'en-US'],
-    defaultLocale: 'zh-CN',
-    localeDetection: true,
+    ...i18n,
+    localeDetection: false,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+    ],
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      issuer: /\.[jt]sx?$/,
+      resourceQuery: { not: /url/ }, // exclude if *.svg?url
+      use: ["@svgr/webpack"],
+    }); // 针对 SVG 的处理规则
+    return config;
   },
 }
 

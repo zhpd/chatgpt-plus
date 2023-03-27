@@ -21,7 +21,7 @@ function IndexPage() {
   return (
     <Empty
       style={{ ...emptyStyle }}
-      description="正在添加更多AI功能，敬请期待！"
+      description="插件功能正在开发中，敬请期待！"
       // title="正在添加更多AI功能，敬请期待！"
       // extra={
       //   <Button href="https://github.com/zhpd/chatgpt-plus" target="_blank" type="primary" key="console">
