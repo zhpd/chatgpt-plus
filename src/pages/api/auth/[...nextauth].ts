@@ -25,4 +25,10 @@ export default NextAuth({
     //   from: 'NextAuth.js <no-reply@example.com>',
     // }),
   ],
+  theme: {
+    colorScheme: 'light', // "auto" | "dark" | "light"
+    brandColor: '#fff', // Hex color code
+    logo: '', // Absolute URL to image
+    buttonText: '', // Hex color code
+  },
 })
