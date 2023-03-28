@@ -24,6 +24,7 @@ import Image from 'next/image'
 import AuthAvatar from '../AuthAvatar'
 import IconLight from '@/assets/icons/light.svg'
 import IconDark from '@/assets/icons/dark.svg'
+import { useSize } from 'ahooks'
 
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
@@ -33,6 +34,7 @@ export default function LayoutBase(props: any) {
   const [colorBgContainer, setColorBgContainer] = useState(token.colorBgContainer)
   const [colorPrimary, setColorPrimary] = useState(token.colorPrimary)
   const [collapsed, setCollapsed] = useState(true)
+  const [side, setSide] = useState(true)
   const iconColor = '#CCC'
   const menuList = [
     { name: 'c.message', path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
@@ -84,6 +86,21 @@ export default function LayoutBase(props: any) {
     console.log('newTheme', newTheme)
   }
 
+  const renderLogo = (props?: { style?: { [key: string]: any } } | undefined) => {
+    const { style } = props || {}
+    return (
+      <Avatar
+        style={{ marginTop: 5, padding: 4, backgroundColor: token.colorBgTextActive, ...style }}
+        size={48}
+        shape="square"
+        src={<Image src={require('@/assets/chatgpt.png')} width={36} height={36} alt="avatar" />}
+        onClick={() => {
+          setSide(!side)
+        }}
+      />
+    )
+  }
+
   return (
     <ConfigProvider
       theme={{
@@ -95,22 +112,17 @@ export default function LayoutBase(props: any) {
           <title>{title || 'ChatGPT-Plus'}</title>
           <meta property="og:title" content={title} key={title} />
         </Head>
-        <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px', backgroundColor: '#000' }}>
+        <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px', backgroundColor: '#000', border: `1px solid ${token.colorBorder}22` }}>
           <Sider
             theme={theme === 'dark' ? 'dark' : 'light'}
             trigger={null}
             width={120}
             collapsible
             collapsed={collapsed}
-            style={{ borderRight: `${theme === 'dark' ? 0 : 1}px solid ${token.colorBorder}` }}
+            style={{ borderRight: `${theme === 'dark' ? 0 : 1}px solid ${token.colorBorder}`, display: side ? 'block' : 'none' }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
-              <Avatar
-                style={{ marginTop: 5, padding: 4, backgroundColor: token.colorBgTextActive }}
-                size={48}
-                shape="square"
-                src={<Image src={require('@/assets/chatgpt.png')} width={36} height={36} alt="avatar" />}
-              />
+              <div style={{ height: '64px', display: 'flex', alignItems: 'center' }}>{renderLogo()}</div>
               <Space direction="vertical" size={'middle'} style={{ marginTop: 60 }}>
                 {menuList.map((item, index) => {
                   return (
@@ -179,7 +191,12 @@ export default function LayoutBase(props: any) {
                 justifyContent: 'space-between',
               }}
             >
-              <Typography.Title level={3}>{t(menu.name)}</Typography.Title>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {!side ? renderLogo({ style: { marginRight: 20 } }) : null}
+                <Typography.Title level={3} style={{ marginBottom: 0 }}>
+                  {t(menu.name)}
+                </Typography.Title>
+              </div>
               <AuthAvatar style={{ marginTop: 0 }} size={48} shape="square" icon={<UserOutlined />} />
             </Header>
             <Content

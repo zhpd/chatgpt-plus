@@ -23,7 +23,7 @@ import Empty from './Empty'
 import Box from './Box'
 import { Chat, Message, ConversationRequest } from '@/types/chat'
 import Setting from './Setting'
-import { useEventTarget } from 'ahooks'
+import { useEventTarget, useSize } from 'ahooks'
 import { useChatContext } from '@/contexts/chat'
 import { nanoid } from 'nanoid'
 import { usePromptContext } from '@/contexts'
@@ -261,6 +261,7 @@ function Message() {
   const [info, setInfo] = useState<Chat>()
   const [list, setList] = useState<Message[]>([])
   const [plist, setPlist] = useState<{ label: string; value: string }[]>([])
+  const bodySize = useSize(typeof document !== 'undefined' ? document?.querySelector('body') : null)
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',
@@ -391,7 +392,28 @@ function Message() {
         console.log('onProgress', e, scene, body)
         switch (scene) {
           case 'error':
-            message.error('发送失败' + body?.error?.message)
+            message.error(body?.err)
+            // 接收到回复消息，添加到消息列表
+            const errorMesasge = {
+              id: body?.id || nanoid(),
+              uuid: body?.conversationId,
+              dateTime: dateTime,
+              text: body?.err,
+              inversion: false,
+              error: true,
+              conversationOptions: newOptions,
+              requestOptions: {
+                prompt: text,
+                options: newOptions,
+              },
+              conversationRequest: {
+                conversationId: newOptions?.conversationId,
+                parentMessageId: newOptions?.parentMessageId,
+              },
+              conversationResponse: body,
+            }
+            newMessage(uuid, { ...errorMesasge })
+            scrollBottom()
             break
           case 'receive':
             // 接收到回复消息，添加临时-消息列表
@@ -512,7 +534,7 @@ function Message() {
                     }
                   : false
               }
-              style={{ fontSize: 16, width: '100%', fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}
+              style={{ fontSize: 16, width: '100%', fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0, display: (bodySize?.width as number) < 400 ? 'none' : 'block' }}
             >
               {info?.name}
             </Typography.Paragraph>
@@ -528,7 +550,7 @@ function Message() {
                     }
                   : false
               }
-              style={{ fontSize: 12, width: '100%', color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}
+              style={{ fontSize: 12, width: '100%', color: theme === 'dark' ? '#eee' : undefined, margin: 0, display: (bodySize?.width as number) < 500 ? 'none' : 'block' }}
             >
               {info?.description || info?.uuid}
             </Typography.Paragraph>
@@ -538,7 +560,6 @@ function Message() {
           <Button
             type={'default'}
             size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
             icon={<ControlOutlined />}
             onClick={() => {
               setList(_data.messageList as Message[])
@@ -547,7 +568,6 @@ function Message() {
           <Button
             type={'default'}
             size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
             icon={<ApiOutlined />}
             onClick={() => {
               message.warning(t('chat.api_warning'))
@@ -557,7 +577,7 @@ function Message() {
             <Button
               type={coiled ? 'default' : 'dashed'}
               size="middle"
-              style={{ marginLeft: 5, marginRight: 5, color: coiled ? token.colorPrimary : undefined }}
+              style={{ color: coiled ? token.colorPrimary : undefined }}
               icon={coiled ? <LinkOutlined rotate={-45} /> : <DisconnectOutlined rotate={-45} />}
               onClick={() => setCoiled(!coiled)}
             ></Button>
@@ -574,13 +594,12 @@ function Message() {
             okText="Yes"
             cancelText="No"
           >
-            <Button type={'default'} size="middle" style={{ marginLeft: 5, marginRight: 5, color: token.colorError }} icon={<DeleteOutlined />}></Button>
+            <Button type={'default'} size="middle" style={{ color: token.colorError }} icon={<DeleteOutlined />}></Button>
           </Popconfirm>
-          <Button type={'default'} size="middle" style={{ marginLeft: 5, marginRight: 5 }} icon={place === 'left' ? <AlignLeftOutlined /> : <AlignRightOutlined />} onClick={switchPlace}></Button>
+          <Button type={'default'} size="middle" icon={place === 'left' ? <AlignLeftOutlined /> : <AlignRightOutlined />} onClick={switchPlace}></Button>
           <Button
             type={'default'}
             size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
             icon={<DownloadOutlined />}
             onClick={() => {
               message.info(t('c.devBuilding'))
@@ -589,7 +608,6 @@ function Message() {
           {/* <Button
             type={'default'}
             size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
             icon={<MoreOutlined />}
             onClick={() => {
               // setOpenSet(!openSet)

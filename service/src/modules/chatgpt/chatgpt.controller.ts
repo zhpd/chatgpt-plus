@@ -42,8 +42,10 @@ export class ChatgptController {
           subscriber.complete();
         })
         .catch((err) => {
-          subscriber.next(JSON.stringify({ error: true, err }));
-          subscriber.error(err);
+          console.log('err', err);
+          subscriber.next(JSON.stringify({ error: true, err: err?.message }));
+          // subscriber.error(err);
+          subscriber.complete();
         });
     });
     return ob$;

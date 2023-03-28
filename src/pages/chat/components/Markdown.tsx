@@ -19,10 +19,11 @@ export type MarkdownProps = {
   role?: 'user' | 'system'
   theme?: 'dark' | 'light' | 'auto' | 'mix'
   token?: any
+  style?: React.CSSProperties
 }
 
 function Markdown(props: MarkdownProps) {
-  const { role, theme, token } = props
+  const { role, theme, token, style } = props
 
   const backgroundColor = () => {
     if (role === 'user') {
@@ -44,13 +45,27 @@ function Markdown(props: MarkdownProps) {
   // @ts-ignore
   const Pre = ({ children }) => (
     <pre className="blog-pre" style={{ position: 'relative' }}>
-      <CodeCopyBtn>{children}</CodeCopyBtn>
-      {children}
+      <CodeCopyBtn
+        style={{
+          margin: '5px 0',
+          textAlign: 'right',
+          padding: '2px 10px',
+          left: 0,
+          right: 0,
+          height: 30,
+          lineHeight: '30px',
+          backgroundColor: theme == 'dark' ? '#333' : '#bbb',
+          borderRadius: '4px 4px 0 0',
+        }}
+      >
+        {children}
+      </CodeCopyBtn>
+      <div style={{ paddingTop: 30 }}>{children}</div>
     </pre>
   )
 
   return (
-    <div style={{ backgroundColor: backgroundColor(), borderRadius: 6, padding: 8, overflow: 'auto' }}>
+    <div style={{ backgroundColor: backgroundColor(), borderRadius: 6, padding: 8, overflow: 'auto', ...style }}>
       <ReactMarkdown
         // eslint-disable-next-line react/no-children-prop
         children={props?.children}
@@ -91,13 +106,13 @@ function Markdown(props: MarkdownProps) {
 }
 
 // @ts-ignore
-function CodeCopyBtn({ children }) {
+function CodeCopyBtn({ style, children }) {
   const [copyOk, setCopyOk] = useState(false)
-  const language = children[0].props.className.split('-')[1]
+  const language = children?.[0]?.props?.className?.split('-')[1]
 
   const handleClick = () => {
-    const _props = children[0].props
-    let text = _props.children[0]
+    const _props = children?.[0].props
+    let text = _props.children?.[0]
     let xcode = ''
     xcode = xcode + '// ' + language + '\n'
     xcode = xcode + text + '\n'
@@ -111,7 +126,7 @@ function CodeCopyBtn({ children }) {
   }
 
   return (
-    <div style={{ position: 'absolute', margin: 6, top: 5, right: 10 }}>
+    <div style={{ position: 'absolute', margin: 6, top: 5, right: 10, ...style }}>
       <Typography.Paragraph style={{ display: 'inline', marginRight: 10 }}>{language}</Typography.Paragraph>
       {copyOk ? <CheckOutlined style={{ color: '#52c41a' }} /> : <CopyOutlined onClick={handleClick} />}
     </div>

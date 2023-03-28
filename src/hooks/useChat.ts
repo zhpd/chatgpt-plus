@@ -36,6 +36,8 @@ async function onConversation(props: MessageProps) {
             if (data) {
               if (data?.complete) {
                 onProgress?.(event, 'complete', data)
+              } else if (data?.error) {
+                onProgress?.(event, 'error', data)
               } else {
                 onProgress?.(event, 'receive', data)
               }

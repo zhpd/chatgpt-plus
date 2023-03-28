@@ -38,7 +38,15 @@ function Box(props: BoxProps) {
       <div style={{ maxWidth: 'calc(100% - 30px)' }}>
         <div style={{ height: 25, color: '#c2cad3', textAlign: place == 'left' ? 'left' : 'right' }}>{item?.dateTime}</div>
         <div style={{ display: 'flex', flexDirection: place == 'left' ? 'row' : 'row-reverse' }}>
-          <Markdown theme={theme} token={token} role={item?.inversion == true ? 'user' : 'system'}>
+          <Markdown
+            theme={theme}
+            token={token}
+            role={item?.inversion == true ? 'user' : 'system'}
+            style={{
+              ...(item.error && { border: item.error ? `1px solid ${token.colorBorderSecondary}` : undefined }),
+              ...(item.error && { backgroundColor: item.error ? token.colorWarningBorder : undefined }),
+            }}
+          >
             {item?.text}
           </Markdown>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
