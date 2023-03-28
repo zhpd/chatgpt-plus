@@ -110,15 +110,17 @@ export class ChatgptService {
   ): Promise<OutputOptions> {
     const api = await this.getApi(config, opt?.completionParams);
     const options: SendMessageOptions = opt;
-    const res = await api.sendMessage(text, {
+    let resData: ChatMessage;
+    await api.sendMessage(text, {
       ...options,
       // print the partial response as the AI is "typing"
       onProgress: (partialResponse) => {
-        console.log(partialResponse);
+        console.log('gpt:', partialResponse);
+        resData = partialResponse;
         onProgress?.(partialResponse);
       },
     });
-    return output({ code: 0, data: res });
+    return output({ code: 0, data: resData });
   }
 
   /**
