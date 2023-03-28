@@ -22,6 +22,8 @@ export interface Message {
   loading?: boolean
   conversationOptions?: ConversationRequest | null
   requestOptions?: { prompt: string; options?: ConversationRequest | null } | null
+  conversationRequest?: ConversationRequest | null
+  conversationResponse?: ConversationResponse | null
 }
 
 export interface History {

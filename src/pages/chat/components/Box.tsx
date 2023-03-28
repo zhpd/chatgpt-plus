@@ -12,10 +12,11 @@ export type BoxProps = {
   uuid: string
   item: Message
   place: 'left' | 'right'
+  resendMessage: (item: Message) => void
 }
 
 function Box(props: BoxProps) {
-  const { item, uuid, place } = props
+  const { item, uuid, place, resendMessage } = props
   const [copyOk, setCopyOk] = useState(false)
   const { theme } = useSiteContext()
   const { token } = antdTheme.useToken()
@@ -50,7 +51,20 @@ function Box(props: BoxProps) {
                 copyText(item?.text)
               }}
             ></Button>
-            <Button type="text" size="small" style={{ height: '16px', lineHeight: '16px' }} icon={<RedoOutlined style={{ fontSize: 12, color: token.colorTextDisabled }} />}></Button>
+            <Popconfirm
+              key="resend"
+              title="Resend the message"
+              // description="Are you sure to resend this message?"
+              onConfirm={(e?: React.MouseEvent<HTMLElement>) => {
+                resendMessage(item)
+                return
+              }}
+              onCancel={(e?: React.MouseEvent<HTMLElement>) => {}}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button type="text" size="small" style={{ height: '16px', lineHeight: '16px' }} icon={<RedoOutlined style={{ fontSize: 12, color: token.colorTextDisabled }} />}></Button>
+            </Popconfirm>
             <Popconfirm
               key="del"
               title="Delete the message"

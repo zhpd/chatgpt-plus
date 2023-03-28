@@ -67,7 +67,17 @@ export default function LayoutBase(props: any) {
   }
 
   const switchTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    let newTheme = theme
+    switch (theme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'light'
+        break
+      default:
+        break
+    }
     setColorBgContainer(newTheme == 'dark' ? token.colorFillContent : token.colorBgContainer)
     setColorPrimary(token.colorPrimary)
     setTheme(newTheme)

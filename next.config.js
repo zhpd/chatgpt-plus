@@ -3,6 +3,16 @@ const { i18n } = require('./next-i18next.config')
 
 const nextConfig = {
   reactStrictMode: false,
+  async rewrites() {
+    return {
+      fallback: [
+        {
+          source: '/api/:path*',
+          destination: `http://localhost:3002/api/:path*`,
+        },
+      ],
+    }
+  },
   i18n: {
     ...i18n,
     localeDetection: false,
@@ -23,9 +33,9 @@ const nextConfig = {
       test: /\.svg$/,
       issuer: /\.[jt]sx?$/,
       resourceQuery: { not: /url/ }, // exclude if *.svg?url
-      use: ["@svgr/webpack"],
-    }); // 针对 SVG 的处理规则
-    return config;
+      use: ['@svgr/webpack'],
+    }) // 针对 SVG 的处理规则
+    return config
   },
 }
 

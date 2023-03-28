@@ -28,7 +28,7 @@ export function SiteProvider({ children }) {
   const [lang, setLang] = useState<string>('zh-CN')
   const [title, setTitle] = useState<string>('ChatGPT-Plus')
   const event$ = useEventEmitter()
-  // const refTheme = useRef<'dark' | 'light' | 'auto'>('light')
+  // const refTheme = useRef<'dark' | 'light' | 'auto' >('light')
   // const refLang = useRef<string>('zh-CN')
 
   // useEffect(() => {
@@ -36,7 +36,7 @@ export function SiteProvider({ children }) {
   //   if (_theme !== 'dark' && _theme !== 'light' && _theme !== 'auto') {
   //     _theme = 'light'
   //   }
-  //   setTheme(_theme as 'dark' | 'light' | 'auto')
+  //   setTheme(_theme as 'dark' | 'light' | 'auto' )
 
   //   let _lang: string = typeof window !== 'undefined' ? localStorage.getItem('lang') || '' : 'zh-CN'
   //   if (_lang !== 'zh-CN' && _lang !== 'en-US') {

@@ -17,7 +17,7 @@ const them = {
 export type MarkdownProps = {
   children: string
   role?: 'user' | 'system'
-  theme?: 'dark' | 'light' | 'auto'
+  theme?: 'dark' | 'light' | 'auto' | 'mix'
   token?: any
 }
 
