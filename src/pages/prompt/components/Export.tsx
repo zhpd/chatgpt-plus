@@ -9,7 +9,7 @@ import dayjs from 'dayjs'
 import { Prompt } from '@/types/prompt'
 import { useEventTarget } from 'ahooks'
 import { usePromptContext } from '@/contexts/prompt'
-import { nanoid } from 'nanoid'
+import { uuidv4 } from '@/utils/uuid'
 
 const _data: Prompt = {
   uuid: '1679282990940',

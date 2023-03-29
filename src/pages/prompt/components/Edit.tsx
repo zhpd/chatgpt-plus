@@ -4,7 +4,7 @@ import { DeleteOutlined } from '@ant-design/icons'
 import { usePromptContext } from '@/contexts'
 import { Prompt } from '@/types/prompt'
 import { useTranslation } from '@/locales'
-import { nanoid } from 'nanoid'
+import { uuidv4 } from '@/utils/uuid'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
@@ -28,7 +28,7 @@ function Edit(props: { action: string; prompt?: Prompt }) {
     if (action == 'add') {
       // 新建
       const _prompt: Prompt = {
-        uuid: nanoid(),
+        uuid: uuidv4(),
         ...values,
         dateTime: new Date().getTime().toString(),
       }

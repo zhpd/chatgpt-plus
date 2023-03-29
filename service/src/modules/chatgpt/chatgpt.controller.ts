@@ -1,7 +1,11 @@
 import { All, Controller, Get, Post, Sse, Req } from '@nestjs/common';
 import { ChatgptService } from './chatgpt.service';
 import type { ConfigOptions } from './chatgpt.service';
-import type { ChatMessage, SendMessageOptions } from 'chatgpt';
+import type {
+  ChatMessage,
+  SendMessageBrowserOptions,
+  SendMessageOptions,
+} from 'chatgpt';
 import type { OutputOptions } from 'src/utils';
 import type { Request } from 'express';
 import { Observable } from 'rxjs';
@@ -19,7 +23,7 @@ export class ChatgptController {
       config = {},
     } = request.body as {
       text: string;
-      options?: SendMessageOptions;
+      options?: SendMessageOptions & SendMessageBrowserOptions;
       config?: ConfigOptions;
     };
 

@@ -40,7 +40,13 @@
     "api_warning": "插件系统正在开发中, 请勿使用插件功能。",
     "inputPlaceholder": "来说点什么吧...",
     "coiledText": "连续对话 {{status}}",
-    "tryGpt4": "Try GPT-4"
+    "tryGpt4": "Try GPT-4",
+    "optionTitle": "配置",
+    "option": {
+      "apiType": "访问方式",
+      "apiTypeAPI": "api",
+      "apiTypeWEB": "web"
+    }
   },
   "prompt": {
     "newPrompt": "创建提示语",

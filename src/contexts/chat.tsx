@@ -1,5 +1,5 @@
 import { Chat, Message } from '@/types/chat'
-import { nanoid } from 'nanoid'
+import { uuidv4 } from '@/utils/uuid'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
@@ -55,7 +55,7 @@ export function ChatProvider({ children }) {
     const _chatList = [...(refList.current as Chat[])]
     if (!chat) {
       chat = {
-        uuid: nanoid(),
+        uuid: uuidv4(),
         name: 'ChatGPT',
         lastMessageText: 'No message',
       }

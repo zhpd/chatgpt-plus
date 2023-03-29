@@ -21,6 +21,7 @@ export async function getStaticProps({ locale }) {
   }
 }
 
+
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const { theme } = useSiteContext()
   const { token } = antdTheme.useToken()

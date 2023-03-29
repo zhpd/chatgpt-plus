@@ -1,5 +1,5 @@
 import { useSiteContext } from '@/contexts/site'
-import { Avatar, Button, Mentions, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography } from 'antd'
+import { Avatar, Button, Mentions, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Popover } from 'antd'
 import {
   AlignRightOutlined,
   AlignLeftOutlined,
@@ -21,11 +21,12 @@ import { useEffect, useRef, useState } from 'react'
 import dayjs from 'dayjs'
 import Empty from './Empty'
 import Box from './Box'
+import Option from './Option'
 import { Chat, Message, ConversationRequest } from '@/types/chat'
 import Setting from './Setting'
 import { useEventTarget, useSize } from 'ahooks'
 import { useChatContext } from '@/contexts/chat'
-import { nanoid } from 'nanoid'
+import { uuidv4 } from '@/utils/uuid'
 import { usePromptContext } from '@/contexts'
 import { useChat } from '@/hooks/useChat'
 
@@ -278,6 +279,7 @@ function Message() {
     if (promptList) {
       const list = promptList.map((item) => {
         return {
+          key: item.uuid as string,
           label: item.name as string,
           value: item.prompt as string,
         }
@@ -327,7 +329,7 @@ function Message() {
       ...options,
     }
     const nMessage = {
-      id: nanoid(),
+      id: uuidv4(),
       uuid: activeChat?.uuid,
       dateTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
       text,
@@ -341,7 +343,7 @@ function Message() {
     }
     // 如果初始化刚进来，没有新聊天，则自动创建一个新聊天
     if (!activeChat) {
-      const _uuid = nanoid()
+      const _uuid = uuidv4()
       setUuid(_uuid)
       newChat({
         uuid: _uuid,
@@ -362,8 +364,10 @@ function Message() {
     setInput('')
     // 滚动到最底部
     scrollBottom()
-    // 发送请求
-    sendMessageRequest(text, newOptions)
+    setTimeout(() => {
+      // 发送请求
+      sendMessageRequest(text, newOptions)
+    }, 200)
   }
 
   const sendMessageRequest = (text: string, newOptions?: { [key: string]: string } | ConversationRequest) => {
@@ -371,7 +375,7 @@ function Message() {
     const dateTime = dayjs().format('YYYY/MM/DD HH:mm:ss')
     // 接收到回复消息，添加临时-消息列表
     const tempMesasge = {
-      id: nanoid(),
+      id: uuidv4(),
       uuid: uuid,
       dateTime: dateTime,
       text: "I'm thinking...",
@@ -395,10 +399,10 @@ function Message() {
             message.error(body?.err)
             // 接收到回复消息，添加到消息列表
             const errorMesasge = {
-              id: body?.id || nanoid(),
+              id: body?.id || uuidv4(),
               uuid: body?.conversationId,
               dateTime: dateTime,
-              text: body?.err,
+              text: body?.err || 'Error',
               inversion: false,
               error: true,
               conversationOptions: newOptions,
@@ -417,8 +421,9 @@ function Message() {
             break
           case 'receive':
             // 接收到回复消息，添加临时-消息列表
+            if (!body?.text) return
             const tempMesasge = {
-              id: body?.id || nanoid(),
+              id: body?.id || uuidv4(),
               uuid: body?.conversationId,
               dateTime: dateTime,
               text: body?.text + '  I ',
@@ -440,7 +445,7 @@ function Message() {
           case 'complete':
             // 接收到回复消息，添加到消息列表
             const newMesasge = {
-              id: body?.id || nanoid(),
+              id: body?.id || uuidv4(),
               uuid: body?.conversationId,
               dateTime: dateTime,
               text: body?.text,
@@ -557,14 +562,17 @@ function Message() {
           </div>
         </div>
         <Space>
-          <Button
-            type={'default'}
-            size="middle"
-            icon={<ControlOutlined />}
-            onClick={() => {
-              setList(_data.messageList as Message[])
+          <Popover
+            content={() => {
+              return <Option chat={activeChat as Chat} />
             }}
-          ></Button>
+            title={t('chat.optionTitle')}
+            getPopupContainer={(triggerNode) => triggerNode?.parentElement as HTMLElement}
+            trigger="click"
+            destroyTooltipOnHide={true}
+          >
+            <Button type={'default'} size="middle" icon={<ControlOutlined />}></Button>
+          </Popover>
           <Button
             type={'default'}
             size="middle"

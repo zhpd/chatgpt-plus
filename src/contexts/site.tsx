@@ -49,6 +49,19 @@ export function SiteProvider({ children }) {
     // refTheme.current = theme
     // 存储localStorage
     localStorage.setItem('theme', theme)
+    console.log('theme', theme)
+    // 现在可以使用 JavaScript 来更改颜色方案
+    document?.documentElement?.setAttribute('data-theme', theme)
+    // if (window?.matchMedia && window?.matchMedia('(prefers-color-scheme)').matches) {
+    //   // 如果浏览器支持媒体查询且用户设置了颜色方案，则执行以下代码：
+    //   if (window?.matchMedia('(prefers-color-scheme: light)').matches) {
+    //     // 如果用户首选浅色主题，则执行以下代码：
+    //     document.documentElement.setAttribute('data-theme', 'light')
+    //   } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    //     // 如果用户首选深色主题，则执行以下代码：
+    //     document.documentElement.setAttribute('data-theme', 'dark')
+    //   }
+    // }
   }, [theme])
   useEffect(() => {
     // refLang.current = lang
