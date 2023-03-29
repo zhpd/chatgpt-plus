@@ -2,6 +2,7 @@ import ReactMarkdown from 'react-markdown'
 import { CopyOutlined, CheckOutlined } from '@ant-design/icons'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark, oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism' // 代码高亮主题风格
+import 'github-markdown-css/github-markdown.css'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import rehypeRaw from 'rehype-raw'
@@ -9,7 +10,6 @@ import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for you
 import { useEffect, useState } from 'react'
 import { Typography } from 'antd'
-import 'github-markdown-css/github-markdown.css'
 
 const them = {
   dark: oneDark,
@@ -25,13 +25,6 @@ export type MarkdownProps = {
 
 function Markdown(props: MarkdownProps) {
   const { role, theme, token, style } = props
-  // useEffect(() => {
-  //   if (theme == 'dark') {
-  //     require('github-markdown-css/github-markdown-dark.css')
-  //   } else {
-  //     require('github-markdown-css/github-markdown-light.css')
-  //   }
-  // }, [theme])
 
   const backgroundColor = () => {
     if (role === 'user') {
