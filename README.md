@@ -119,7 +119,7 @@ git clone https://github.com/zhpd/chatgpt-plus.git
 > - OpenAI 官方注册申请地址：[https://platform.openai.com/](https://platform.openai.com/)，需要科学上网
 > - 通过其他方式获取 `ApiKey` 或 `AccessToken` [点击查看](#附加内容)
 
-申请成功后，将 APIKey 和 AccessToken 填写到 `chatgpt-plus/service/.env.local` 文件中
+申请成功后，将 APIKey 和 AccessToken 填写到 `chatgpt-plus/service/.env` 文件中
 
 #### 可选 VSCode
 
@@ -129,7 +129,7 @@ git clone https://github.com/zhpd/chatgpt-plus.git
 
 #### 环境变量-前端
 
-配置端口和接口请求地址在根目录.env.local 里。
+配置端口和接口请求地址在根目录.env 里。
 可直接复制根目录下的.env.example 文件进行修改，文件名修改为.env）
 
 | 环境变量名 | 默认值                  | 说明     |
@@ -140,7 +140,7 @@ git clone https://github.com/zhpd/chatgpt-plus.git
 <details>
 <summary> 配置文件</summary>
 
-可直接复制根目录下的.env.example 文件进行修改，文件名修改为.env.local
+可直接复制根目录下的.env.example 文件进行修改，文件名修改为.env
 
 ```env
 # port
@@ -170,7 +170,7 @@ npm run dev
 
 #### 环境变量-后端
 
-配置端口和 ApiKey、AccessToken 在 service 目录下.env.local 里
+配置端口和 ApiKey、AccessToken 在 service 目录下.env 里
 
 | 环境变量名            | 默认值                                      | 说明              |
 | --------------------- | ------------------------------------------- | ----------------- |
@@ -183,10 +183,10 @@ npm run dev
 <details>
 <summary> 配置文件</summary>
 
-可直接复制 service 目录下的.env.example 文件进行修改，文件名修改为.env.local
+可直接复制 service 目录下的.env.example 文件进行修改，文件名修改为.env
 
 ```env
-# service/.env.local
+# service/.env
 # OpenAI API Key - https://platform.openai.com/overview
 OPENAI_API_KEY=
 
@@ -270,7 +270,7 @@ npm run dev
 <details>
 <summary>配置文件</summary>
 
-您可以通过给后端服务.env.local 配置`OPENAI_API_KEY`密钥进行访问：
+您可以通过给后端服务.env 配置`OPENAI_API_KEY`密钥进行访问：
 
 ```env
 # R OpenAI API Key
@@ -289,7 +289,7 @@ OPENAI_API_KEY =
 <details>
 <summary>配置文件</summary>
 
-您可以通过给后端服务.env.local 配置`OPENAI_ACCESS_TOKEN`访问令牌访问：
+您可以通过给后端服务.env 配置`OPENAI_ACCESS_TOKEN`访问令牌访问：
 
 ```env
 # change this to an `accessToken` extracted from the ChatGPT
@@ -321,7 +321,7 @@ _这些库与使用电子邮件和密码进行身份验证的帐户配合使用�
 <details>
 <summary>配置文件</summary>
 
-您可以通过给后端服务.env.local 配置`API_REVERSE_PROXY`代理地址覆盖反向代理：
+您可以通过给后端服务.env 配置`API_REVERSE_PROXY`代理地址覆盖反向代理：
 
 ```env
 # Reverse Proxy
