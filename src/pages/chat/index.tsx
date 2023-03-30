@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useChatContext } from '@/contexts/chat'
 import { useRouter } from 'next/router'
 import { Chat } from '@/types/chat'
-import { nanoid } from 'nanoid'
+import { uuidv4 } from '@/utils/uuid'
 
 function IndexPage() {
   const router = useRouter()
@@ -52,7 +52,7 @@ function IndexPage() {
   const addChat = (_prompt?: string) => {
     // 创建新聊天
     const chat: Chat = {
-      uuid: nanoid(),
+      uuid: uuidv4(),
       name: 'ChatGPT',
       lastMessageText: 'No message',
     }

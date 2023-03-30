@@ -1,15 +1,9 @@
-import Head from 'next/head'
 import List from './components/List'
 import { useTranslation } from '@/locales'
 import { useSiteContext } from '@/contexts/site'
-import { useCallback, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { usePromptContext } from '@/contexts'
 import { useRouter } from 'next/router'
-import { ReactNode } from 'react-markdown/lib/ast-to-react'
-import Edit from './components/Edit'
-import InportExport from './components/Export'
-import OnlinePrompt from './components/Store'
-import { Prompt } from '@/types/prompt'
 
 function IndexPage() {
   const router = useRouter()

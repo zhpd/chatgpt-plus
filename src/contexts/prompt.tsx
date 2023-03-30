@@ -1,5 +1,4 @@
 import { Prompt } from '@/types/prompt'
-import { nanoid } from 'nanoid'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 

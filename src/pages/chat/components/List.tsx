@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useSiteContext } from '@/contexts/site'
 import { Chat } from '@/types/chat'
 import { useChatContext } from '@/contexts/chat'
-import { nanoid } from 'nanoid'
+import { uuidv4 } from '@/utils/uuid'
 
 function IndexPage(props: { style?: React.CSSProperties }) {
   const router = useRouter()
@@ -51,7 +51,7 @@ function IndexPage(props: { style?: React.CSSProperties }) {
   const addChat = () => {
     // 创建新聊天
     const chat: Chat = {
-      uuid: nanoid(),
+      uuid: uuidv4(),
       name: 'ChatGPT',
       lastMessageText: 'No message',
     }

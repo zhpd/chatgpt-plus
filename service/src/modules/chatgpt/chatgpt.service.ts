@@ -6,6 +6,7 @@ import type {
   ChatGPTAPIOptions,
   ChatMessage,
   SendMessageOptions,
+  SendMessageBrowserOptions,
 } from 'chatgpt';
 // import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt';
 // import fetch from 'node-fetch';
@@ -19,7 +20,7 @@ export const importDynamic = new Function(
 );
 
 export interface ConfigOptions {
-  API_TYPE?: 'chatgpt-api' | 'chatgpt-proxy';
+  API_TYPE?: 'chatgpt-api' | 'chatgpt-web';
   OPENAI_API_KEY?: string;
   OPENAI_ACCESS_TOKEN?: string;
   API_REVERSE_PROXY?: string;
@@ -35,17 +36,17 @@ export class ChatgptService {
   constructor(private config: ConfigService) {}
 
   async getApi(
-    config: ConfigOptions,
-    completionParams?: SendMessageOptions['completionParams'],
+    options?: SendMessageOptions & SendMessageBrowserOptions,
+    _config?: ConfigOptions,
   ): Promise<ChatGPTAPI | ChatGPTUnofficialProxyAPI> {
     const API_TYPE =
-      config?.API_TYPE || this.config.get('API_TYPE') || 'chatgpt-proxy';
+      _config?.API_TYPE || this.config.get('API_TYPE') || 'chatgpt-web';
     const OPENAI_API_KEY =
-      config?.OPENAI_API_KEY || this.config.get('OPENAI_API_KEY');
+      _config?.OPENAI_API_KEY || this.config.get('OPENAI_API_KEY');
     const OPENAI_ACCESS_TOKEN =
-      config?.OPENAI_ACCESS_TOKEN || this.config.get('OPENAI_ACCESS_TOKEN');
+      _config?.OPENAI_ACCESS_TOKEN || this.config.get('OPENAI_ACCESS_TOKEN');
     const API_REVERSE_PROXY =
-      config?.API_REVERSE_PROXY || this.config.get('API_REVERSE_PROXY');
+      _config?.API_REVERSE_PROXY || this.config.get('API_REVERSE_PROXY');
 
     // async load chatgpt
     const { ChatGPTAPI, ChatGPTUnofficialProxyAPI } = await importDynamic(
@@ -55,14 +56,8 @@ export class ChatgptService {
     let fetch = await importDynamic('node-fetch');
     fetch = fetch.default;
 
-    const options: ChatGPTAPIOptions = {
-      apiKey: OPENAI_API_KEY,
-      completionParams: {
-        model: 'gpt-3.5-turbo',
-        temperature: 0.5,
-        top_p: 0.8,
-        ...completionParams,
-      },
+    const _options: ChatGPTAPIOptions = {
+      apiKey: '',
       fetch,
       debug: false,
     };
@@ -72,22 +67,28 @@ export class ChatgptService {
     if (API_TYPE == 'chatgpt-api') {
       api = new ChatGPTAPI({
         apiKey: OPENAI_API_KEY,
+        apiBaseUrl: API_REVERSE_PROXY || 'https://api.openai.com/v1',
         completionParams: {
-          temperature: 0.5,
-          top_p: 0.8,
-          ...completionParams,
+          model: 'gpt-3.5-turbo',
+          temperature: 0.8,
+          top_p: 1.0,
+          presence_penalty: 1.0,
+          frequency_penalty: 0,
+          ...(options as SendMessageOptions)?.completionParams,
         },
-        ...options,
+        maxModelTokens: 4000,
+        maxResponseTokens: 1000,
+        ..._options,
       });
     }
-    // chatgpt-proxy style
-    if (API_TYPE == 'chatgpt-proxy') {
+    // chatgpt-web style
+    if (API_TYPE == 'chatgpt-web') {
       api = new ChatGPTUnofficialProxyAPI({
         accessToken: OPENAI_ACCESS_TOKEN,
         apiReverseProxyUrl:
           API_REVERSE_PROXY || 'https://bypass.duti.tech/api/conversation',
-        model: options?.completionParams?.model,
-        ...options,
+        model: 'text-davinci-002-render-sha',
+        ..._options,
       });
     }
 
@@ -104,21 +105,22 @@ export class ChatgptService {
    */
   async sendMessage(
     text: string,
-    opt?: SendMessageOptions,
+    options?: SendMessageOptions & SendMessageBrowserOptions,
     config?: ConfigOptions,
     onProgress?: (chat: ChatMessage) => void,
   ): Promise<OutputOptions> {
-    const api = await this.getApi(config, opt?.completionParams);
-    const options: SendMessageOptions = opt;
-    const res = await api.sendMessage(text, {
+    const api = await this.getApi(options, config);
+    let resData: ChatMessage;
+    await api.sendMessage(text, {
       ...options,
       // print the partial response as the AI is "typing"
       onProgress: (partialResponse) => {
-        console.log(partialResponse);
+        console.log('gpt:', partialResponse);
+        resData = partialResponse;
         onProgress?.(partialResponse);
       },
     });
-    return output({ code: 0, data: res });
+    return output({ code: 0, data: resData });
   }
 
   /**

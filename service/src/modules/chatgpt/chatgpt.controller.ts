@@ -1,7 +1,11 @@
 import { All, Controller, Get, Post, Sse, Req } from '@nestjs/common';
 import { ChatgptService } from './chatgpt.service';
 import type { ConfigOptions } from './chatgpt.service';
-import type { ChatMessage, SendMessageOptions } from 'chatgpt';
+import type {
+  ChatMessage,
+  SendMessageBrowserOptions,
+  SendMessageOptions,
+} from 'chatgpt';
 import type { OutputOptions } from 'src/utils';
 import type { Request } from 'express';
 import { Observable } from 'rxjs';
@@ -10,16 +14,16 @@ import { Observable } from 'rxjs';
 export class ChatgptController {
   constructor(private readonly chatgptService: ChatgptService) {}
 
-  @All('message')
-  @Sse('message')
+  @All('chat')
+  @Sse('chat')
   sendMessage(@Req() request: Request): Observable<any> {
     const {
-      content,
+      text,
       options = {},
       config = {},
     } = request.body as {
-      content: string;
-      options?: SendMessageOptions;
+      text: string;
+      options?: SendMessageOptions & SendMessageBrowserOptions;
       config?: ConfigOptions;
     };
 
@@ -29,15 +33,22 @@ export class ChatgptController {
     const ob$ = new Observable((subscriber) => {
       this.chatgptService
         .sendMessage(
-          content || request?.query?.content?.toString(),
+          text || request?.query?.text?.toString(),
           options,
           config,
           (chat: ChatMessage) => {
-            subscriber.next({ data: JSON.stringify(chat) });
+            subscriber.next(JSON.stringify(chat));
           },
         )
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then((res: OutputOptions<any>) => {
-          subscriber.next(res);
+          subscriber.next(JSON.stringify({ complete: true, ...res?.data }));
+          subscriber.complete();
+        })
+        .catch((err) => {
+          console.log('err', err);
+          subscriber.next(JSON.stringify({ error: true, err: err?.message }));
+          // subscriber.error(err);
           subscriber.complete();
         });
     });

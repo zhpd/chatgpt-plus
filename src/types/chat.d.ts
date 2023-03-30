@@ -6,6 +6,8 @@ export interface Chat {
   type?: string
   status?: string
   place?: 'left' | 'right'
+  config?: { [key: string]: string }
+  option?: { [key: string]: string }
   lastMessage?: Message // last message
   lastMessageText?: string // last message text
   lastMessageTime?: string // last message time
@@ -22,6 +24,8 @@ export interface Message {
   loading?: boolean
   conversationOptions?: ConversationRequest | null
   requestOptions?: { prompt: string; options?: ConversationRequest | null } | null
+  conversationRequest?: ConversationRequest | null
+  conversationResponse?: ConversationResponse | null
 }
 
 export interface History {

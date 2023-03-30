@@ -1,5 +1,5 @@
 import { useSiteContext } from '@/contexts/site'
-import { Avatar, Button, Mentions, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography } from 'antd'
+import { Avatar, Button, Mentions, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Popover } from 'antd'
 import {
   AlignRightOutlined,
   AlignLeftOutlined,
@@ -21,12 +21,14 @@ import { useEffect, useRef, useState } from 'react'
 import dayjs from 'dayjs'
 import Empty from './Empty'
 import Box from './Box'
-import { Chat, Message } from '@/types/chat'
+import Option from './Option'
+import { Chat, Message, ConversationRequest } from '@/types/chat'
 import Setting from './Setting'
-import { useEventTarget } from 'ahooks'
+import { useEventTarget, useSize } from 'ahooks'
 import { useChatContext } from '@/contexts/chat'
-import { nanoid } from 'nanoid'
+import { uuidv4 } from '@/utils/uuid'
 import { usePromptContext } from '@/contexts'
+import { useChat } from '@/hooks/useChat'
 
 const _data: Chat = {
   uuid: '1679282990940',
@@ -243,13 +245,13 @@ const _data: Chat = {
 }
 
 function Message() {
-  const router = useRouter()
   const { token } = antdTheme.useToken()
   const { theme } = useSiteContext()
   const { message, modal, notification } = App.useApp()
   const { activeChat, newChat, newMessage, delChat, upChat } = useChatContext()
   const { promptList } = usePromptContext()
   const { t } = useTranslation()
+  const { sendMessage, loading } = useChat()
   const [input, setInput] = useState<string>('')
   const [canSend, setCanSend] = useState<boolean>(false)
   const [coiled, setCoiled] = useState<boolean>(true)
@@ -259,22 +261,13 @@ function Message() {
   const [info, setInfo] = useState<Chat>()
   const [list, setList] = useState<Message[]>([])
   const [plist, setPlist] = useState<{ label: string; value: string }[]>([])
-
-  const containerStyle: React.CSSProperties = {
-    position: 'relative',
-    // height: 200,
-    // padding: 48,
-    // overflow: 'hidden',
-    // textAlign: 'center',
-    background: token.colorFillAlter,
-    border: `1px solid ${token.colorBorderSecondary}`,
-    borderRadius: token.borderRadiusLG,
-  }
+  const bodySize = useSize(typeof document !== 'undefined' ? document?.querySelector('body') : null)
 
   useEffect(() => {
     if (promptList) {
       const list = promptList.map((item) => {
         return {
+          key: item.uuid as string,
           label: item.name as string,
           value: item.prompt as string,
         }
@@ -305,7 +298,7 @@ function Message() {
   }, [activeChat])
 
   // send message
-  const sendMessage = () => {
+  const sendMessageText = (input: string, options?: { [key: string]: string } | ConversationRequest) => {
     // @ts-ignore
     let text = input || ''
     // 替换富文本换行\n为\n\n
@@ -313,40 +306,161 @@ function Message() {
     console.log('text', text)
     // !todo 过滤输入字符串
     if (!text) return
-    const message = {
-      id: nanoid(),
+    // 是否联系上下文,最后一条消息的conversationOptions
+    const newOptions = {
+      ...(coiled && activeChat?.lastMessage && activeChat?.lastMessage?.uuid && activeChat?.lastMessage?.id
+        ? {
+            conversationId: activeChat?.lastMessage?.uuid,
+            parentMessageId: activeChat?.lastMessage?.id,
+          }
+        : {}),
+      ...options,
+    }
+    const nMessage = {
+      id: uuidv4(),
       uuid: activeChat?.uuid,
       dateTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
       text,
       inversion: true,
       error: false,
-      conversationOptions: null,
+      conversationOptions: newOptions,
       requestOptions: {
         prompt: text,
-        options: null,
+        options: newOptions,
       },
     }
     // 如果初始化刚进来，没有新聊天，则自动创建一个新聊天
     if (!activeChat) {
-      const _uuid = nanoid()
+      const _uuid = uuidv4()
       setUuid(_uuid)
       newChat({
         uuid: _uuid,
         name: 'ChatGPT',
+        lastMessage: nMessage,
         lastMessageText: 'No message',
-        messageList: [message],
+        lastMessageTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+        messageList: [nMessage],
       })
-      setCanSend(false)
-      setInput('')
-      return
+    } else {
+      const _list = [...list]
+      _list.push(nMessage)
+      setList(_list)
+      newMessage(uuid, nMessage)
     }
-    const _list = [...list]
-    _list.push(message)
-    setList(_list)
-    newMessage(uuid, message)
+
     setCanSend(false)
     setInput('')
     // 滚动到最底部
+    scrollBottom()
+    setTimeout(() => {
+      // 发送请求
+      sendMessageRequest(text, newOptions)
+    }, 200)
+  }
+
+  const sendMessageRequest = (text: string, newOptions?: { [key: string]: string } | ConversationRequest) => {
+    // 添加提示符
+    const dateTime = dayjs().format('YYYY/MM/DD HH:mm:ss')
+    // 接收到回复消息，添加临时-消息列表
+    const tempMesasge = {
+      id: uuidv4(),
+      uuid: uuid,
+      dateTime: dateTime,
+      text: "I'm thinking...",
+      inversion: false,
+      temp: true,
+      error: false,
+    }
+    const _list = [...list]
+    _list.push(tempMesasge)
+    setList(_list)
+    scrollBottom()
+
+    // 发送ChatGPT消息
+    sendMessage({
+      text,
+      options: newOptions,
+      onProgress: (e: any, scene: any, body?: any) => {
+        console.log('onProgress', e, scene, body)
+        switch (scene) {
+          case 'error':
+            message.error(body?.err)
+            // 接收到回复消息，添加到消息列表
+            const errorMesasge = {
+              id: body?.id || uuidv4(),
+              uuid: body?.conversationId,
+              dateTime: dateTime,
+              text: body?.err || 'Error',
+              inversion: false,
+              error: true,
+              conversationOptions: newOptions,
+              requestOptions: {
+                prompt: text,
+                options: newOptions,
+              },
+              conversationRequest: {
+                conversationId: newOptions?.conversationId,
+                parentMessageId: newOptions?.parentMessageId,
+              },
+              conversationResponse: body,
+            }
+            newMessage(uuid, { ...errorMesasge })
+            scrollBottom()
+            break
+          case 'receive':
+            // 接收到回复消息，添加临时-消息列表
+            if (!body?.text) return
+            const tempMesasge = {
+              id: body?.id || uuidv4(),
+              uuid: body?.conversationId,
+              dateTime: dateTime,
+              text: body?.text + '  I ',
+              inversion: false,
+              temp: true,
+              error: false,
+            }
+            // 如果最后一条数据是临时的，则替换否则添加
+            const _list = [...list]
+            // @ts-ignore
+            const isTemp = _list[_list.length - 1]?.temp
+            if (isTemp) {
+              _list.pop()
+            }
+            _list.push(tempMesasge)
+            setList(_list)
+            scrollBottom()
+            break
+          case 'complete':
+            // 接收到回复消息，添加到消息列表
+            const newMesasge = {
+              id: body?.id || uuidv4(),
+              uuid: body?.conversationId,
+              dateTime: dateTime,
+              text: body?.text,
+              inversion: false,
+              error: false,
+              conversationOptions: newOptions,
+              requestOptions: {
+                prompt: text,
+                options: newOptions,
+              },
+              conversationRequest: {
+                conversationId: newOptions?.conversationId,
+                parentMessageId: newOptions?.parentMessageId,
+              },
+              conversationResponse: body,
+            }
+            newMessage(uuid, { ...newMesasge })
+            scrollBottom()
+            break
+          default:
+            break
+        }
+      },
+    })
+  }
+
+  const scrollBottom = () => {
     const ele = document.getElementById('messageBox')
     if (ele) {
       setTimeout(() => {
@@ -413,7 +527,7 @@ function Message() {
                     }
                   : false
               }
-              style={{ fontSize: 16, width: '100%', fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}
+              style={{ fontSize: 16, width: '100%', fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0, display: (bodySize?.width as number) < 400 ? 'none' : 'block' }}
             >
               {info?.name}
             </Typography.Paragraph>
@@ -429,26 +543,27 @@ function Message() {
                     }
                   : false
               }
-              style={{ fontSize: 12, width: '100%', color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}
+              style={{ fontSize: 12, width: '100%', color: theme === 'dark' ? '#eee' : undefined, margin: 0, display: (bodySize?.width as number) < 500 ? 'none' : 'block' }}
             >
               {info?.description || info?.uuid}
             </Typography.Paragraph>
           </div>
         </div>
         <Space>
-          <Button
-            type={'default'}
-            size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
-            icon={<ControlOutlined />}
-            onClick={() => {
-              setList(_data.messageList as Message[])
+          <Popover
+            content={() => {
+              return <Option chat={activeChat as Chat} />
             }}
-          ></Button>
+            title={t('chat.optionTitle')}
+            getPopupContainer={(triggerNode) => triggerNode?.parentElement as HTMLElement}
+            trigger="click"
+            destroyTooltipOnHide={true}
+          >
+            <Button type={'default'} size="middle" icon={<ControlOutlined />}></Button>
+          </Popover>
           <Button
             type={'default'}
             size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
             icon={<ApiOutlined />}
             onClick={() => {
               message.warning(t('chat.api_warning'))
@@ -458,7 +573,7 @@ function Message() {
             <Button
               type={coiled ? 'default' : 'dashed'}
               size="middle"
-              style={{ marginLeft: 5, marginRight: 5, color: coiled ? token.colorPrimary : undefined }}
+              style={{ color: coiled ? token.colorPrimary : undefined }}
               icon={coiled ? <LinkOutlined rotate={-45} /> : <DisconnectOutlined rotate={-45} />}
               onClick={() => setCoiled(!coiled)}
             ></Button>
@@ -475,13 +590,12 @@ function Message() {
             okText="Yes"
             cancelText="No"
           >
-            <Button type={'default'} size="middle" style={{ marginLeft: 5, marginRight: 5, color: token.colorError }} icon={<DeleteOutlined />}></Button>
+            <Button type={'default'} size="middle" style={{ color: token.colorError }} icon={<DeleteOutlined />}></Button>
           </Popconfirm>
-          <Button type={'default'} size="middle" style={{ marginLeft: 5, marginRight: 5 }} icon={place === 'left' ? <AlignLeftOutlined /> : <AlignRightOutlined />} onClick={switchPlace}></Button>
+          <Button type={'default'} size="middle" icon={place === 'left' ? <AlignLeftOutlined /> : <AlignRightOutlined />} onClick={switchPlace}></Button>
           <Button
             type={'default'}
             size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
             icon={<DownloadOutlined />}
             onClick={() => {
               message.info(t('c.devBuilding'))
@@ -490,7 +604,6 @@ function Message() {
           {/* <Button
             type={'default'}
             size="middle"
-            style={{ marginLeft: 5, marginRight: 5 }}
             icon={<MoreOutlined />}
             onClick={() => {
               // setOpenSet(!openSet)
@@ -504,7 +617,17 @@ function Message() {
         ) : (
           <div style={{ flex: 1 }}>
             {list.map((item: Message) => {
-              return <Box key={item.id} uuid={uuid} item={item} place={place} />
+              return (
+                <Box
+                  key={item.id}
+                  uuid={uuid}
+                  item={item}
+                  place={item.inversion == false ? 'left' : place}
+                  resendMessage={(mm: Message) => {
+                    sendMessageText(mm.text, mm?.conversationOptions as ConversationRequest)
+                  }}
+                />
+              )
             })}
           </div>
         )}
@@ -580,10 +703,18 @@ function Message() {
             }
           }}
           onPressEnter={(e) => {
-            sendMessage()
+            sendMessageText(input)
           }}
         ></Input.TextArea> */}
-        <Button type="primary" ghost={false} size="large" icon={<SendOutlined rotate={-45} />} disabled={canSend ? false : true} style={{ marginLeft: 10, marginRight: 10 }} onClick={sendMessage}>
+        <Button
+          type="primary"
+          ghost={false}
+          size="large"
+          icon={<SendOutlined rotate={-45} />}
+          disabled={canSend ? false : true}
+          style={{ marginLeft: 10, marginRight: 10 }}
+          onClick={() => sendMessageText(input)}
+        >
           {t('chat.send')}
         </Button>
       </div>

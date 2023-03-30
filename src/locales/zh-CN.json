@@ -40,7 +40,25 @@
     "api_warning": "插件系统正在开发中, 请勿使用插件功能。",
     "inputPlaceholder": "来说点什么吧...",
     "coiledText": "连续对话 {{status}}",
-    "tryGpt4": "Try GPT-4"
+    "tryGpt4": "Try GPT-4",
+    "optionTitle": "配置",
+    "option": {
+      "apiType": "访问方式",
+      "apiTypeAPI": "api",
+      "apiTypeWEB": "web",
+      "max_tokens": "单次回复限制",
+      "max_tokensTip": "单次交互所用的最大 Token 数",
+      "top_p": "回复筛选",
+      "top_pTip": "top_p值越大，回复越有可能是高质量的",
+      "temperature": "回复随机性",
+      "temperatureTip": "temperature值越大，回复越有可能是随机的",
+      "presence_penalty": "话题重复度",
+      "presence_penaltyTip": "presence_penalty值越大，越有可能谈论新内容话题",
+      "frequency_penalty": "词汇重复度",
+      "frequency_penaltyTip": "frequency_penalty值越大，越有可能避免重复内容",
+      "stop": "结束符",
+      "stopTip": "回复中出现该字符时，停止回复"
+    }
   },
   "prompt": {
     "newPrompt": "创建提示语",

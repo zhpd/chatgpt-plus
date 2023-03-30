@@ -5,34 +5,8 @@ import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import dayjs from 'dayjs'
 import { Prompt } from '@/types/prompt'
-import { useEventTarget } from 'ahooks'
 import { usePromptContext } from '@/contexts/prompt'
-import { nanoid } from 'nanoid'
-
-const _data: Prompt = {
-  uuid: '1679282990940',
-  name: '小冰',
-  description: '你的私人小秘书你的私人小秘书你的私人小秘书你的私人小秘书',
-  prompt: '你好，我是小冰，你的私人小秘书',
-  dateTime: '2023/3/20 11:32:26',
-  type: 'text',
-  status: 'online',
-  private: true,
-  star: 0,
-  historyList: [
-    {
-      uuid: '1679282990940',
-      dateTime: '2023/3/20 11:32:26',
-      name: '小冰',
-      description: '你的私人小秘书',
-      prompt: '你好，我是小冰，你的私人小秘书',
-      type: 'text',
-      status: 'online',
-    },
-  ],
-}
 
 function OnlinePrompt() {
   const router = useRouter()
@@ -64,44 +38,7 @@ function OnlinePrompt() {
   const searchRequest = () => {
     console.log('searchRequest', search)
     // !todo 查询线上数据
-    const _ll = [
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-      { ..._data, uuid: nanoid() },
-    ]
+    const _ll = []
     // 判断是否存在已经收藏过
     _ll.map((item) => {
       let index = promptList.findIndex((tt) => item.uuid == tt.uuid)
@@ -139,7 +76,9 @@ function OnlinePrompt() {
         <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />
           <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}>
-            <Typography.Paragraph style={{ fontSize: 16, width: '100%', fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}>{t('prompt.promptStoreTitle')}</Typography.Paragraph>
+            <Typography.Paragraph style={{ fontSize: 16, width: '100%', fontWeight: 500, color: theme === 'dark' ? '#eee' : undefined, margin: 0 }}>
+              {t('prompt.promptStoreTitle')}
+            </Typography.Paragraph>
           </div>
         </div>
         <Space>
