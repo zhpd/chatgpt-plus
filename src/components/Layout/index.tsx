@@ -92,7 +92,7 @@ export default function LayoutBase(props: any) {
         style={{ marginTop: 5, padding: 4, backgroundColor: token.colorBgTextActive, ...style }}
         size={48}
         shape="square"
-        src={<Image src={require('@/assets/chatgpt.png')} width={36} height={36} alt="avatar" />}
+        src={<Image src={require('@/../public/logo.png')} width={36} height={36} alt="avatar" />}
         onClick={() => {
           setSide(!side)
         }}
