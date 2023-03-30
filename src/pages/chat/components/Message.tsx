@@ -245,7 +245,6 @@ const _data: Chat = {
 }
 
 function Message() {
-  const router = useRouter()
   const { token } = antdTheme.useToken()
   const { theme } = useSiteContext()
   const { message, modal, notification } = App.useApp()
@@ -263,17 +262,6 @@ function Message() {
   const [list, setList] = useState<Message[]>([])
   const [plist, setPlist] = useState<{ label: string; value: string }[]>([])
   const bodySize = useSize(typeof document !== 'undefined' ? document?.querySelector('body') : null)
-
-  const containerStyle: React.CSSProperties = {
-    position: 'relative',
-    // height: 200,
-    // padding: 48,
-    // overflow: 'hidden',
-    // textAlign: 'center',
-    background: token.colorFillAlter,
-    border: `1px solid ${token.colorBorderSecondary}`,
-    borderRadius: token.borderRadiusLG,
-  }
 
   useEffect(() => {
     if (promptList) {
@@ -320,7 +308,7 @@ function Message() {
     if (!text) return
     // 是否联系上下文,最后一条消息的conversationOptions
     const newOptions = {
-      ...(coiled
+      ...(coiled && activeChat?.lastMessage && activeChat?.lastMessage?.uuid && activeChat?.lastMessage?.id
         ? {
             conversationId: activeChat?.lastMessage?.uuid,
             parentMessageId: activeChat?.lastMessage?.id,

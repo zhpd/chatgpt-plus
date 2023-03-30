@@ -37,16 +37,16 @@ export class ChatgptService {
 
   async getApi(
     options?: SendMessageOptions & SendMessageBrowserOptions,
-    config?: ConfigOptions,
+    _config?: ConfigOptions,
   ): Promise<ChatGPTAPI | ChatGPTUnofficialProxyAPI> {
     const API_TYPE =
-      config?.API_TYPE || this.config.get('API_TYPE') || 'chatgpt-web';
+      _config?.API_TYPE || this.config.get('API_TYPE') || 'chatgpt-web';
     const OPENAI_API_KEY =
-      config?.OPENAI_API_KEY || this.config.get('OPENAI_API_KEY');
+      _config?.OPENAI_API_KEY || this.config.get('OPENAI_API_KEY');
     const OPENAI_ACCESS_TOKEN =
-      config?.OPENAI_ACCESS_TOKEN || this.config.get('OPENAI_ACCESS_TOKEN');
+      _config?.OPENAI_ACCESS_TOKEN || this.config.get('OPENAI_ACCESS_TOKEN');
     const API_REVERSE_PROXY =
-      config?.API_REVERSE_PROXY || this.config.get('API_REVERSE_PROXY');
+      _config?.API_REVERSE_PROXY || this.config.get('API_REVERSE_PROXY');
 
     // async load chatgpt
     const { ChatGPTAPI, ChatGPTUnofficialProxyAPI } = await importDynamic(

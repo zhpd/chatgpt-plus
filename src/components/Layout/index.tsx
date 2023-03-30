@@ -24,7 +24,6 @@ import Image from 'next/image'
 import AuthAvatar from '../AuthAvatar'
 import IconLight from '@/assets/icons/light.svg'
 import IconDark from '@/assets/icons/dark.svg'
-import { useSize } from 'ahooks'
 
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
@@ -41,7 +40,7 @@ export default function LayoutBase(props: any) {
     { name: 'c.prompt', path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     { name: 'c.plugin', path: '/plugin', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     { name: 'c.store', path: '/store', icon: <ShoppingOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: 'c.share', path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    // { name: 'c.share', path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
   ]
   const [menu, setMenu] = useState<any>(menuList[0])
 
@@ -156,10 +155,10 @@ export default function LayoutBase(props: any) {
                 ></Button>
                 <Button
                   onClick={() => {
-                    // 设置弹窗
-                    tool.showModal(<div>设置</div>, {
-                      title: '设置',
-                    })
+                    // // 设置弹窗
+                    // tool.showModal(<div>设置</div>, {
+                    //   title: '设置',
+                    // })
                   }}
                   ghost
                   style={{ border: 'none' }}
@@ -197,7 +196,8 @@ export default function LayoutBase(props: any) {
                   {t(menu.name)}
                 </Typography.Title>
               </div>
-              <AuthAvatar style={{ marginTop: 0 }} size={48} shape="square" icon={<UserOutlined />} />
+              <div></div>
+              {/* <AuthAvatar style={{ marginTop: 0 }} size={48} shape="square" icon={<UserOutlined />} /> */}
             </Header>
             <Content
               style={{
