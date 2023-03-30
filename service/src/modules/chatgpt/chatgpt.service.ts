@@ -73,6 +73,7 @@ export class ChatgptService {
           temperature: 0.8,
           top_p: 1.0,
           presence_penalty: 1.0,
+          frequency_penalty: 0,
           ...(options as SendMessageOptions)?.completionParams,
         },
         maxModelTokens: 4000,

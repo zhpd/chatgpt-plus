@@ -13,11 +13,14 @@ function Option(props: { chat: Chat }) {
   const { token } = antdTheme.useToken()
   const { t } = useTranslation()
   const { upChat } = useChatContext()
-  const [initValue] = useState<{ [key: string | number]: string }>({
+  const [initValue] = useState<{ [key: string]: string | number }>({
     apitype: 'chatgpt-web',
     model: 'chatgpt-web' == apitype ? 'text-davinci-002-render-sha' : 'gpt-3.5-turbo',
-    // @ts-ignore
-    max_tokens: 4096,
+    max_tokens: 4000,
+    temperature: 0.8,
+    top_p: 1.0,
+    presence_penalty: 1.0,
+    frequency_penalty: 0,
     ...chat?.option,
   })
   const [form] = Form.useForm()
@@ -50,7 +53,7 @@ function Option(props: { chat: Chat }) {
         wrapperCol={{ span: 14, offset: 1 }}
         layout="horizontal"
         size="small"
-        style={{ minWidth: '300px' }}
+        style={{ minWidth: '340px' }}
       >
         <Form.Item label={t('chat.option.apiType')} name="apitype">
           <Radio.Group optionType="button" buttonStyle="solid" size="small">
@@ -66,27 +69,32 @@ function Option(props: { chat: Chat }) {
                 <Select.Option value="gpt-3.5-turbo-0301">gpt-3.5-turbo-0301</Select.Option>
               </Select>
             </Form.Item>
-            <Form.Item label="max_tokens" name="max_tokens">
+            <Form.Item label={t('chat.option.max_tokens')} tooltip={{ title: t('chat.option.max_tokensTip') }} name="max_tokens">
               <InputNumber max={4096} />
             </Form.Item>
-            <Form.Item label="frequency_penalty" name="frequency_penalty">
-              <Slider min={-2.0} max={2.0} step={0.1} tooltip={{getPopupContainer: (triggerNode) => triggerNode.parentElement as HTMLElement }} />
-              <Typography.Text>{form.getFieldValue('frequency_penalty')}</Typography.Text>
+            <Form.Item label={t('chat.option.top_p')} tooltip={{ title: t('chat.option.top_pTip') }} name="top_p">
+              <>
+                <Slider min={0} max={1} step={0.1} tooltip={{ getPopupContainer: (triggerNode) => triggerNode.parentElement as HTMLElement }} />
+                <Typography.Text>{form.getFieldValue('temperature')}</Typography.Text>
+              </>
             </Form.Item>
-            <Form.Item label="logit_bias" name="logit_bias">
-              <Slider min={-100} max={200} step={1} tooltip={{ getPopupContainer: (triggerNode) => triggerNode.parentElement as HTMLElement }} />
-              <Typography.Text>{form.getFieldValue('logit_bias')}</Typography.Text>
+            <Form.Item label={t('chat.option.temperature')} tooltip={{ title: t('chat.option.temperatureTip') }} name="temperature">
+              <>
+                <Slider min={0.0} max={0.9} step={0.1} tooltip={{ getPopupContainer: (triggerNode) => triggerNode.parentElement as HTMLElement }} />
+                <Typography.Text>{form.getFieldValue('temperature')}</Typography.Text>
+              </>
             </Form.Item>
-            <Form.Item label="presence_penalty" name="presence_penalty">
-              <Slider min={-2.0} max={2.0} step={0.1} tooltip={{ getPopupContainer: (triggerNode) => triggerNode.parentElement as HTMLElement }} />
-              <Typography.Text>{form.getFieldValue('presence_penalty')}</Typography.Text>
+            <Form.Item label={t('chat.option.presence_penalty')} tooltip={{ title: t('chat.option.presence_penaltyTip') }} name="presence_penalty">
+              <>
+                <Slider min={-2.0} max={2.0} step={1} tooltip={{ getPopupContainer: (triggerNode) => triggerNode.parentElement as HTMLElement }} />
+                <Typography.Text>{form.getFieldValue('presence_penalty')}</Typography.Text>
+              </>
             </Form.Item>
-            <Form.Item label="temperature" name="temperature">
-              <Slider min={0} max={2} step={0.1} tooltip={{ getPopupContainer: (triggerNode) => triggerNode.parentElement as HTMLElement }} />
-              <Typography.Text>{form.getFieldValue('temperature')}</Typography.Text>
-            </Form.Item>
-            <Form.Item label="top_p" name="top_p">
-              <Slider min={0} max={1} step={0.1} tooltip={{ getPopupContainer: (triggerNode) => triggerNode.parentElement as HTMLElement }} />
+            <Form.Item label={t('chat.option.frequency_penalty')} tooltip={{ title: t('chat.option.frequency_penaltyTip') }} name="frequency_penalty">
+              <>
+                <Slider min={-2.0} max={2.0} step={1} tooltip={{ getPopupContainer: (triggerNode) => triggerNode.parentElement as HTMLElement }} />
+                <Typography.Text>{form.getFieldValue('frequency_penalty')}</Typography.Text>
+              </>
             </Form.Item>
           </>
         )}
