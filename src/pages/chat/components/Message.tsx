@@ -20,7 +20,7 @@ import InputArea from './InputArea'
 function Message() {
   const { token } = antdTheme.useToken()
   const { theme } = useSiteContext()
-  const { message } = App.useApp()
+  const { message, modal } = App.useApp()
   const { activeChat, setActiveChat, newChat, newMessage, delChat, upChat } = useChatContext()
   const { t } = useTranslation()
   const { sendMessage, loading } = useChat()
@@ -324,17 +324,20 @@ function Message() {
           </div>
         </div>
         <Space>
-          <Popover
-            content={() => {
-              return <Option chat={activeChat as Chat} />
+          <Button
+            type={'default'}
+            size="middle"
+            icon={<ControlOutlined />}
+            onClick={() => {
+              modal.info({
+                title: t('chat.optionTitle') as string,
+                centered: true,
+                closable: true,
+                footer: null,
+                content: <Option chat={activeChat as Chat} />,
+              })
             }}
-            title={t('chat.optionTitle')}
-            getPopupContainer={(triggerNode) => triggerNode?.parentElement as HTMLElement}
-            trigger="click"
-            destroyTooltipOnHide={true}
-          >
-            <Button type={'default'} size="middle" icon={<ControlOutlined />}></Button>
-          </Popover>
+          ></Button>
           <Button
             type={'default'}
             size="middle"

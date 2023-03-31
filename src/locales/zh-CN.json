@@ -44,6 +44,8 @@
       "apiType": "访问方式",
       "apiTypeAPI": "api",
       "apiTypeWEB": "web",
+      "model": "模型",
+      "modelTip": "选择模型",
       "max_tokens": "单次回复限制",
       "max_tokensTip": "单次交互所用的最大 Token 数",
       "top_p": "回复筛选",
