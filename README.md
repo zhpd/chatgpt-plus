@@ -172,13 +172,13 @@ npm run dev
 
 配置端口和 ApiKey、AccessToken 在 service 目录下.env 里
 
-| 环境变量名            | 默认值                                      | 说明              |
-| --------------------- | ------------------------------------------- | ----------------- |
-| `PORT`                | `3002`                                      | 端口              |
-| `OPENAI_API_KEY`      | -                                           | API_KEY           |
-| `OPENAI_ACCESS_TOKEN` | -                                           | ACCESS_TOKEN      |
-| `API_REVERSE_PROXY`   | `https://bypass.duti.tech/api/conversation` | [代理](#反向代理) |
-| `TIMEOUT_MS`          | 60000                                       | 超时毫秒数        |
+| 环境变量名            | 默认值                                            | 说明              |
+| --------------------- | ------------------------------------------------- | ----------------- |
+| `PORT`                | `3002`                                            | 端口              |
+| `OPENAI_API_KEY`      | -                                                 | API_KEY           |
+| `OPENAI_ACCESS_TOKEN` | -                                                 | ACCESS_TOKEN      |
+| `API_REVERSE_PROXY`   | `https://bypass.churchless.tech/api/conversation` | [代理](#反向代理) |
+| `TIMEOUT_MS`          | 60000                                             | 超时毫秒数        |
 
 <details>
 <summary> 配置文件</summary>
@@ -193,7 +193,7 @@ OPENAI_API_KEY=
 # change this to an `accessToken` extracted from the ChatGPT site's `https://chat.openai.com/api/auth/session` response
 OPENAI_ACCESS_TOKEN=
 
-# Reverse Proxy default 'https://bypass.duti.tech/api/conversation'
+# Reverse Proxy default 'https://bypass.churchless.tech/api/conversation'
 API_REVERSE_PROXY=
 
 # timeout
@@ -312,9 +312,9 @@ _这些库与使用电子邮件和密码进行身份验证的帐户配合使用�
 
 另外，您可以通过登录 ChatGPT Web 应用程序并打开`https://chat.openai.com/api/auth/session`来手动获取一个`accessToken`，该链接将返回一个 JSON 对象，其中包含您的`accessToken`字符串。
 
-**访问令牌有效期为数天。**
+_访问令牌有效期为数天。_
 
-> **注意**：使用反向代理将使您的访问令牌暴露给第三方。这不会产生任何不利影响，但在使用此方法之前，请考虑风险。
+> _注意_：使用反向代理将使您的访问令牌暴露给第三方。这不会产生任何不利影响，但在使用此方法之前，请考虑风险。
 
 ### 反向代理
 
@@ -362,7 +362,7 @@ A: 一种可能原因是经过 Nginx 反向代理，开启了 buffer，则 Nginx
 ## 🙏 感谢
 
 - 非常感谢项目支持者和所有其他贡献者 💪
-- 非常感谢最初构建的参考项目[@transitive-bullshit](https://github.com/transitive-bullshit)的[chatgpt-api](https://github.com/danielgross)和[@Chanzhaoyu](https://github.com/Chanzhaoyu)的[chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web)提供的思路。👍
+- 非常感谢最初构建的参考项目[@transitive-bullshit](https://github.com/transitive-bullshit)的[chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api)和[@Chanzhaoyu](https://github.com/Chanzhaoyu)的[chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web)提供的思路。👍
 - 非常感谢[OpenAI](https://openai.com) 创建的 [ChatGPT](https://openai.com/blog/chatgpt/) 🔥
 
 ## 💰 赞助

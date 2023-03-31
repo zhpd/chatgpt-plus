@@ -27,10 +27,8 @@
     "no": "否",
     "confirm": "确定",
     "download": "下载",
-    "noData": "暂无数据",
     "success": "操作成功",
     "failed": "操作失败",
-    "verify": "验证",
     "devBuilding": "正在开发中"
   },
   "chat": {
