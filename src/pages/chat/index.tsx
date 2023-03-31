@@ -8,6 +8,7 @@ import { useChatContext } from '@/contexts/chat'
 import { useRouter } from 'next/router'
 import { Chat } from '@/types/chat'
 import { uuidv4 } from '@/utils/uuid'
+import dayjs from 'dayjs'
 
 function IndexPage() {
   const router = useRouter()
@@ -27,6 +28,7 @@ function IndexPage() {
   )
 
   useEffect(() => {
+    console.log('router', router)
     const _uuid = router.query?.uuid as string
     const _prompt = router.query?.prompt as string
     console.log(_uuid, _prompt)
@@ -56,7 +58,21 @@ function IndexPage() {
       name: 'ChatGPT',
       lastMessageText: 'No message',
     }
-    newChat(chat, _prompt)
+    const nMessage: Message = {
+      id: uuidv4(),
+      uuid: chat?.uuid,
+      dateTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+      text: _prompt || '',
+      inversion: true,
+      error: false,
+      conversationOptions: {},
+      requestOptions: {
+        prompt: _prompt || '',
+        options: {},
+      },
+    }
+    newChat(chat, _prompt ? nMessage : undefined)
+    router.push(`/chat?uuid=${chat.uuid}`)
     console.log('newChat', chat, _prompt)
   }
 

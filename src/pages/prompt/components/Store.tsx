@@ -38,7 +38,7 @@ function OnlinePrompt() {
   const searchRequest = () => {
     console.log('searchRequest', search)
     // !todo 查询线上数据
-    const _ll = []
+    const _ll: any[] = []
     // 判断是否存在已经收藏过
     _ll.map((item) => {
       let index = promptList.findIndex((tt) => item.uuid == tt.uuid)

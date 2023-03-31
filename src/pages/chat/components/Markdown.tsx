@@ -44,14 +44,14 @@ function Markdown(props: MarkdownProps) {
 
   // Add the CodeCopyBtn component to our PRE element
   // @ts-ignore
-  const Pre = ({ children }) => {
-    const language = children?.[0]?.props?.className?.split('-')[1]
+  const Pre = ({ children: _children }) => {
+    const language = _children?.[0]?.props?.className?.split('-')[1]
     return (
       <pre className="blog-pre" style={{ position: 'relative', borderRadius: 6, background: theme === 'dark' ? '#282c34' : '#fafafa', marginTop: 5, padding: '0 16px' }}>
         <CodeCopyBtn theme={theme} style={{}}>
-          {children}
+          {_children}
         </CodeCopyBtn>
-        <div style={{ paddingTop: 23, borderRadius: 0, overflow: 'hidden' }}>{children}</div>
+        <div style={{ paddingTop: 23, borderRadius: 0, overflow: 'hidden' }}>{_children}</div>
       </pre>
     )
   }
@@ -65,30 +65,30 @@ function Markdown(props: MarkdownProps) {
         rehypePlugins={[rehypeKatex, rehypeRaw]}
         components={{
           pre: Pre,
-          code({ node, inline, className = '', children, ...props }) {
+          code({ node, inline, className = '', children: _children, ..._props }) {
             // const match = /language-(\w+)/.exec(className || '')
             const language = className.split('-')[1]
             return !inline ? (
               <SyntaxHighlighter
                 showLineNumbers={true} // 是否展示左侧行数
                 lineNumberStyle={{ color: '#ddd', fontSize: 10 }} // 左侧行数的样式
-                {...props}
+                {..._props}
                 // @ts-ignore
                 style={theme === 'dark' ? them.dark : them.light} // 主题风格
                 language={language} // 需要语言类型 如css, jsx , javascript 等
                 PreTag="div"
               >
-                {String(children).replace(/\n$/, '')}
+                {String(_children).replace(/\n$/, '')}
               </SyntaxHighlighter>
             ) : (
-              <code className={className} {...props}>
-                {children}
+              <code className={className} {..._props}>
+                {_children}
               </code>
             )
           },
-          p: ({ node, ...props }) => (
-            <p style={{ ...props?.style, marginBottom: 0, color: theme === 'dark' ? '#ffffffd9' : '#333' }} {...props}>
-              {props.children}
+          p: ({ node, ..._props }) => (
+            <p style={{ ..._props?.style, marginBottom: 0, color: theme === 'dark' ? '#ffffffd9' : '#333' }} {..._props}>
+              {_props.children}
             </p>
           ),
         }}
@@ -98,12 +98,12 @@ function Markdown(props: MarkdownProps) {
 }
 
 // @ts-ignore
-function CodeCopyBtn({ theme, style, children }) {
+function CodeCopyBtn({ theme, style, children: _children }) {
   const [copyOk, setCopyOk] = useState(false)
-  const language = children?.[0]?.props?.className?.split('-')[1]
+  const language = _children?.[0]?.props?.className?.split('-')[1]
 
   const handleClick = () => {
-    const _props = children?.[0].props
+    const _props = _children?.[0].props
     let text = _props.children?.[0]
     let xcode = ''
     // xcode = language ? xcode + '// ' + language + '\n' : ''
