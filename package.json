@@ -30,7 +30,8 @@
     "lint": "next lint",
     "deploy": "npm run build && npm run release-ci",
     "release": "dotenv -- release-it ",
-    "release-ci": "dotenv -- release-it --ci"
+    "release-ci": "dotenv -- release-it --ci",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.9.3",
@@ -60,6 +61,8 @@
     "typescript": "5.0.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.5.1",
+    "@commitlint/config-conventional": "17.4.4",
     "@release-it/conventional-changelog": "5.1.1",
     "@svgr/webpack": "7.0.0",
     "@types/katex": "0.16.0",
@@ -72,6 +75,7 @@
     "dotenv-cli": "7.1.0",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
+    "husky": "8.0.0",
     "release-it": "15.9.3"
   }
 }
