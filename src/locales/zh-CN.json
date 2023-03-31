@@ -38,7 +38,7 @@
     "send": "发送",
     "setting": "设置",
     "api_warning": "插件系统正在开发中, 请勿使用插件功能。",
-    "inputPlaceholder": "来说点什么吧...",
+    "inputPlaceholder": "来说点什么吧....  输入/ 以查看提示词",
     "coiledText": "连续对话 {{status}}",
     "tryGpt4": "Try GPT-4",
     "optionTitle": "配置",

@@ -10,7 +10,7 @@ export type MessageProps = {
   signal?: AbortSignal
 }
 async function onConversation(props: MessageProps) {
-  const { text, options, config, onProgress, signal } = props
+  const { text, options, config, onProgress, signal   } = props
   if (!text || text.trim() === '') return
   try {
     const fetchChatAPIOnce = async () => {
@@ -30,7 +30,7 @@ async function onConversation(props: MessageProps) {
             const dataline = lines[lines.length - 3]
             // 解析第二行收据，去掉头部data:字符，读取json字符串
             let chunk = dataline?.substring(5)
-            console.log('onProgress chunk', chunk, lines)
+            // console.log('onProgress chunk', chunk, lines)
             const data = chunk && JSON.parse(chunk)
             console.log('onProgress data', data)
             if (data) {

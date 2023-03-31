@@ -8,7 +8,7 @@ export type ChatContentType = {
   setChatList: (chatList: Array<Chat>) => void
   activeChat?: Chat | null
   setActiveChat: (chat: Chat) => void
-  newChat: (chat: Chat, prompt?: string) => void
+  newChat: (chat: Chat, message?: Message) => void
   delChat: (uuid: string) => void
   upChat: (uuid: string, obj: { [key: string]: string }) => void
   newMessage: (uuid: string, message: Message) => void
@@ -51,7 +51,7 @@ export function ChatProvider({ children }) {
     localStorage.setItem('chatList', JSON.stringify(chatList))
   }, [chatList])
 
-  const newChat = (chat?: Chat, prompt?: string) => {
+  const newChat = (chat?: Chat, message?: Message) => {
     const _chatList = [...(refList.current as Chat[])]
     if (!chat) {
       chat = {
@@ -66,10 +66,8 @@ export function ChatProvider({ children }) {
     }
     _chatList.unshift(chat)
     setChatList(_chatList)
-    if (prompt) {
-      router.push(`/chat?uuid=${chat.uuid}&prompt=${prompt}`)
-    } else {
-      router.push(`/chat?uuid=${chat.uuid}`)
+    if (message) {
+      newMessage(chat.uuid, message)
     }
   }
   const delChat = (uuid: string) => {
@@ -115,7 +113,7 @@ export function ChatProvider({ children }) {
       const _nChat = Object.assign({}, { ..._chat })
       _chatList[index] = _nChat
       setChatList(_chatList)
-      setActiveChat(_chat)
+      setActiveChat(_nChat)
     }
   }
 

@@ -86,7 +86,8 @@ export class ChatgptService {
       api = new ChatGPTUnofficialProxyAPI({
         accessToken: OPENAI_ACCESS_TOKEN,
         apiReverseProxyUrl:
-          API_REVERSE_PROXY || 'https://bypass.duti.tech/api/conversation',
+          API_REVERSE_PROXY ||
+          'https://bypass.churchless.tech/api/conversation',
         model: 'text-davinci-002-render-sha',
         ..._options,
       });

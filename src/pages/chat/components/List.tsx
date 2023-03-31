@@ -56,6 +56,7 @@ function IndexPage(props: { style?: React.CSSProperties }) {
       lastMessageText: 'No message',
     }
     newChat(chat)
+    router.push(`/chat?uuid=${chat.uuid}`)
     console.log('newChat', chat)
   }
 
