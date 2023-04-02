@@ -66,6 +66,7 @@ export class ChatgptService {
     // chatgpt-api style
     if (API_TYPE == 'chatgpt-api') {
       api = new ChatGPTAPI({
+        ..._options,
         apiKey: OPENAI_API_KEY,
         apiBaseUrl: API_REVERSE_PROXY || 'https://api.openai.com/v1',
         completionParams: {
@@ -78,18 +79,17 @@ export class ChatgptService {
         },
         maxModelTokens: 4000,
         maxResponseTokens: 1000,
-        ..._options,
       });
     }
     // chatgpt-web style
     if (API_TYPE == 'chatgpt-web') {
       api = new ChatGPTUnofficialProxyAPI({
+        ..._options,
         accessToken: OPENAI_ACCESS_TOKEN,
         apiReverseProxyUrl:
           API_REVERSE_PROXY ||
           'https://bypass.churchless.tech/api/conversation',
         model: 'text-davinci-002-render-sha',
-        ..._options,
       });
     }
 
