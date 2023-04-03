@@ -18,8 +18,8 @@ jobs:
           fetch-depth: 0
       - name: git config
         run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config user.name "${secrets.CI_GITHUB_ACTOR}"
+          git config user.email "${secrets.CI_GITHUB_ACTOR}@github.com"
           
       - name: Set node
         uses: actions/setup-node@v3
@@ -32,4 +32,4 @@ jobs:
       - name: Release
         run: npm run release-ci  -- --ci --no-git.requireCleanWorkingDir
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
