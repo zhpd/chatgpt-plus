@@ -18,7 +18,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install
         run: npm i
