@@ -87,7 +87,10 @@ function Message() {
         : {}),
       ...options,
     }
-
+    // 配置
+    const newConfig = {
+      API_TYPE: activeChat?.option?.apitype || 'chatgpt-web',
+    }
     const _uuid = activeChat?.uuid || uuidv4()
     setUuid(_uuid)
     const nMessage: Message = {
@@ -122,15 +125,14 @@ function Message() {
       newMessage(uuid, nMessage)
       // 滚动到最底部
       scrollBottom()
-      console.log('sendMessageText list', _list)
     }
     // 发送请求
     setTimeout(() => {
-      sendMessageRequest(text, newOptions)
+      sendMessageRequest(text, newOptions, newConfig)
     }, 1000)
   }
 
-  const sendMessageRequest = (text: string, newOptions?: { [key: string]: string } | ConversationRequest) => {
+  const sendMessageRequest = (text: string, newOptions?: { [key: string]: any } | ConversationRequest, newConfig?: { [key: string]: any }) => {
     // 添加提示符
     const dateTime = dayjs().format('YYYY/MM/DD HH:mm:ss')
     // 接收到回复消息，添加临时-消息列表
@@ -145,11 +147,13 @@ function Message() {
     }
     setTempMessage(_tempMesasge)
     scrollBottom()
+    console.log('sendMessageRequest', text, newOptions, newConfig)
 
     // 发送ChatGPT消息
     sendMessage({
       text,
       options: newOptions,
+      config: newConfig,
       onProgress: (e: any, scene: any, body?: any) => {
         console.log('onProgress', e, scene, body)
         switch (scene) {

@@ -22,6 +22,7 @@ export const importDynamic = new Function(
 export interface ConfigOptions {
   API_TYPE?: 'chatgpt-api' | 'chatgpt-web';
   OPENAI_API_KEY?: string;
+  OPENAI_API_BASE_URL?: string;
   OPENAI_ACCESS_TOKEN?: string;
   API_REVERSE_PROXY?: string;
 }
@@ -43,6 +44,8 @@ export class ChatgptService {
       _config?.API_TYPE || this.config.get('API_TYPE') || 'chatgpt-web';
     const OPENAI_API_KEY =
       _config?.OPENAI_API_KEY || this.config.get('OPENAI_API_KEY');
+    const OPENAI_API_BASE_URL =
+      _config?.OPENAI_API_BASE_URL || this.config.get('OPENAI_API_BASE_URL');
     const OPENAI_ACCESS_TOKEN =
       _config?.OPENAI_ACCESS_TOKEN || this.config.get('OPENAI_ACCESS_TOKEN');
     const API_REVERSE_PROXY =
@@ -66,8 +69,9 @@ export class ChatgptService {
     // chatgpt-api style
     if (API_TYPE == 'chatgpt-api') {
       api = new ChatGPTAPI({
+        ..._options,
         apiKey: OPENAI_API_KEY,
-        apiBaseUrl: API_REVERSE_PROXY || 'https://api.openai.com/v1',
+        apiBaseUrl: OPENAI_API_BASE_URL || 'https://api.openai.com/v1',
         completionParams: {
           model: 'gpt-3.5-turbo',
           temperature: 0.8,
@@ -78,18 +82,17 @@ export class ChatgptService {
         },
         maxModelTokens: 4000,
         maxResponseTokens: 1000,
-        ..._options,
       });
     }
     // chatgpt-web style
     if (API_TYPE == 'chatgpt-web') {
       api = new ChatGPTUnofficialProxyAPI({
+        ..._options,
         accessToken: OPENAI_ACCESS_TOKEN,
         apiReverseProxyUrl:
           API_REVERSE_PROXY ||
           'https://bypass.churchless.tech/api/conversation',
         model: 'text-davinci-002-render-sha',
-        ..._options,
       });
     }
 
