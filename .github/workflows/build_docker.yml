@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - run: |
-          echo "本次构建的版本为：${GITHUB_REF_NAME} (但是这个变量目前上下文中无法获取到)"
+          echo 本次构建的版本为：${{GITHUB_REF_NAME}} (但是这个变量目前上下文中无法获取到)
           echo 本次构建的版本为：${{ github.ref_name }}
           env
 
