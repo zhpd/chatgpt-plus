@@ -23,4 +23,6 @@ jobs:
         run: npm i
 
       - name: Release
-        run: npm run release-ci
+        run: npm run release-ci  -- --ci --no-git.requireCleanWorkingDir
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

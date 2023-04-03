@@ -2,18 +2,23 @@ version: '3'
 
 services:
   app:
-    image: zhpd/chatgpt-plus # 总是使用latest,更新时重新pull该tag镜像即可
+    image: zpd106/chatgpt-plus # 总是使用latest,更新时重新pull该tag镜像即可
     ports:
       - 3000:3000
+      - 3002:3002
     environment:
-      # 请求方式
-      API_TYPE: chatgpt-api # chatgpt-api 或者 chatgpt-proxy
-      # chatgpt-api
-      OPENAI_API_KEY: xxx
-      # chatgpt-proxy
-      OPENAI_ACCESS_TOKEN: xxx
+      # chatgpt api key，可选，不设置时使用OPENAI_ACCESS_TOKEN
+      OPENAI_API_KEY: 
+      # API接口地址，可选，设置 OPENAI_API_KEY 时可用
+      OPENAI_API_BASE_URL:
+      # chatgpt access token，可选，不设置时使用OPENAI_API_KEY
+      OPENAI_ACCESS_TOKEN: 
       # 反向代理
-      API_REVERSE_PROXY: xxx
+      API_REVERSE_PROXY: 
+      # 每小时最大请求次数，可选，默认无限
+      MAX_REQUEST_PER_HOUR: 0
+      # 超时，单位毫秒，可选
+      TIMEOUT_MS: 60000
   nginx:
     image: nginx:alpine
     ports:
