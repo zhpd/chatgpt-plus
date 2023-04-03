@@ -6,8 +6,8 @@ export interface Chat {
   type?: string
   status?: string
   place?: 'left' | 'right'
-  config?: { [key: string]: string }
-  option?: { [key: string]: string }
+  config?: { [key: string]: any }
+  option?: { [key: string]: any }
   conversationId?: string
   lastMessage?: Message // last message
   lastMessageText?: string // last message text
