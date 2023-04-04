@@ -79,5 +79,10 @@
     "husky": "8.0.0",
     "jest": "29.5.0",
     "release-it": "15.9.3"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
