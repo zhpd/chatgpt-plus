@@ -172,13 +172,13 @@ npm run dev
 
 配置端口和 ApiKey、AccessToken 在 service 目录下.env 里
 
-| 环境变量名            | 默认值                                            | 说明              |
-| --------------------- | ------------------------------------------------- | ----------------- |
-| `PORT`                | `3002`                                            | 端口              |
-| `OPENAI_API_KEY`      | -                                                 | API_KEY           |
-| `OPENAI_ACCESS_TOKEN` | -                                                 | ACCESS_TOKEN      |
-| `API_REVERSE_PROXY`   | `https://bypass.churchless.tech/api/conversation` | [代理](#反向代理) |
-| `TIMEOUT_MS`          | 60000                                             | 超时毫秒数        |
+| 环境变量名            | 默认值                                            | 说明                                      |
+| --------------------- | ------------------------------------------------- | ----------------------------------------- |
+| `PORT`                | `3002`                                            | 端口                                      |
+| `OPENAI_API_KEY`      | -                                                 | [API_KEY](#获取密钥-api-key)              |
+| `OPENAI_ACCESS_TOKEN` | -                                                 | [ACCESS_TOKEN](#获取访问令牌-accesstoken) |
+| `API_REVERSE_PROXY`   | `https://bypass.churchless.tech/api/conversation` | [代理](#反向代理)                         |
+| `TIMEOUT_MS`          | 60000                                             | 超时毫秒数                                |
 
 <details>
 <summary> 配置文件</summary>
