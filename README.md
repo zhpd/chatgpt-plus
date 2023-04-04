@@ -1,6 +1,6 @@
 <p align="center">
   <a href="/">
-    <img width="100" src="./public/logo.svg">
+    <img width="100" src="https://s1.ax1x.com/2023/04/04/pp4gKAA.png">
   </a>
 </p>
 
@@ -16,8 +16,8 @@ ChatGPT-Plus 是使用官方 ChatGPT API 的应用程序。
 
 </div>
 
-[![](./docs/screen_light.png)](https://github.com/zhpd/chatgpt-plus)
-[![](./docs/screen_dark.png)](https://github.com/zhpd/chatgpt-plus)
+[![](https://s1.ax1x.com/2023/04/04/pp4gene.png)](https://github.com/zhpd/chatgpt-plus)
+[![](https://s1.ax1x.com/2023/04/04/pp4gm0H.png)](https://github.com/zhpd/chatgpt-plus)
 
 [简体中文](./README.md) | [English](./README_en.md) | [Spanish](./README-sp_MX.md) | [日本語](./README-ja_JP.md)
 

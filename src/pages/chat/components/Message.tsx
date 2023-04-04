@@ -79,9 +79,13 @@ function Message() {
     if (!text) return
     // 是否联系上下文,最后一条消息的conversationOptions
     const newOptions = {
-      ...(coiled && activeChat?.lastMessage && activeChat?.lastMessage?.conversationId && activeChat?.lastMessage?.messageId
+      ...(coiled && activeChat?.lastMessage && activeChat?.lastMessage?.conversationId
         ? {
             conversationId: activeChat?.lastMessage?.conversationId,
+          }
+        : {}),
+      ...(coiled && activeChat?.lastMessage && activeChat?.lastMessage?.messageId
+        ? {
             parentMessageId: activeChat?.lastMessage?.messageId,
           }
         : {}),
