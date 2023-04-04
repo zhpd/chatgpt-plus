@@ -1,5 +1,5 @@
 # build front-end
-FROM node:lts-alpine AS frontend
+FROM node:lts-alpine as frontend
 
 WORKDIR /app
 
@@ -33,18 +33,13 @@ FROM node:lts-alpine
 
 WORKDIR /app
 
-COPY /service/package.json /app
+COPY --from=frontend /app/dist /app/web
 
-COPY /service/package-lock.json /app
-
-RUN npm install --production && rm -rf /usr/local/share/.cache /tmp/*
-
-COPY /service /app
-
-COPY --from=frontend /app/dist /app/public
-
-COPY --from=backend /app/build /app/build
+COPY --from=backend /app/dist /app/service
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+EXPOSE 3002
+
+CMD ["cd web", "npm", "run", "start"]
+CMD ["cd service", "npm", "run", "start"]

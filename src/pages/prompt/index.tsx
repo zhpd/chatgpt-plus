@@ -1,4 +1,4 @@
-import List from './components/List'
+import List from '@/components/pages/prompt/List'
 import { useTranslation } from '@/locales'
 import { useSiteContext } from '@/contexts/site'
 import { ReactNode, useEffect, useState } from 'react'

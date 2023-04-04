@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Message from './components/Message'
-import List from './components/List'
+import Message from '@/components/pages/chat/Message'
+import List from '@/components/pages/chat/List'
 import { useTranslation } from '@/locales'
 import { useSiteContext } from '@/contexts/site'
 import { useCallback, useEffect, useState } from 'react'

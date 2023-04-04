@@ -3,6 +3,8 @@ const { i18n } = require('./next-i18next.config')
 
 const nextConfig = {
   reactStrictMode: false,
+  distDir: 'dist', // 静态化
+  trailingSlash: true,
   async rewrites() {
     return {
       fallback: [
