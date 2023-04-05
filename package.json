@@ -1,7 +1,7 @@
 {
   "name": "chatgpt-plus",
   "private": true,
-  "version": "1.2.11",
+  "version": "1.2.12",
   "description": "ChatGPT-Plus Application.",
   "author": "Zhpd <zpd106@sina.com>",
   "keywords": [
