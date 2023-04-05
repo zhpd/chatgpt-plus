@@ -3,7 +3,8 @@ const { i18n } = require('./next-i18next.config')
 
 const nextConfig = {
   reactStrictMode: false,
-  distDir: 'dist', // 静态化
+  // distDir: 'dist', // 静态化
+  output: 'standalone',
   trailingSlash: true,
   async rewrites() {
     return {
@@ -20,6 +21,7 @@ const nextConfig = {
     localeDetection: false,
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'http',
