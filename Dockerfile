@@ -1,20 +1,20 @@
 # build front-end
-FROM node:lts-alpine as frontend
+FROM node:lts-alpine AS frontend
 
 WORKDIR /app
 
 COPY ./package.json /app
 
-COPY ./package-lock.json /app
+# COPY ./package-lock.json /app
 
-RUN npm install
+RUN npm install --registry https://registry.npmmirror.com
 
 COPY . /app
 
 RUN npm run build
 
 # build backend
-FROM node:lts-alpine as backend
+FROM node:lts-alpine AS backend
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ COPY ./service/package.json /app
 
 COPY ./service/package-lock.json /app
 
-RUN npm install
+RUN npm install --registry https://registry.npmmirror.com
 
 COPY ./service /app
 
@@ -31,15 +31,36 @@ RUN npm run build
 # service
 FROM node:lts-alpine
 
+RUN apk add --no-cache bash
+
 WORKDIR /app
 
-COPY --from=frontend /app/dist /app/web
+RUN mkdir -p /app/log
 
-COPY --from=backend /app/dist /app/service
+# copy front-end
+COPY --from=frontend /app/.next/standalone /app/web
+COPY --from=frontend /app/.next/static /app/web/.next/static
+COPY ./public /app/web/public
+
+
+WORKDIR /app/service
+
+# copy backend
+COPY ./service/package.json /app/service
+
+COPY ./service/package-lock.json /app/service
+
+RUN npm install --production  --registry https://registry.npmmirror.com && rm -rf /usr/local/share/.cache /tmp/*
+
+COPY --from=backend /app/dist /app/service/dist
+
+# start.sh
+COPY ./docker-start.sh /app
 
 EXPOSE 3000
 
 EXPOSE 3002
 
-CMD ["cd web", "npm", "run", "start"]
-CMD ["cd service", "npm", "run", "start"]
+WORKDIR /app
+
+CMD [ "/bin/sh", "./docker-start.sh" ]
