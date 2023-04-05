@@ -19,6 +19,8 @@ services:
       MAX_REQUEST_PER_HOUR: 0
       # 超时，单位毫秒，可选
       TIMEOUT_MS: 60000
+    volumes:
+      - ./log:/app/log
   nginx:
     image: nginx:alpine
     ports:
