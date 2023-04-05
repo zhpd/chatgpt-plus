@@ -1,6 +1,10 @@
 name: build_docker
 
 on:
+  workflow_run:
+    workflows: [ci]
+    types:
+      - completed
   release:
     types: [created] # 表示在创建新的 Release 时触发
 

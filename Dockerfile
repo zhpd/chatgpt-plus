@@ -7,7 +7,7 @@ COPY ./package.json /app
 
 # COPY ./package-lock.json /app
 
-RUN npm install --registry https://registry.npmmirror.com
+RUN npm install
 
 COPY . /app
 
@@ -22,7 +22,7 @@ COPY ./service/package.json /app
 
 COPY ./service/package-lock.json /app
 
-RUN npm install --registry https://registry.npmmirror.com
+RUN npm install
 
 COPY ./service /app
 
@@ -50,7 +50,7 @@ COPY ./service/package.json /app/service
 
 COPY ./service/package-lock.json /app/service
 
-RUN npm install --production  --registry https://registry.npmmirror.com && rm -rf /usr/local/share/.cache /tmp/*
+RUN npm install --production && rm -rf /usr/local/share/.cache /tmp/*
 
 COPY --from=backend /app/dist /app/service/dist
 
