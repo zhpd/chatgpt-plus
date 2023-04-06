@@ -1,6 +1,9 @@
 {
   "version": 2,
   "name": "ChatGPT-Plus-service",
+  "buildCommand": "npm build",
+  "installCommand": "npm install",
+  "outputDirectory": ".",
   "builds": [
     {
       "src": "src/main.ts",
