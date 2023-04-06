@@ -46,7 +46,7 @@ export default function LayoutBase(props: any) {
 
   const toUrl = (url: string) => {
     const { pathname } = router
-    if (url.indexOf(pathname) > -1) {
+    if ((pathname != '' && pathname != '/') && url.indexOf(pathname) > -1) {
       // @ts-ignore
       event$.emit({ type: 'tabSwich', url, pathname })
       return
