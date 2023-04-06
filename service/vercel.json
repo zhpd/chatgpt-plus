@@ -3,14 +3,14 @@
   "name": "ChatGPT-Plus-service",
   "builds": [
     {
-      "src": "main.js",
+      "src": "main.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "main.js",
+      "dest": "main.ts",
       "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
     }
   ]
