@@ -1,8 +1,8 @@
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import nextI18NextConfig from '@/../next-i18next.config'
-import path from 'path'
 import { UserConfig } from 'next-i18next'
+// import path from 'path'
 
 const resources = () => {
   const _resources: any = {}
