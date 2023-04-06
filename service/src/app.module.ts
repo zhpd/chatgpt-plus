@@ -16,7 +16,7 @@ import { ChatgptModule } from './modules/chatgpt';
       load: [configuration],
     }),
     ThrottlerModule.forRoot({
-      ttl: 60,  //1分钟
+      ttl: 60, //1分钟
       limit: 10, //请求10次
     }),
     ...(process.env.DB_OPEN === 'true'
