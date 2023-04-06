@@ -1,19 +1,16 @@
 {
   "version": 2,
   "name": "ChatGPT-Plus-service",
-  "buildCommand": "npm build",
-  "installCommand": "npm install",
-  "outputDirectory": ".",
   "builds": [
     {
-      "src": "dist/main.js",
+      "src": "main.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/main.js",
+      "dest": "main.js",
       "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
     }
   ]
