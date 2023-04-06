@@ -12,6 +12,13 @@ ChatGPT-Plus 是使用官方 ChatGPT API 的应用程序。
 
 <!-- ChatGPT-Plus application that uses the official ChatGPT API. -->
 
+[演示 Demo](https://chatgpt-plus.app/) / [反馈 Issues](https://github.com/zhpd/chatgpt-plus/issues) / [开发 Gitpod](https://gitpod.io/#https://github.com/zhpd/chatgpt-plus) / [部署 Vercel](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus) 
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/zhpd/chatgpt-plus)
+
+
 <p align="center">喜欢这个项目吗？请帮忙点个 Star ⭐️<br/>或者分享给您的朋友，以帮助它得到改善！</p>
 
 </div>
@@ -19,7 +26,9 @@ ChatGPT-Plus 是使用官方 ChatGPT API 的应用程序。
 [![](https://s1.ax1x.com/2023/04/04/pp4gene.png)](https://github.com/zhpd/chatgpt-plus)
 [![](https://s1.ax1x.com/2023/04/04/pp4gm0H.png)](https://github.com/zhpd/chatgpt-plus)
 
-[简体中文](./README.md) | [English](./README_en.md) | [Spanish](./README-sp_MX.md) | [日本語](./README-ja_JP.md)
+[简体中文](./README.md) | [English](./README_en.md) 
+
+<!-- | [Spanish](./README-sp_MX.md) | [日本語](./README-ja_JP.md) -->
 
 <!-- > 声明：此项目只发布于 Github，基于 MIT 协议，免费且作为开源学习使用。 -->
 
@@ -232,9 +241,7 @@ npm run dev
 
 #### Vercel 参数示例
 
-```bash
- 待补充
-```
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus) 
 
 ### 手动打包
 
