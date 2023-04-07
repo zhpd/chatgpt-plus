@@ -1,12 +1,12 @@
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import nextI18NextConfig from '@/../next-i18next.config'
-import { UserConfig } from 'next-i18next'
 // import path from 'path'
+
+const locales = ['zh-CN', 'en-US']
 
 const resources = () => {
   const _resources: any = {}
-  for (const lang of nextI18NextConfig.i18n.locales) {
+  for (const lang of locales) {
     _resources[lang] = {
       translation: require(`./${lang}.json`),
     }
@@ -20,7 +20,7 @@ i18next.init(
   {
     resources: resources(),
     fallbackLng: {
-      default: [nextI18NextConfig.i18n.defaultLocale],
+      default: [locales?.[0]],
     },
     defaultNS: 'translation',
     ns: [],
@@ -35,14 +35,8 @@ i18next.init(
 )
 export default i18next
 
-export const i18NextConfig: UserConfig = {
-  // defaultNS: '',
-  // localePath: (locale: string, namespace: string, missing: boolean): string => {
-  //   return path.resolve(`./src/locales/${locale}.json`)
-  // },
-  // localeStructure: '{{lng}}',
-  // ns: [],
-  ...nextI18NextConfig,
+export const changeLanguage = (val: string | undefined) => {
+  i18next.changeLanguage(val)
 }
 
 export function useTranslation(ns = [], options = {}) {
