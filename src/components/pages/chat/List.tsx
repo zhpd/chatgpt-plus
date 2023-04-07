@@ -66,7 +66,7 @@ function IndexPage(props: { style?: React.CSSProperties }) {
     console.log('delChat', uuid)
   }
   return (
-    <div style={{ borderRight: `1px solid ${token.colorBorder}`, width: 260, padding: 16, overflow: 'hidden', position: 'relative', ...props?.style }}>
+    <div style={{ borderRight: `1px solid ${token.colorBorder}55`, width: 260, padding: 16, overflow: 'hidden', position: 'relative', ...props?.style }}>
       <Button type="dashed" block size="large" onClick={addChat}>
         {'+ ' + t('chat.newChat')}
       </Button>

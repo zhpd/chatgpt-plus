@@ -111,14 +111,14 @@ export default function LayoutBase(props: any) {
           <title>{title || 'ChatGPT-Plus'}</title>
           <meta property="og:title" content={title} key={title} />
         </Head>
-        <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px', backgroundColor: '#000', border: `1px solid ${token.colorBorder}22` }}>
+        <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px', backgroundColor: '#000', border: theme === 'dark'?`1px solid ${token.colorBorder}22`:'none' }}>
           <Sider
             theme={theme === 'dark' ? 'dark' : 'light'}
             trigger={null}
             width={120}
             collapsible
             collapsed={collapsed}
-            style={{ borderRight: `${theme === 'dark' ? 0 : 1}px solid ${token.colorBorder}`, display: side ? 'block' : 'none' }}
+            style={{ borderRight: `${theme === 'dark' ? 0 : 1}px solid ${token.colorBorder}22`, display: side ? 'block' : 'none' }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
               <div style={{ height: '64px', display: 'flex', alignItems: 'center' }}>{renderLogo()}</div>
@@ -184,7 +184,7 @@ export default function LayoutBase(props: any) {
                 paddingLeft: 20,
                 paddingRight: 20,
                 background: colorBgContainer,
-                borderBottom: `1px solid ${theme == 'dark' ? '#424242' : '#e8e8e8'}`,
+                borderBottom: `1px solid ${theme == 'dark' ? '#42424255' : '#e8e8e855'}`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',

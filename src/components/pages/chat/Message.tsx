@@ -280,7 +280,7 @@ function Message() {
           paddingRight: 20,
           backgroundColor: theme == 'dark' ? token.colorBgContainer : '#fff',
           color: theme === 'dark' ? '#eee' : undefined,
-          borderBottom: `1px solid ${theme == 'dark' ? '#424242' : '#e8e8e8'}`,
+          borderBottom: `1px solid ${theme == 'dark' ? '#42424255' : '#e8e8e855'}`,
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'space-between',
