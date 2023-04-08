@@ -21,7 +21,6 @@ import { useSiteContext } from '@/contexts/site'
 import { useTranslation } from '@/locales'
 import Head from 'next/head'
 import Image from 'next/image'
-import AuthAvatar from '../AuthAvatar'
 import IconLight from '@/assets/icons/light.svg'
 import IconDark from '@/assets/icons/dark.svg'
 
@@ -197,7 +196,6 @@ export default function LayoutBase(props: any) {
                 </Typography.Title>
               </div>
               <div></div>
-              {/* <AuthAvatar style={{ marginTop: 0 }} size={48} shape="square" icon={<UserOutlined />} /> */}
             </Header>
             <Content
               style={{
