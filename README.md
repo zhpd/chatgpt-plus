@@ -1,6 +1,6 @@
 <p align="center">
   <a href="/">
-    <img width="100" src="https://s1.ax1x.com/2023/04/04/pp4gKAA.png">
+    <img width="100" src="https://imgmo.com/images/2023/04/08/298d94cf1fb9dea25ed74e3564a38c40.png">
   </a>
 </p>
 
@@ -14,19 +14,19 @@ ChatGPT-Plus 是使用官方 ChatGPT API 的应用程序。
 
 [演示 Demo](https://chatgpt-plus.app/) / [反馈 Issues](https://github.com/zhpd/chatgpt-plus/issues) / [开发 Gitpod](https://gitpod.io/#https://github.com/zhpd/chatgpt-plus) / [部署 Vercel](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus) 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/zhpd/chatgpt-plus)
-
 
 <p align="center">喜欢这个项目吗？请帮忙点个 Star ⭐️<br/>或者分享给您的朋友，以帮助它得到改善！</p>
 
 </div>
 
-[![](https://s1.ax1x.com/2023/04/04/pp4gene.png)](https://github.com/zhpd/chatgpt-plus)
-[![](https://s1.ax1x.com/2023/04/04/pp4gm0H.png)](https://github.com/zhpd/chatgpt-plus)
+[![](https://imgmo.com/images/2023/04/08/3615c13916e244e4aced2cffe3e2e29e.png)](https://github.com/zhpd/chatgpt-plus)
 
-[简体中文](./README.md) | [English](./README_en.md) 
+[![](https://imgmo.com/images/2023/04/08/105a342e5e099df7dd2546c69e5528a2.png)](https://github.com/zhpd/chatgpt-plus)
+
+[简体中文](./README.md) | [English](./README_en.md)
 
 <!-- | [Spanish](./README-sp_MX.md) | [日本語](./README-ja_JP.md) -->
 
@@ -141,10 +141,10 @@ git clone https://github.com/zhpd/chatgpt-plus.git
 配置端口和接口请求地址在根目录.env 里。
 可直接复制根目录下的.env.example 文件进行修改，文件名修改为.env）
 
-| 环境变量名 | 默认值                  | 说明     |
-| ---------- | ----------------------- | -------- |
-| `PORT`     | `3000`                  | 端口     |
-| `API_URL`  | `http://localhost:3002` | 接口地址 |
+| 环境变量名            | 默认值                  | 说明     |
+| --------------------- | ----------------------- | -------- |
+| `PORT`                | `3000`                  | 端口     |
+| `NEXT_PUBLIC_API_URL` | `http://localhost:3002` | 接口地址 |
 
 <details>
 <summary> 配置文件</summary>
@@ -156,7 +156,7 @@ git clone https://github.com/zhpd/chatgpt-plus.git
 PORT=3000
 
 # api url
-API_URL=http://localhost:3002
+NEXT_PUBLIC_API_URL=http://localhost:3002
 
 ```
 
@@ -241,7 +241,7 @@ npm run dev
 
 #### Vercel 参数示例
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus) 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
 
 ### 手动打包
 
