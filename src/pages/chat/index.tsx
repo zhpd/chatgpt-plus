@@ -6,7 +6,8 @@ import { useSiteContext } from '@/contexts/site'
 import { useCallback, useEffect, useState } from 'react'
 import { useChatContext } from '@/contexts/chat'
 import { useRouter } from 'next/router'
-import { Chat, Message } from '@/types/chat'
+import { Chat } from '@/types/chat'
+import type { Message as MessageType } from '@/types/chat'
 import { uuidv4 } from '@/utils/uuid'
 import dayjs from 'dayjs'
 import { Spin } from 'antd'
@@ -68,7 +69,7 @@ function IndexPage() {
       name: 'ChatGPT',
       lastMessageText: 'No message',
     }
-    const nMessage: Message = {
+    const nMessage: MessageType = {
       id: uuidv4(),
       uuid: chat?.uuid,
       dateTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),

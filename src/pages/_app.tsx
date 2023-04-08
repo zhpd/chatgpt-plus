@@ -2,29 +2,28 @@ import '@/styles/globals.css'
 import 'antd/dist/reset.css'
 import React from 'react'
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
-import { ConfigProvider, App as AntdApp, theme as antdTheme, Spin } from 'antd'
+import { ConfigProvider, App as AntdApp, Spin } from 'antd'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { SiteProvider, ChatProvider, PromptProvider, useSiteContext } from '@/contexts'
 // import Layout from '@/components/Layout'
 import dynamic from 'next/dynamic'
+import withTheme from '@/themes'
 
 const Layout = dynamic(() => import('@/components/Layout'), {
   ssr: false,
   loading: () => (
-    <div style={{ flex: 1, height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Spin tip="Loading"></Spin>
     </div>
   ),
 })
 
 function App({ Component, pageProps: { ...pageProps } }: AppProps) {
-  // const { theme } = useSiteContext()
-  // const { token } = antdTheme.useToken()
   return (
     <SiteProvider>
       <PromptProvider>
         <ChatProvider>
-          <ConfigProvider>
+          {withTheme(
             <AntdApp style={{ height: '100%' }}>
               <StyleProvider hashPriority="high">
                 <Layout>
@@ -32,7 +31,7 @@ function App({ Component, pageProps: { ...pageProps } }: AppProps) {
                 </Layout>
               </StyleProvider>
             </AntdApp>
-          </ConfigProvider>
+          )}
         </ChatProvider>
       </PromptProvider>
     </SiteProvider>

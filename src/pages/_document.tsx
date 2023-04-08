@@ -8,16 +8,6 @@ export default function Document() {
           id="holderStyle"
           dangerouslySetInnerHTML={{
             __html: `
-            #__next {
-              height: 100%;
-            }
-          `,
-          }}
-        />
-        <style
-          id="holderStyle"
-          dangerouslySetInnerHTML={{
-            __html: `
             /* Not only antd, but also any other style if you want to use ssr. */
             *, *::before, *::after {
               animation: none !important;
