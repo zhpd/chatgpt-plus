@@ -11,7 +11,7 @@ const nextConfig = {
       fallback: [
         {
           source: '/api/:path*',
-          destination: `http://localhost:3002/api/:path*`,
+          destination: `${process.env.NEXT_PUBLIC_API_URL || ''}/api/:path*`, // Proxy to Backend
         },
       ],
     }

@@ -1,7 +1,8 @@
 import axios, { type AxiosResponse } from 'axios'
 
 const service = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: '/',
+  timeout: 60000,
 })
 
 service.interceptors.request.use(
