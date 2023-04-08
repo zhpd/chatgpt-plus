@@ -42,7 +42,7 @@ function Message() {
       setPlace(activeChat?.place || 'right')
       setTimeout(() => {
         // 滚动到最底部
-        const ele = document.getElementById('messageBox')
+        const ele = document?.getElementById('messageBox')
         if (ele) {
           ele.scrollTo(0, ele.scrollHeight)
         }

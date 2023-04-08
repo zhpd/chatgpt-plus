@@ -5,6 +5,7 @@ const nextConfig = {
   // distDir: 'dist', // 静态化
   output: 'standalone',
   trailingSlash: true,
+  transpilePackages: ['antd'],
   async rewrites() {
     return {
       fallback: [

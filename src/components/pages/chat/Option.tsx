@@ -121,7 +121,15 @@ function Option(props: { chat: Chat }) {
           <InputNumber max={4096} disabled={'chatgpt-web' == apitype} />
         </Form.Item>
         <Form.Item label={t('chat.option.top_p')} tooltip={{ title: t('chat.option.top_pTip') }} name="top_p">
-          <Slider min={0} max={1} step={0.1} range={false} disabled={'chatgpt-web' == apitype} marks={{ [parseFloat(form.getFieldValue('top_p'))]: parseFloat(form.getFieldValue('top_p')) }} />
+          <Slider
+            min={0}
+            max={1}
+            step={0.1}
+            range={false}
+            disabled={'chatgpt-web' == apitype}
+            tooltip={{ open: false }}
+            marks={{ [parseFloat(form.getFieldValue('top_p'))]: parseFloat(form.getFieldValue('top_p')) }}
+          />
         </Form.Item>
         <Form.Item label={t('chat.option.temperature')} tooltip={{ title: t('chat.option.temperatureTip') }} name="temperature">
           <Slider
@@ -130,6 +138,7 @@ function Option(props: { chat: Chat }) {
             step={0.1}
             range={false}
             disabled={'chatgpt-web' == apitype}
+            tooltip={{ open: false }}
             marks={{ [parseFloat(form.getFieldValue('temperature'))]: parseFloat(form.getFieldValue('temperature')) }}
           />
         </Form.Item>
@@ -140,6 +149,7 @@ function Option(props: { chat: Chat }) {
             step={1}
             range={false}
             disabled={'chatgpt-web' == apitype}
+            tooltip={{ open: false }}
             marks={{ [parseFloat(form.getFieldValue('presence_penalty'))]: parseFloat(form.getFieldValue('presence_penalty')) }}
           />
         </Form.Item>
@@ -150,6 +160,7 @@ function Option(props: { chat: Chat }) {
             step={1}
             range={false}
             disabled={'chatgpt-web' == apitype}
+            tooltip={{ open: false }}
             marks={{ [parseFloat(form.getFieldValue('frequency_penalty'))]: parseFloat(form.getFieldValue('frequency_penalty')) }}
           />
         </Form.Item>
