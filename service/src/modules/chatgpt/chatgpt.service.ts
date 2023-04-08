@@ -18,7 +18,6 @@ export const importDynamic = new Function(
   'modulePath',
   'return import(modulePath)',
 );
-importDynamic('chatgpt');
 
 export interface ConfigOptions {
   API_TYPE?: 'chatgpt-api' | 'chatgpt-web';
