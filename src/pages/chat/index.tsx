@@ -13,7 +13,6 @@ import { Spin } from 'antd'
 import dynamic from 'next/dynamic'
 
 const Message = dynamic(() => import('@/components/pages/chat/Message'), {
-  ssr: false,
   loading: () => (
     <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Spin tip="Loading"></Spin>

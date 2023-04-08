@@ -1,8 +1,17 @@
-import { Button, Result, Empty, theme as antdTheme } from 'antd'
+import { theme as antdTheme, Spin } from 'antd'
 import { useTranslation } from '@/locales'
 import { useSiteContext } from '@/contexts/site'
 import { useEffect } from 'react'
-import Markdown from '@/components/pages/chat/Markdown'
+// import Markdown from '@/components/pages/chat/Markdown'
+import dynamic from 'next/dynamic'
+
+const Markdown = dynamic(() => import('@/components/pages/chat/Markdown'), {
+  loading: () => (
+    <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Spin tip="Loading"></Spin>
+    </div>
+  ),
+})
 
 // 读取 README.md的内容
 const text = require('!raw-loader!../../../README.md').default

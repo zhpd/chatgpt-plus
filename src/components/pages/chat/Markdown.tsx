@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown'
 import { CopyOutlined, CheckOutlined } from '@ant-design/icons'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark, oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism' // 代码高亮主题风格
-import 'github-markdown-css/github-markdown.css'
+import styles from '@/styles/github-markdown.module.css'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import rehypeRaw from 'rehype-raw'
@@ -57,7 +57,7 @@ function Markdown(props: MarkdownProps) {
   }
 
   return (
-    <article className="markdown-body" style={{ colorScheme: theme, backgroundColor: backgroundColor(), fontSize: '14px', borderRadius: 6, padding: 8, overflow: 'auto', ...style }}>
+    <article className={styles['markdown-body']} style={{ colorScheme: theme, backgroundColor: backgroundColor(), fontSize: '14px', borderRadius: 6, padding: 8, overflow: 'auto', ...style }}>
       <ReactMarkdown
         // eslint-disable-next-line react/no-children-prop
         children={props?.children}

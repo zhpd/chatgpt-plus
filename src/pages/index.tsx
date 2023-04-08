@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic'
 import { Spin } from 'antd'
 
 const ChatPage = dynamic(() => import('./chat'), {
-  ssr: false,
   loading: () => (
     <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Spin tip="Loading"></Spin>

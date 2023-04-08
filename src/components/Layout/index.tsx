@@ -4,7 +4,7 @@ import Icon, { MenuFoldOutlined, MenuUnfoldOutlined, ApiOutlined, BulbOutlined, 
 const { Header, Sider, Content } = Layout
 import React, { useEffect, useState } from 'react'
 import { useSiteContext } from '@/contexts/site'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@/locales'
 import Head from 'next/head'
 import Image from 'next/image'
 import IconLight from '@/assets/icons/light.svg'
@@ -24,7 +24,7 @@ export default function LayoutBase(props: any) {
     { name: 'c.message', path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     { name: 'c.prompt', path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     { name: 'c.plugin', path: '/plugin', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: 'c.store', path: '/store', icon: <ShoppingOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    // { name: 'c.store', path: '/store', icon: <ShoppingOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     { name: 'c.readme', path: '/readme', icon: <ReadOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     // { name: 'c.share', path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
   ]
@@ -104,7 +104,7 @@ export default function LayoutBase(props: any) {
             height: 'calc(100vh - 20px)',
             margin: '10px',
             backgroundColor: '#000',
-            border: theme === 'dark' ? `1px solid ${token.colorBorder}22` : 'none',
+            border: theme === 'dark' ? `1px solid ${token.colorBorder}22` : '1px solid #ffffffff',
           }}
         >
           <Sider
@@ -113,7 +113,7 @@ export default function LayoutBase(props: any) {
             width={120}
             collapsible
             collapsed={collapsed}
-            style={{ borderRight: `${theme === 'dark' ? 0 : 1}px solid ${token.colorBorder}22`, display: side ? 'block' : 'none' }}
+            style={{ borderRight: theme === 'dark' ? '1px solid #000000ff' : `1px solid ${token.colorBorder}22`, display: side ? 'block' : 'none' }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
               <div style={{ height: '64px', display: 'flex', alignItems: 'center' }}>{renderLogo()}</div>
