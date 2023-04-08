@@ -1,24 +1,10 @@
 import { useRouter } from 'next/router'
-import { ConfigProvider, Layout, App as AntdApp, Menu, theme as antdTheme, Avatar, Space, Button, Typography } from 'antd'
-import Icon, {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  RocketOutlined,
-  SkinOutlined,
-  ApiOutlined,
-  BulbOutlined,
-  SettingOutlined,
-  ShareAltOutlined,
-  MessageOutlined,
-  UserOutlined,
-  SkinFilled,
-  ShoppingOutlined,
-} from '@ant-design/icons'
+import { ConfigProvider, Layout, App as AntdApp, theme as antdTheme, Avatar, Space, Button, Typography, Spin } from 'antd'
+import Icon, { MenuFoldOutlined, MenuUnfoldOutlined, ApiOutlined, BulbOutlined, SettingOutlined, MessageOutlined, ShoppingOutlined, ReadOutlined } from '@ant-design/icons'
 const { Header, Sider, Content } = Layout
 import React, { useEffect, useState } from 'react'
-import { tool } from '@/utils'
 import { useSiteContext } from '@/contexts/site'
-import { useTranslation } from '@/locales'
+import { useTranslation } from 'react-i18next'
 import Head from 'next/head'
 import Image from 'next/image'
 import IconLight from '@/assets/icons/light.svg'
@@ -39,13 +25,14 @@ export default function LayoutBase(props: any) {
     { name: 'c.prompt', path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     { name: 'c.plugin', path: '/plugin', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     { name: 'c.store', path: '/store', icon: <ShoppingOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.readme', path: '/readme', icon: <ReadOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     // { name: 'c.share', path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
   ]
   const [menu, setMenu] = useState<any>(menuList[0])
 
   const toUrl = (url: string) => {
     const { pathname } = router
-    if ((pathname != '' && pathname != '/') && url.indexOf(pathname) > -1) {
+    if (pathname != '' && pathname != '/' && url.indexOf(pathname) > -1) {
       // @ts-ignore
       event$.emit({ type: 'tabSwich', url, pathname })
       return
@@ -110,7 +97,16 @@ export default function LayoutBase(props: any) {
           <title>{title || 'ChatGPT-Plus'}</title>
           <meta property="og:title" content={title} key={title} />
         </Head>
-        <Layout style={{ borderRadius: '6px', overflow: 'hidden', height: 'calc(100vh - 20px)', margin: '10px', backgroundColor: '#000', border: theme === 'dark'?`1px solid ${token.colorBorder}22`:'none' }}>
+        <Layout
+          style={{
+            borderRadius: '6px',
+            overflow: 'hidden',
+            height: 'calc(100vh - 20px)',
+            margin: '10px',
+            backgroundColor: '#000',
+            border: theme === 'dark' ? `1px solid ${token.colorBorder}22` : 'none',
+          }}
+        >
           <Sider
             theme={theme === 'dark' ? 'dark' : 'light'}
             trigger={null}

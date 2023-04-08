@@ -3,7 +3,6 @@ import axios, { type AxiosResponse } from 'axios'
 const service = axios.create({
   baseURL: process.env.API_URL,
 })
-console.log('API_URL', process.env.API_URL)
 
 service.interceptors.request.use(
   (config) => {

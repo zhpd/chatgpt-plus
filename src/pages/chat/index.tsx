@@ -1,14 +1,25 @@
 import Head from 'next/head'
-import Message from '@/components/pages/chat/Message'
+// import Message from '@/components/pages/chat/Message'
 import List from '@/components/pages/chat/List'
 import { useTranslation } from '@/locales'
 import { useSiteContext } from '@/contexts/site'
 import { useCallback, useEffect, useState } from 'react'
 import { useChatContext } from '@/contexts/chat'
 import { useRouter } from 'next/router'
-import { Chat } from '@/types/chat'
+import { Chat, Message } from '@/types/chat'
 import { uuidv4 } from '@/utils/uuid'
 import dayjs from 'dayjs'
+import { Spin } from 'antd'
+import dynamic from 'next/dynamic'
+
+const Message = dynamic(() => import('@/components/pages/chat/Message'), {
+  ssr: false,
+  loading: () => (
+    <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Spin tip="Loading"></Spin>
+    </div>
+  ),
+})
 
 function IndexPage() {
   const router = useRouter()

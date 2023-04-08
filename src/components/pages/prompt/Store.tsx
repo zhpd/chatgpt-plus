@@ -20,11 +20,12 @@ function OnlinePrompt() {
 
   useEffect(() => {
     searchRequest()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     // 判断是否存在已经收藏过
-    const _list = list.map((item) => {
+    const _list = list?.map((item) => {
       let index = promptList.findIndex((tt) => item.uuid == tt.uuid)
       if (index > -1) {
         item.isStar = true
@@ -32,6 +33,7 @@ function OnlinePrompt() {
       return item
     })
     setList(_list)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [promptList])
 
   // 搜索请求

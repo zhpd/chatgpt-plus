@@ -52,6 +52,7 @@ function Message() {
       setInfo(undefined)
       setList([])
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeChat])
 
   // resend message

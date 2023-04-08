@@ -29,8 +29,7 @@ i18next.init(
     },
   },
   () => {
-    console.log('i18next init')
-    console.log('i18next title', i18next.t('title'))
+    console.log('i18next init', i18next.t('title'))
   }
 )
 export default i18next

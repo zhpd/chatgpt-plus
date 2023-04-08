@@ -52,6 +52,9 @@ export function SiteProvider({ children }) {
     console.log('theme', theme)
     // 现在可以使用 JavaScript 来更改颜色方案
     document?.documentElement?.setAttribute('data-theme', theme)
+    // 打印用户首选的颜色方案
+    console.log('window prefers-color-scheme:', window?.matchMedia('(prefers-color-scheme)'))
+
     // if (window?.matchMedia && window?.matchMedia('(prefers-color-scheme)').matches) {
     //   // 如果浏览器支持媒体查询且用户设置了颜色方案，则执行以下代码：
     //   if (window?.matchMedia('(prefers-color-scheme: light)').matches) {
