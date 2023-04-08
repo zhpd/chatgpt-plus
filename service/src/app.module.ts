@@ -3,7 +3,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule } from '@nestjs/config';
-import configuration from 'src/config/configuration';
+import configuration from './config/configuration';
 import { auth, error, logger } from './middleware';
 import { AppModule as BaseAppModule } from './modules/app';
 import { ChatgptModule } from './modules/chatgpt';

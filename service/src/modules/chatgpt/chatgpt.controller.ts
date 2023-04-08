@@ -6,7 +6,7 @@ import type {
   SendMessageBrowserOptions,
   SendMessageOptions,
 } from 'chatgpt';
-import type { OutputOptions } from 'src/utils';
+import type { OutputOptions } from '../../utils';
 import type { Request } from 'express';
 import { Observable } from 'rxjs';
 

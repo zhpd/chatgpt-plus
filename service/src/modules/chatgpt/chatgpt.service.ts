@@ -10,8 +10,8 @@ import type {
 } from 'chatgpt';
 // import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt';
 // import fetch from 'node-fetch';
-import type { OutputOptions } from 'src/utils';
-import { output } from 'src/utils';
+import type { OutputOptions } from '../../utils';
+import { output } from '../../utils';
 
 // fixed load esm module
 export const importDynamic = new Function(
