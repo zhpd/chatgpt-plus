@@ -397,3 +397,5 @@ Temporary Items
 .env
 .env.local
 dist
+
+.vercel
