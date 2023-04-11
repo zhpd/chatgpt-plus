@@ -74,7 +74,7 @@ export function SiteProvider({ children }) {
     console.log('site lang', lang)
     // 存储localStorage
     localStorage.setItem('lang', lang)
-    i18n.changeLanguage(lang)
+    i18n && i18n?.changeLanguage(lang)
   }, [lang])
 
   return (
