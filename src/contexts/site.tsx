@@ -25,8 +25,6 @@ const Context = createContext<SiteType>({
 
 // @ts-ignore
 export function SiteProvider({ children }) {
-  const { t, i18n } = useTranslation()
-
   const [theme, setTheme] = useState<'dark' | 'light' | 'auto'>('light')
   const [lang, setLang] = useState<string>('zh-CN')
   const [title, setTitle] = useState<string>('ChatGPT-Plus')
@@ -74,7 +72,6 @@ export function SiteProvider({ children }) {
     console.log('site lang', lang)
     // 存储localStorage
     localStorage.setItem('lang', lang)
-    i18n && i18n?.changeLanguage(lang)
   }, [lang])
 
   return (

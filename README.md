@@ -34,39 +34,37 @@ ChatGPT-Plus 是使用官方 ChatGPT API 的应用程序。
 
 # Features
 
-- [介绍](#介绍)
-- [特性](#特性)
-- [原理](#原理)
-- [在线开发](#在线开发)
-- [安装运行](#安装依赖)
+- [介绍](#📖介绍)
+- [特性](#✨特性)
+- [原理](#🔬原理)
+- [在线开发](#💻在线开发)
+- [安装运行](#🚀安装运行)
   - [克隆项目](#克隆项目)
   - [环境配置](#环境配置)
   - [前端网页](#前端)
   - [后端服务](#后端)
-- [打包部署](#打包)
-  - [使用 Docker 部署](#使用-docker)
-    - [Docker 参数示例](#docker-参数示例)
-    - [Docker build \& Run](#docker-build--run)
+- [打包部署](#📦打包部署)
+  - [使用 Docker 部署](#使用Docker部署)
     - [Docker compose](#docker-compose)
-  - [使用 Vercel 部署](#使用-Vercel-部署)
+  - [使用 Vercel 部署](#使用Vercel部署)
     - [Vercel 环境变量](#Vercel-环境变量)
   - [手动打包](#手动打包)
     - [前端网页](#前端网页-1)
     - [后端服务](#后端服务-1)
-- [附加说明](#附加说明)
-- [常见问题](#常见问题)
-- [参与贡献](#参与贡献)
-- [感谢](#感谢)
-- [赞助](#赞助)
-- [License](#license)
+- [附加说明](#ℹ️附加内容)
+- [常见问题](#❓常见问题)
+- [参与贡献](#🤝参与贡献)
+- [感谢](#🙏感谢)
+- [赞助](#💰赞助)
+- [License](#📜License)
 
-## 📖 介绍
+## 📖介绍
 
 ChatGPT-Plus 客户端是官方 ChatGPT API 的应用程序。该应用程序是对 OpenAI 的[ChatGPT](https://openai.com/blog/chatgpt)的官方 API 的封装应用。
 
 <!-- ChatGPT-Plus client for the official ChatGPT API. This Application is a web wrapper around [ChatGPT](https://openai.com/blog/chatgpt) by [OpenAI](https://openai.com). -->
 
-## ✨ 特性
+## ✨特性
 
 - 📦 一个完整的 ChatGPT 客户端。
 - 🚀 使用 Nextjs & Nestjs 构建，快速启动。
@@ -77,7 +75,7 @@ ChatGPT-Plus 客户端是官方 ChatGPT API 的应用程序。该应用程序是
 - 🎨 使用 CSS-in-JS 技术，支持主题定制。
 - 📦 支持 Docker & Vercel 部署。
 
-## 🔬 原理
+## 🔬原理
 
 提供两种方式进行访问，要在 Node.js 中使用此模块，您需要在两种方法之间选择：
 
@@ -96,7 +94,7 @@ ChatGPT-Plus 客户端是官方 ChatGPT API 的应用程序。该应用程序是
 
 > 该请求原理采用的是 [chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api)提供的功能模块.
 
-## 💻 在线开发
+## 💻在线开发
 
 你可以使用 Gitpod 进行在线开发：
 
@@ -104,7 +102,7 @@ ChatGPT-Plus 客户端是官方 ChatGPT API 的应用程序。该应用程序是
 
 或者克隆到本地开发，按照以下步骤进行：
 
-## 🚀 安装运行
+## 🚀安装运行
 
 ### 克隆项目
 
@@ -227,17 +225,15 @@ npm run dev
 
 > 运行启动成功后，后端服务便可正常运行
 
-## 📦 打包部署
+## 📦打包部署
 
-### 使用 Docker 部署
+### 使用Docker部署
 
 #### Docker 参数示例
 
-```bash
- 待补充
-```
+使用docker-compose文件夹内的配置文件，进行拉取运行即可
 
-### 使用 Vercel 部署
+### 使用Vercel部署
 
 #### Vercel 参数示例
 
@@ -270,7 +266,7 @@ npm run dev
 
 > **备注**: 如果不想进行打包，可以直接复制 `service`文件夹 到服务器上运行 `npm install` 和 `npm run start` 也可以启动服务
 
-## ℹ️ 附加内容
+## ℹ️附加内容
 
 ### 获取密钥 API Key
 
@@ -346,7 +342,7 @@ API_REVERSE_PROXY =
 
 注：目前不公布反向代理工作方式的信息，以防止 OpenAI 禁用访问。
 
-## ❓ 常见问题
+## ❓常见问题
 
 Q: 如果只使用前端页面，在哪里改请求接口？
 
@@ -356,7 +352,7 @@ Q: 前端没有打字机效果？
 
 A: 一种可能原因是经过 Nginx 反向代理，开启了 buffer，则 Nginx 会尝试从后端缓冲一定大小的数据再发送给浏览器。请尝试在反代参数后添加 `proxy_buffering off;`，然后重载 Nginx。其他 web server 配置同理。
 
-## 🤝 参与贡献
+## 🤝参与贡献
 
 <!-- 贡献之前请先阅读 [贡献指南](./CONTRIBUTING.md) -->
 
@@ -366,16 +362,16 @@ A: 一种可能原因是经过 Nginx 反向代理，开启了 buffer，则 Nginx
   <img src="https://contrib.rocks/image?repo=zhpd/chatgpt-plus" />
 </a>
 
-## 🙏 感谢
+## 🙏感谢
 
 - 非常感谢项目支持者和所有其他贡献者 💪
 - 非常感谢最初构建的参考项目[@transitive-bullshit](https://github.com/transitive-bullshit)的[chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api)和[@Chanzhaoyu](https://github.com/Chanzhaoyu)的[chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web)提供的思路。👍
 - 非常感谢[OpenAI](https://openai.com) 创建的 [ChatGPT](https://openai.com/blog/chatgpt/) 🔥
 
-## 💰 赞助
+## 💰赞助
 
 如果您觉得本项目对您有帮助，可以帮忙点个 Star ⭐️，或者分享给您的朋友，您的支持是我最大的动力！
 
-## 📜 License
+## 📜License
 
 MIT © [zhpd](./license)
