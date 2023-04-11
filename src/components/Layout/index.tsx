@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { ConfigProvider, Layout, App as AntdApp, theme as antdTheme, Avatar, Space, Button, Typography, Spin } from 'antd'
-import Icon, { MenuFoldOutlined, MenuUnfoldOutlined, ApiOutlined, BulbOutlined, SettingOutlined, MessageOutlined, ShoppingOutlined, ReadOutlined } from '@ant-design/icons'
+import Icon, { MenuFoldOutlined, MenuUnfoldOutlined, ApiOutlined, BulbOutlined, SettingOutlined, MessageOutlined, ShoppingOutlined, ReadOutlined, RadiusSettingOutlined } from '@ant-design/icons'
 const { Header, Sider, Content } = Layout
 import React, { useEffect, useState } from 'react'
 import { useSiteContext } from '@/contexts/site'
@@ -9,6 +9,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import IconLight from '@/assets/icons/light.svg'
 import IconDark from '@/assets/icons/dark.svg'
+import { tool } from '@/utils'
+import Setting from '../pages/setting/index'
 
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
@@ -150,10 +152,13 @@ export default function LayoutBase(props: any) {
                 ></Button>
                 <Button
                   onClick={() => {
-                    // // 设置弹窗
-                    // tool.showModal(<div>设置</div>, {
-                    //   title: '设置',
-                    // })
+                    // 设置弹窗
+                    tool.showModal(<Setting></Setting>, {
+                      title: t('c.setting'),
+                      width: 600,
+                      bodyStyle: { minHeight: 400 },
+                      footer: null
+                    })
                   }}
                   ghost
                   style={{ border: 'none' }}

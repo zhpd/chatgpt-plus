@@ -27,6 +27,7 @@ i18next.init(
     detection: {
       caches: ['localStorage', 'sessionStorage', 'cookie'],
     },
+    debug: true,
   },
   () => {
     console.log('i18next init', i18next.t('title'))

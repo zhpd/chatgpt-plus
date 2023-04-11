@@ -1,4 +1,5 @@
 {
+  "lang_name": "English",
   "title": "ChatGPT-Plus",
   "window": { "title": "ChatGPT-Plus {{title}}" },
   "c": {
@@ -8,6 +9,7 @@
     "share": "Share",
     "store": "Store",
     "readme": "Readme",
+    "setting": "Setting",
     "open": "Open",
     "close": "Close",
     "delete": "Delete",
@@ -66,5 +68,38 @@
     "importExport": "Import and Export",
     "search": "Search",
     "searchPlaceholder": "Enter a prompt"
+  },
+  "setting": {
+    "m_surface": "Surface",
+    "m_surface_option": {
+      "theme": "theme",
+      "main_color": "main_color",
+      "radius": "radius",
+      "loose": "loose",
+      "default": "default"
+    },
+    "m_common": "Common",
+    "m_common_option": {
+      "lang": "Language",
+      "send_message_style": "Send Message Style"
+    },
+    "m_network": "Network",
+    "m_network_option": {
+      "DEFAULT_API_TYPE": "API_TYPE",
+      "apiTypeAPI": "api",
+      "apiTypeWEB": "web",
+      "OPENAI_API_KEY": "OpenAI API Key",
+      "OPENAI_API_BASE_URL": "OpenAI API Base URL",
+      "OPENAI_ACCESS_TOKEN": "OpenAI Access Token",
+      "API_REVERSE_PROXY": "API Reverse Proxy"
+    },
+    "m_feedback": "Feedback",
+    "m_feedback_option": {},
+    "m_about": "About",
+    "m_about_option": {
+      "now_version": "now_version",
+      "check_update": "check_update",
+      "update_log": "update_log"
+    }
   }
 }

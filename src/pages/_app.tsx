@@ -4,10 +4,11 @@ import React from 'react'
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
 import { ConfigProvider, App as AntdApp, Spin } from 'antd'
 import { StyleProvider } from '@ant-design/cssinjs'
-import { SiteProvider, ChatProvider, PromptProvider, useSiteContext } from '@/contexts'
+import { SiteProvider, ChatProvider, PromptProvider, useSiteContext, SettingProvider } from '@/contexts'
 // import Layout from '@/components/Layout'
 import dynamic from 'next/dynamic'
 import withTheme from '@/themes'
+import { GetServerSideProps } from 'next'
 
 const Layout = dynamic(() => import('@/components/Layout'), {
   ssr: false,
@@ -20,21 +21,25 @@ const Layout = dynamic(() => import('@/components/Layout'), {
 
 function App({ Component, pageProps: { ...pageProps } }: AppProps) {
   return (
-    <SiteProvider>
-      <PromptProvider>
-        <ChatProvider>
-          {withTheme(
-            <AntdApp style={{ height: '100%' }}>
-              <StyleProvider hashPriority="high">
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </StyleProvider>
-            </AntdApp>
-          )}
-        </ChatProvider>
-      </PromptProvider>
-    </SiteProvider>
+    <AntdApp style={{ height: '100%' }}>
+      <SiteProvider>
+        <SettingProvider>
+          <PromptProvider>
+            <ChatProvider>
+              {withTheme(
+                <AntdApp style={{ height: '100%' }}>
+                  <StyleProvider hashPriority="high">
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </StyleProvider>
+                </AntdApp>
+              )}
+            </ChatProvider>
+          </PromptProvider>
+        </SettingProvider>
+      </SiteProvider>
+    </AntdApp>
   )
 }
 

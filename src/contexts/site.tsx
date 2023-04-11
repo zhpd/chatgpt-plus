@@ -1,6 +1,7 @@
 import { useEventEmitter } from 'ahooks'
 import { EventEmitter } from 'ahooks/lib/useEventEmitter'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export type SiteType = {
   theme: 'dark' | 'light' | 'auto'
@@ -14,16 +15,18 @@ export type SiteType = {
 
 const Context = createContext<SiteType>({
   theme: 'light',
-  setTheme: (theme: string) => {},
+  setTheme: (theme: string) => { },
   lang: 'zh-CN',
-  setLang: (lang: string) => {},
+  setLang: (lang: string) => { },
   title: 'ChatGPT-Plus',
-  setTitle: (title: string) => {},
+  setTitle: (title: string) => { },
   event$: new EventEmitter(), // 全局event事件
 })
 
 // @ts-ignore
 export function SiteProvider({ children }) {
+  const { t, i18n } = useTranslation()
+
   const [theme, setTheme] = useState<'dark' | 'light' | 'auto'>('light')
   const [lang, setLang] = useState<string>('zh-CN')
   const [title, setTitle] = useState<string>('ChatGPT-Plus')
@@ -68,8 +71,10 @@ export function SiteProvider({ children }) {
   }, [theme])
   useEffect(() => {
     // refLang.current = lang
+    console.log('site lang', lang)
     // 存储localStorage
     localStorage.setItem('lang', lang)
+    i18n.changeLanguage(lang)
   }, [lang])
 
   return (
