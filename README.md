@@ -41,16 +41,16 @@ ChatGPT-Plus 是使用官方 ChatGPT API 的应用程序。
 - [安装运行](#🚀安装运行)
   - [克隆项目](#克隆项目)
   - [环境配置](#环境配置)
-  - [前端网页](#前端)
-  - [后端服务](#后端)
+  - [前端网页](#前端网页)
+  - [后端服务](#后端服务)
 - [打包部署](#📦打包部署)
-  - [使用 Docker 部署](#使用Docker部署)
-    - [Docker compose](#docker-compose)
-  - [使用 Vercel 部署](#使用Vercel部署)
-    - [Vercel 环境变量](#Vercel-环境变量)
+  - [使用 Docker 部署](#📦打包部署)
+    <!-- - [Docker compose](#docker-compose) -->
+  - [使用 Vercel 部署](#📦打包部署)
+    <!-- - [Vercel环境变量](#Vercel环境变量) -->
   - [手动打包](#手动打包)
-    - [前端网页](#前端网页-1)
-    - [后端服务](#后端服务-1)
+    - [前端网页](#前端网页打包)
+    - [后端服务](#后端服务打包)
 - [附加说明](#ℹ️附加内容)
 - [常见问题](#❓常见问题)
 - [参与贡献](#🤝参与贡献)
@@ -131,6 +131,7 @@ git clone https://github.com/zhpd/chatgpt-plus.git
 #### 可选 VSCode
 
 > 推荐使用 [VSCode](https://code.visualstudio.com/) 编辑器进行开发，安装插件 `ESLint` 和 `Prettier`，并在设置中开启 `Format On Save`
+
 
 ### 前端网页
 
@@ -227,21 +228,23 @@ npm run dev
 
 ## 📦打包部署
 
-### 使用Docker部署
+### Docker
 
+使用Docker方式部署，需要安装Docker环境
 #### Docker 参数示例
 
 使用docker-compose文件夹内的配置文件，进行拉取运行即可
 
-### 使用Vercel部署
+### Vercel
 
-#### Vercel 参数示例
+使用Vercel进行部署，可一键部署
+#### Vercel环境变量
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
 
 ### 手动打包
 
-#### 前端网页
+#### 前端网页打包
 
 - 代码打包
   - 进入项目根文件夹
@@ -253,7 +256,7 @@ npm run dev
   - 进入 `dist` 文件夹
   - 运行 `npm run start` 启动服务
 
-#### 后端服务
+#### 后端服务打包
 
 - 代码打包
   - 进入 `service` 文件夹
