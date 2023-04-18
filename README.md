@@ -185,7 +185,7 @@ npm run dev
 | `PORT`                | `3002`                                            | 端口                                      |
 | `OPENAI_API_KEY`      | -                                                 | [API_KEY](#获取密钥-api-key)              |
 | `OPENAI_ACCESS_TOKEN` | -                                                 | [ACCESS_TOKEN](#获取访问令牌-accesstoken) |
-| `API_REVERSE_PROXY`   | `https://bypass.churchless.tech/api/conversation` | [代理](#反向代理)                         |
+| `API_REVERSE_PROXY`   | `https://api.pawan.krd/backend-api/conversation` | [代理](#反向代理)                         |
 | `TIMEOUT_MS`          | 60000                                             | 超时毫秒数                                |
 
 <details>
