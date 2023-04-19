@@ -8,148 +8,149 @@
 
 <div align="center">
 
-ChatGPT-Plus 是使用官方 ChatGPT API 的应用程序。
+ChatGPT-Plus is an application utilizing the official ChatGPT API.
 
 <!-- ChatGPT-Plus application that uses the official ChatGPT API. -->
 
-[演示 Demo](https://chatgpt-plus.app/) / [反馈 Issues](https://github.com/zhpd/chatgpt-plus/issues) / [开发 Gitpod](https://gitpod.io/#https://github.com/zhpd/chatgpt-plus) / [部署 Vercel](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
+[Demo](https://chatgpt-plus.app/) / [Report Issues](https://github.com/zhpd/chatgpt-plus/issues) / [Development](https://gitpod.io/#https://github.com/zhpd/chatgpt-plus) / [Deployment Vercel](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
 
-[简体中文](./README.md) | [English](./README_en.md)
+[简体中文](./README_zh.md) | [English](./README.md)
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/zhpd/chatgpt-plus)
 
-<p align="center">喜欢这个项目吗？请帮忙点个 Star ⭐️<br/>或者分享给您的朋友，以帮助它得到改善！</p>
+<p align="center">Do you like this project? Please give it a Star ⭐️<br/>or share it with your friends to help improve it!</p>
 
 </div>
 
-[![](https://imgmo.com/images/2023/04/08/3615c13916e244e4aced2cffe3e2e29e.png)](https://github.com/zhpd/chatgpt-plus)
-
-[![](https://imgmo.com/images/2023/04/08/105a342e5e099df7dd2546c69e5528a2.png)](https://github.com/zhpd/chatgpt-plus)
-
+![image](https://user-images.githubusercontent.com/11941825/233067531-c3596f30-3d97-436d-9f84-a98fd4498243.png)
+![image](https://user-images.githubusercontent.com/11941825/233068739-953069e2-4a2b-4a01-969b-cb74c2408f02.png)
+![image](https://user-images.githubusercontent.com/11941825/233067913-262307a5-c9c1-45db-9486-324a371e5176.png)
+![image](https://user-images.githubusercontent.com/11941825/233068104-0ce06c11-0e11-4b05-942e-34c457d8a044.png)
+![image](https://user-images.githubusercontent.com/11941825/233067552-14594bf4-3e5e-4b55-b768-a986bd63abbf.png)
 
 <!-- | [Spanish](./README-sp_MX.md) | [日本語](./README-ja_JP.md) -->
 
-<!-- > 声明：此项目只发布于 Github，基于 MIT 协议，免费且作为开源学习使用。 -->
+<!-- > Statement: This project is only released on Github, is based on MIT, is free, and serves as an open source learning use. -->
 
 # Features
 
-- [介绍](#介绍)
-- [特性](#特性)
-- [原理](#原理)
-- [在线开发](#在线开发)
-- [安装运行](#安装运行)
-  - [克隆项目](#克隆项目)
-  - [环境配置](#环境配置)
-  - [前端网页](#前端网页)
-  - [后端服务](#后端服务)
-- [打包部署](#打包部署)
-  - [使用 Docker 部署](#打包部署)
+- [Introduction](#introduction)
+- [Features](#features)
+- [Principle](#principle)
+- [Online Development](#online-development)
+- [Installation and Operation](#installation-and-Operation)
+  - [Clone Project](#clone-project)
+  - [Environment Configuration](#environment-configuration)
+  - [Front-end Page](#front-end-page)
+  - [Back-end Service](#Back-end-service)
+- [Package Deployment](#packaging-and-deploying)
+  - [Deploy using Docker](#packaging-and-deploying)
     <!-- - [Docker compose](#docker-compose) -->
-  - [使用 Vercel 部署](#打包部署)
+  - [Deploy using Vercel](#packaging-and-deploying)
     <!-- - [Vercel环境变量](#Vercel环境变量) -->
-  - [手动打包](#手动打包)
-    - [前端网页](#前端网页打包)
-    - [后端服务](#后端服务打包)
-- [附加说明](#附加内容)
-- [常见问题](#常见问题)
-- [参与贡献](#参与贡献)
-- [感谢](#感谢)
-- [赞助](#赞助)
-- [License](#License)
+  - [Manual Packaging](#manual-packaging)
+    - [Front-end Page](#front-end-page)
+    - [Back-end Service](#back-end-service)
+- [Additional Information](#additional-anformation)
+- [FAQ](#faq)
+- [Contribute](#contribute)
+- [Thanks](#thanks)
+- [Sponsorship](#sponsorship)
+- [License](#license)
 
-## 📖介绍
+## 📖Introduction
 
-ChatGPT-Plus 客户端是官方 ChatGPT API 的应用程序。该应用程序是对 OpenAI 的[ChatGPT](https://openai.com/blog/chatgpt)的官方 API 的封装应用。
+ChatGPT-Plus client is an application utilizing the official ChatGPT API from OpenAI's [ChatGPT](https://openai.com/blog/chatgpt).
 
-<!-- ChatGPT-Plus client for the official ChatGPT API. This Application is a web wrapper around [ChatGPT](https://openai.com/blog/chatgpt) by [OpenAI](https://openai.com). -->
+<!-- ChatGPT-Plus client for the official ChatGPT API. This Application is a web wrapper around [ChatGPT](https://openai.com/blog/chatgpt) by[OpenAI](https://openai.com). -->
 
-## ✨特性
+## ✨Features
 
-- 📦 一个完整的 ChatGPT 客户端。
-- 🚀 使用 Nextjs & Nestjs 构建，快速启动。
-- 📱 响应式设计，支持移动端访问。
-- 🌈 支持多种主题, 白天/夜间模式。
-- 🌍 国际化支持，目前支持中文和英文。
-- 📦 支持自定义提示词，查看在线推荐提示词
-- 🎨 使用 CSS-in-JS 技术，支持主题定制。
-- 📦 支持 Docker & Vercel 部署。
+- 📦A complete ChatGPT client.
+- 🚀Built using Nextjs & Nestjs, fast to start.
+- 📱Responsive design, supports mobile access.
+- 🌈Supports multiple themes, light/dark modes.
+- 🌍Internationalization support. Chinese and English are supported.
+- 📦Supports custom prompt words, view online recommended prompt words.
+- 🎨Uses CSS-in-JS technology, supports theme customization.
+- 📦Supports Docker & Vercel deployment.
 
-## 🔬原理
+## 🔬Principle
 
-提供两种方式进行访问，要在 Node.js 中使用此模块，您需要在两种方法之间选择：
+There are two methods provided for accessing the ChatGPT API. To use this module in Node.js, you must choose between two methods:
 
-| 方法                        | 免费？ | 健壮？  | 质量？                  |
-| --------------------------- | ------ | ------- | ----------------------- |
-| `ChatGPTAPI`                | ❌ 否  | ✅ 是   | ✅️ 真实的 ChatGPT 模型 |
-| `ChatGPTUnofficialProxyAPI` | ✅ 是  | ☑️ 可能 | ✅ 真实的 ChatGPT       |
+| Method                      | Free?  | Robust? | Quality?                  |
+| --------------------------- | ------ | ------- | ------------------------- |
+| `ChatGPTAPI`                | ❌ No | ✅ Yes  | ✅️ Real ChatGPT model |
+| `ChatGPTUnofficialProxyAPI` | ✅ Yes | ☑️ Maybe | ✅ Real ChatGPT       |
 
-1. `ChatGPTAPI` - 使用带有官方 OpenAI 聊天完成 API（官方、强大的方法，但不免费）的`gpt-3.5-turbo-0301`模型。您可以覆盖模型、完成参数和系统消息，以完全自定义您的助手。
+1. `ChatGPTAPI` - Uses the `gpt-3.5-turbo-0301` model with the official OpenAI ChatGPT API (official and powerful, but not free). You can override the model, completion parameters, and system messages to fully customize your assistant.
 
-2. `ChatGPTUnofficialProxyAPI` - 使用非官方代理服务器以绕过 Cloudflare 的方式访问 ChatGPT 的后端 API（使用真实的 ChatGPT，比较轻量级，但依赖第三方服务器且有速率限制）。
+2. `ChatGPTUnofficialProxyAPI` - Use an unofficial proxy server to access the backend API of ChatGPT by bypassing Cloudflare (lightweight compared to `ChatGPTAPI`, but relies on third-party servers and has rate limiting).
 
-这两种方法具有非常相似的 API，因此在它们之间切换应该很简单。
+These two methods have very similar APIs, so switching between them should be straightforward.
 
-注意：我们强烈建议使用`ChatGPTAPI`，因为它使用 OpenAI 官方支持的 API。在未来的发布版本中，我们可能会停止对`ChatGPTUnofficialProxyAPI`的支持。
+Note: We strongly recommend using `ChatGPTAPI` because it uses the API supported by OpenAI. We may stop supporting `ChatGPTUnofficialProxyAPI` in future releases.
 
-> 该请求原理采用的是 [chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api)提供的功能模块.
+> The request principle uses the functional module provided by [chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api).
 
-## 💻在线开发
+## 💻Online Development
 
-你可以使用 Gitpod 进行在线开发：
+You can use Gitpod for online development:
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/zhpd/chatgpt-plus)
 
-或者克隆到本地开发，按照以下步骤进行：
+Alternatively, clone to local development and follow the steps below:
 
-## 🚀安装运行
+## 🚀Installation and Operation
 
-### 克隆项目
+### Clone Project
 
 ```bash
 # clone the project
 git clone https://github.com/zhpd/chatgpt-plus.git
 ```
 
-> 如果没有 git 环境，可以直接下载 zip 包，解压后进入项目目录
+> If you do not have a git environment, you can directly download the zip package, unzip it and enter the project directory
 
-### 环境配置
+### Environment Configuration
 
 #### Node v14+
 
-> 本项目基于 Node.js 进行开发，需要 Node.js 14.0+ 环境。Make sure you're using `node >= 18` so `fetch` is available (or `node >= 14` if you install a [fetch polyfill](https://github.com/developit/unfetch#usage-as-a-polyfill)).
+> This project is developed based on Node.js, which requires Node.js 14.0+ environment. Make sure you're using `node >= 18` so `fetch` is available (or `node >= 14` if you install a [fetch polyfill](https://github.com/developit/unfetch#usage-as-a-polyfill)).
 
 #### Api Key / AccessToken
 
-本项目使用的是 OpenAI 官方提供的 API，需要申请 Api Key 和 AccessToken
+The project uses the API officially provided by OpenAI and requires an Api Key and AccessToken.
 
-> - OpenAI 官方注册申请地址：[https://platform.openai.com/](https://platform.openai.com/)，需要科学上网
-> - 通过其他方式获取 `ApiKey` 或 `AccessToken` [点击查看](#附加内容)
+> - OpenAI official registration application address: [https://platform.openai.com/](https://platform.openai.com/), which requires scientific Internet access
+> - Obtain `ApiKey` or `AccessToken` through other methods [Click Here to View](#Additional-Information)
 
-申请成功后，将 APIKey 和 AccessToken 填写到 `chatgpt-plus/service/.env` 文件中
+After successful application, fill in the APIKey and AccessToken in `chatgpt-plus/service/.env` file.
 
-#### 可选 VSCode
+#### Optional: VSCode
 
-> 推荐使用 [VSCode](https://code.visualstudio.com/) 编辑器进行开发，安装插件 `ESLint` 和 `Prettier`，并在设置中开启 `Format On Save`
+> It is recommended to use the [VSCode](https://code.visualstudio.com/) editor for development, install the `ESLint` and` Prettier` plugins, and enable `Format On Save` in the settings.
 
 
-### 前端网页
+### Front-end Page
 
-#### 环境变量-前端
+#### Environmental Variables - Front-end
 
-配置端口和接口请求地址在根目录.env 里。
-可直接复制根目录下的.env.example 文件进行修改，文件名修改为.env）
+Configure the port and interface request address in the root directory .env file.
+You can copy the `.env.example` file in the root directory and modify it directly (rename the file to `.env`)
 
-| 环境变量名            | 默认值                  | 说明     |
-| --------------------- | ----------------------- | -------- |
-| `PORT`                | `3000`                  | 端口     |
-| `NEXT_PUBLIC_API_URL` | `http://localhost:3002` | 接口地址 |
+| Environment Variable | Default Value           | Description           |
+| -------------------- | ----------------------- | --------------------- |
+| `PORT`               | `3000`                  | The port number       |
+| `NEXT_PUBLIC_API_URL`| `http://localhost:3002` | The API endpoint URL  |
 
 <details>
-<summary> 配置文件</summary>
+<summary> Configuration File</summary>
 
-可直接复制根目录下的.env.example 文件进行修改，文件名修改为.env
+Modify the existing `.env.example` in the root directory directly and change the file name to `.env`.
 
 ```env
 # port
@@ -159,11 +160,9 @@ PORT=3000
 NEXT_PUBLIC_API_URL=http://localhost:3002
 
 ```
-
 </details>
 
-#### 运行代码
-
+#### Run the Code
 ```bash
 # enter the project directory
 cd chatgpt-plus
@@ -173,33 +172,32 @@ npm install
 npm run dev
 ```
 
-> 运行启动成功后，可在浏览器打开 http://localhost:3000 查看效果
+> After running successfully, you can access it through `http://localhost:3000`.
 
-### 后端服务
+### Backend Service
 
-#### 环境变量-后端
+#### Environment Variables - Backend Service
+Configure the port and API Key/AccessToken in `.env` under the `service` folder.
 
-配置端口和 ApiKey、AccessToken 在 service 目录下.env 里
-
-| 环境变量名            | 默认值                                            | 说明                                      |
-| --------------------- | ------------------------------------------------- | ----------------------------------------- |
-| `PORT`                | `3002`                                            | 端口                                      |
-| `OPENAI_API_KEY`      | -                                                 | [API_KEY](#获取密钥-api-key)              |
-| `OPENAI_ACCESS_TOKEN` | -                                                 | [ACCESS_TOKEN](#获取访问令牌-accesstoken) |
-| `API_REVERSE_PROXY`   | `https://api.pawan.krd/backend-api/conversation` | [代理](#反向代理)                         |
-| `TIMEOUT_MS`          | 60000                                             | 超时毫秒数                                |
+| Environment Variable | Default Value                                            | Description                              |
+| -------------------- | ---------------------------------------------------------| -----------------------------------------|
+| `PORT`               | `3002`                                                   | The port number                          |
+| `OPENAI_API_KEY`     | -                                                        | [API_KEY](#get-api-key)                  |
+| `OPENAI_ACCESS_TOKEN`| -                                                        | [ACCESS_TOKEN](#get-access-token)        |
+| `API_REVERSE_PROXY`  | `https://api.pawan.krd/backend-api/conversation`          | [Proxy](#reverse-proxy)                  |
+| `TIMEOUT_MS`         | 60000                                                    | Timeout in milliseconds                  |
 
 <details>
-<summary> 配置文件</summary>
+<summary> Configuration File</summary>
 
-可直接复制 service 目录下的.env.example 文件进行修改，文件名修改为.env
+Modify the existing `.env.example` in the `service` directory directly and change the file name to `.env`.
 
 ```env
 # service/.env
 # OpenAI API Key - https://platform.openai.com/overview
 OPENAI_API_KEY=
 
-# change this to an `accessToken` extracted from the ChatGPT site's `https://chat.openai.com/api/auth/session` response
+# change this to an `accessToken` extracted from the ChatGPT site's `https://chat.openai.com/api/auth/session` response.
 OPENAI_ACCESS_TOKEN=
 
 # Reverse Proxy default 'https://bypass.churchless.tech/api/conversation'
@@ -212,8 +210,7 @@ TIMEOUT_MS=100000
 
 </details>
 
-#### 运行代码
-
+#### Run the Code
 ```bash
 # enter the project directory
 cd chatgpt-plus
@@ -225,78 +222,79 @@ npm install
 npm run dev
 ```
 
-> 运行启动成功后，后端服务便可正常运行
+> After running successfully, the backend service can run normally.
 
-## 📦打包部署
+## 📦Packaging and deploying
 
 ### Docker
 
-使用Docker方式部署，需要安装Docker环境
-#### Docker 参数示例
+Docker environment is required for deployment using Docker.
 
-使用docker-compose文件夹内的配置文件，进行拉取运行即可
+#### Docker Parameter Example
+
+Use the configuration file in the `docker-compose` folder to pull and run.
 
 ### Vercel
 
-使用Vercel进行部署，可一键部署
-#### Vercel环境变量
+Deploy with a single click with Vercel.
+
+#### Vercel Environment Variables
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
 
-### 手动打包
+### Manual Packaging
 
-#### 前端网页打包
+#### Front-end Web Packaging
 
-- 代码打包
-  - 进入项目根文件夹
-  - 修改根目录下 `.env` 文件中的 `API_URL` 为你的实际后端接口公网地址
-  - 运行 `npm install` 安装依赖
-  - 运行 `npm run build` 打包代码
-- 运行部署
-  - 将 `dist` 文件夹内的文件复制到你网站 `前端服务` 的目录下
-  - 进入 `dist` 文件夹
-  - 运行 `npm run start` 启动服务
+- Code packaging
+  - Enter the root folder of the project
+  - Modify `API_URL` in `.env` file in the root directory to your actual backend interface public network address
+  - run `npm install` to install the dependency
+  - run `npm run build` to package the code.
+- Running and deployment
+  - Copy the files in the `dist` folder to the `Front-end Service` directory on your website
+  - Enter the `dist` folder
+  - run `npm run start` to start the service
 
-#### 后端服务打包
+#### Backend Service Packaging
 
-- 代码打包
-  - 进入 `service` 文件夹
-  - 运行 `npm install` 安装依赖
-  - 运行 `npm run build` 打包代码
-- 运行部署
-  - 将 `service/dist` 文件夹内的文件复制到你网站 `后端服务` 的目录下
-  - 进入 `service/dist` 文件夹
-  - 运行 `npm run start` 启动服务
+- Code packaging
+  - Enter the `service` folder
+  - run `npm install` to install the dependency
+  - run `npm run build` to package the code.
+- Running and deployment
+  - Copy the files in the `service/dist` folder to the `Backend Service` directory on your website
+  - Enter the `service/dist` folder
+  - run `npm run start` to start the service
 
-> **备注**: 如果不想进行打包，可以直接复制 `service`文件夹 到服务器上运行 `npm install` 和 `npm run start` 也可以启动服务
+> **Note**: If you do not want to package, you can directly copy the `service` folder to the server to run `npm install` and `npm run start` to start the service.
 
-## ℹ️附加内容
+## ℹ️Additional Information
 
-### 获取密钥 API Key
+### Get API key
 
 <details>
-<summary>配置文件</summary>
+<summary>Configuration File</summary>
 
-您可以通过给后端服务.env 配置`OPENAI_API_KEY`密钥进行访问：
+You can access it by setting the `OPENAI_API_KEY` key in env for backend service:
 
 ```env
 # R OpenAI API Key
 OPENAI_API_KEY =
 ```
-
 </details>
 
-本项目使用的是 OpenAI 官方提供的 API，需要先申请 OpenAI 账号
+This project uses the OpenAI API provided by the official website, so you first need to apply for an OpenAI account.
 
-- OpenAI 官方注册申请地址：[https://platform.openai.com/](https://platform.openai.com/)，需要科学上网
-- 注册成功后，通过[https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) 获取 API Key，需要科学上网
+- OpenAI Official Account Registration Address: [https://platform.openai.com/](https://platform.openai.com/)
+- After successful registration, obtain the API key through [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys).
 
-### 获取访问令牌 accessToken
+### Get Access Token
 
 <details>
-<summary>配置文件</summary>
+<summary>Configuration File</summary>
 
-您可以通过给后端服务.env 配置`OPENAI_ACCESS_TOKEN`访问令牌访问：
+You can access it by setting the `OPENAI_ACCESS_TOKEN` key in env for backend service:
 
 ```env
 # change this to an `accessToken` extracted from the ChatGPT
@@ -305,77 +303,77 @@ OPENAI_ACCESS_TOKEN =
 
 </details>
 
-您需要从 ChatGPT Web 应用程序获取一个 OpenAI 访问令牌。您可以使用以下任何方法之一，这些方法需要一个`email`和`password`，并返回一个访问令牌：
+You need to get an OpenAI access token from the ChatGPT web application. You can use either of the following methods, which require an `email` and `password` and return an access token:
 
-- - Node.js 库
+- Node.js Libraries
   - [ericlewis/openai-authenticator](https://github.com/ericlewis/openai-authenticator)
   - [michael-dm/openai-token](https://github.com/michael-dm/openai-token)
   - [allanoricil/chat-gpt-authenticator](https://github.com/AllanOricil/chat-gpt-authenticator)
 
-- - Python 库
+- Python Libraries 
   - [acheong08/OpenAIAuth](https://github.com/acheong08/OpenAIAuth)
 
-_这些库与使用电子邮件和密码进行身份验证的帐户配合使用（例如，它们不支持通过 Microsoft / Google 进行身份验证的帐户）。_
+_Although these libraries work with accounts authenticated with an email and password (for example, they do not support accounts authenticated via Microsoft/Google)._
 
-另外，您可以通过登录 ChatGPT Web 应用程序并打开`https://chat.openai.com/api/auth/session`来手动获取一个`accessToken`，该链接将返回一个 JSON 对象，其中包含您的`accessToken`字符串。
+In addition, you can manually obtain an `accessToken` by logging in to the ChatGPT Web application and opening `https://chat.openai.com/api/auth/session`, which will return a JSON object containing your `accessToken` string.
 
-_访问令牌有效期为数天。_
+_The access token has an expiration time of several days._
 
-> _注意_：使用反向代理将使您的访问令牌暴露给第三方。这不会产生任何不利影响，但在使用此方法之前，请考虑风险。
+> Note: Using reverse proxies exposes your access token to a third party. This does not have any adverse effects, but consider the risks before using this method.
 
-### 反向代理
-
+### Reverse Proxy
 <details>
-<summary>配置文件</summary>
+<summary> Configuration File</summary>
 
-您可以通过给后端服务.env 配置`API_REVERSE_PROXY`代理地址覆盖反向代理：
+You can overwrite the reverse proxy by adding the `API_REVERSE_PROXY` key in env for the backend service:
 
 ```env
 # Reverse Proxy
 API_REVERSE_PROXY =
 ```
-
 </details>
 
-社区成员运行的已知反向代理包括：
+Known reverse proxies run by community members include:
 
-| 反向代理 URL                                      | 作者                                         | 速率限制                     | 最后检查日期 |
-| ------------------------------------------------- | -------------------------------------------- | ---------------------------- | ------------ |
-| `https://bypass.churchless.tech/api/conversation` | [@acheong08](https://github.com/acheong08)   | 5 req / 10 seconds by IP     | 3/24/2023    |
-| `https://api.pawan.krd/backend-api/conversation`  | [@PawanOsman](https://github.com/PawanOsman) | 50 req / 15 seconds (~3 r/s) | 3/23/2023    |
+| Reverse Proxy URL                                                       | Author                                                  | Throttle rate                | Last Checked |
+| -----------------------------------------------------------------------| --------------------------------------------------------| ----------------------------| ------------ |
+| `https://bypass.churchless.tech/api/conversation`                       | [@acheong08](https://github.com/acheong08)               | 5 req/10 seconds by IP       | 3/24/2023    |
+| `https://api.pawan.krd/backend-api/conversation`                        | [@PawanOsman](https://github.com/PawanOsman)             | 50 req / 15 seconds (~3 r/s) | 3/23/2023    |
 
-注：目前不公布反向代理工作方式的信息，以防止 OpenAI 禁用访问。
 
-## ❓常见问题
+Note: Information on the reverse proxy working method is currently not disclosed to prevent OpenAI from disabling access.
 
-Q: 如果只使用前端页面，在哪里改请求接口？
+## ❓FAQ
 
-A: 根目录下 `.env` 文件中的 `API_URL` 字段。
+Q: If I only use the front-end page, where can I change the request interface?
 
-Q: 前端没有打字机效果？
+A: In the `.env` file in the root directory, modify the `API_URL` field.
 
-A: 一种可能原因是经过 Nginx 反向代理，开启了 buffer，则 Nginx 会尝试从后端缓冲一定大小的数据再发送给浏览器。请尝试在反代参数后添加 `proxy_buffering off;`，然后重载 Nginx。其他 web server 配置同理。
+Q: Why is there no typewriter effect on the front-end?
 
-## 🤝参与贡献
+A: One possible reason is that when using Nginx reverse proxy, if the buffer is enabled, Nginx will attempt to buffer a certain amount of data from the backend before sending it to the browser. Try adding `proxy_buffering off;` after the reverse proxy parameters, and then reload Nginx. Similar configuration for other web servers.
 
-<!-- 贡献之前请先阅读 [贡献指南](./CONTRIBUTING.md) -->
+## 🤝Contributing
 
-感谢所有做过贡献的人!
+<!-- Please read the [Contribution Guidelines](./CONTRIBUTING.md) before contributing. -->
+
+Thanks to all the contributors who have contributed to this project!
 
 <a href="https://github.com/zhpd/chatgpt-plus/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=zhpd/chatgpt-plus" />
 </a>
 
-## 🙏感谢
+## 🙏Acknowledgments
 
-- 非常感谢项目支持者和所有其他贡献者 💪
-- 非常感谢最初构建的参考项目[@transitive-bullshit](https://github.com/transitive-bullshit)的[chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api)和[@Chanzhaoyu](https://github.com/Chanzhaoyu)的[chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web)提供的思路。👍
-- 非常感谢[OpenAI](https://openai.com) 创建的 [ChatGPT](https://openai.com/blog/chatgpt/) 🔥
+- Many thanks to the supporters and all other contributors to the project! 💪
+- Special thanks to the original reference projects created by [@transitive-bullshit](https://github.com/transitive-bullshit) [chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api) and [@Chanzhaoyu](https://github.com/Chanzhaoyu) [chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web) for providing ideas.👍
+- Many thanks to [OpenAI](https://openai.com) for creating [ChatGPT](https://openai.com/blog/chatgpt/) 🔥
 
-## 💰赞助
+## 💰Sponsorship
 
-如果您觉得本项目对您有帮助，可以帮忙点个 Star ⭐️，或者分享给您的朋友，您的支持是我最大的动力！
+If you find this project helpful, please give it a Star ⭐️ or share it with your friends. Your support is my greatest motivation!
 
 ## 📜License
 
 MIT © [zhpd](./license)
+
