@@ -35,29 +35,29 @@ ChatGPT-Plus is an application utilizing the official ChatGPT API.
 
 # Features
 
-- [Introduction](#Introduction)
-- [Features](#Features)
-- [Principle](#Principle)
-- [Online Development](#Online)
-- [Installation and Operation](#Installation)
-  - [Clone Project](#Clone)
-  - [Environment Configuration](#Environment)
-  - [Front-end Page](#Front-end)
-  - [Back-end Service](#Back-end)
-- [Package Deployment](#Packaging)
-  - [Deploy using Docker](#Packaging)
+- [Introduction](#introduction)
+- [Features](#features)
+- [Principle](#principle)
+- [Online Development](#online-development)
+- [Installation and Operation](#installation-and-Operation)
+  - [Clone Project](#clone-project)
+  - [Environment Configuration](#environment-configuration)
+  - [Front-end Page](#front-end-page)
+  - [Back-end Service](#Back-end-service)
+- [Package Deployment](#packaging-and-deploying)
+  - [Deploy using Docker](#packaging-and-deploying)
     <!-- - [Docker compose](#docker-compose) -->
-  - [Deploy using Vercel](#Packaging)
+  - [Deploy using Vercel](#packaging-and-deploying)
     <!-- - [Vercel环境变量](#Vercel环境变量) -->
-  - [Manual Packaging](#ManualPackaging)
-    - [Front-end Page](#Front-end-Page)
-    - [Back-end Service](#Back-endService)
-- [Additional Information](#Additional)
-- [FAQ](#FAQ)
-- [Contribute](#Contribute)
-- [Thanks](#Thanks)
-- [Sponsorship](#Sponsorship)
-- [License](#License)
+  - [Manual Packaging](#manual-packaging)
+    - [Front-end Page](#front-end-page)
+    - [Back-end Service](#back-end-service)
+- [Additional Information](#additional-anformation)
+- [FAQ](#faq)
+- [Contribute](#contribute)
+- [Thanks](#thanks)
+- [Sponsorship](#sponsorship)
+- [License](#license)
 
 ## 📖Introduction
 
@@ -268,7 +268,7 @@ Deploy with a single click with Vercel.
 
 > **Note**: If you do not want to package, you can directly copy the `service` folder to the server to run `npm install` and `npm run start` to start the service.
 
-## ℹ️Additional Content
+## ℹ️Additional Information
 
 ### Get API key
 
