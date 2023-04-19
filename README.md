@@ -14,6 +14,8 @@ ChatGPT-Plus 是使用官方 ChatGPT API 的应用程序。
 
 [演示 Demo](https://chatgpt-plus.app/) / [反馈 Issues](https://github.com/zhpd/chatgpt-plus/issues) / [开发 Gitpod](https://gitpod.io/#https://github.com/zhpd/chatgpt-plus) / [部署 Vercel](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
 
+[简体中文](./README.md) | [English](./README_en.md)
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhpd/chatgpt-plus)
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/zhpd/chatgpt-plus)
@@ -26,7 +28,6 @@ ChatGPT-Plus 是使用官方 ChatGPT API 的应用程序。
 
 [![](https://imgmo.com/images/2023/04/08/105a342e5e099df7dd2546c69e5528a2.png)](https://github.com/zhpd/chatgpt-plus)
 
-[简体中文](./README.md) | [English](./README_en.md)
 
 <!-- | [Spanish](./README-sp_MX.md) | [日本語](./README-ja_JP.md) -->
 
