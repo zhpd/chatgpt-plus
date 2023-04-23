@@ -1,0 +1,109 @@
+{
+  "lang_name": "繁體中文",
+  "title": "ChatGPT-Plus",
+  "window": {
+    "title": "ChatGPT-Plus {{title}}"
+  },
+  "c": {
+    "message": "訊息",
+    "prompt": "提示詞",
+    "plugin": "外掛",
+    "share": "分享",
+    "store": "商店",
+    "readme": "說明",
+    "setting": "設定",
+    "open": "開啟",
+    "close": "關閉",
+    "delete": "刪除",
+    "deleteSuccess": "刪除成功",
+    "save": "儲存",
+    "saveSuccess": "儲存成功",
+    "reset": "重設",
+    "action": "操作",
+    "export": "匯出",
+    "exportSuccess": "匯出成功",
+    "import": "匯入",
+    "importSuccess": "匯入成功",
+    "clear": "清空",
+    "clearSuccess": "清空成功",
+    "yes": "是",
+    "no": "否",
+    "confirm": "確定",
+    "download": "下載",
+    "success": "操作成功",
+    "failed": "操作失敗",
+    "devBuilding": "正在開發中"
+  },
+  "chat": {
+    "newChat": "新訊息",
+    "send": "發送",
+    "setting": "設定",
+    "api_warning": "外掛系統正在開發中，請勿使用外掛功能。",
+    "inputPlaceholder": "來說點什麼吧.... 輸入/ 以查看提示詞",
+    "coiledText": "連續對話 {{status}}",
+    "tryGpt4": "嘗試 GPT-4",
+    "optionTitle": "選項",
+    "option": {
+      "apiType": "存取方式",
+      "apiTypeAPI": "api",
+      "apiTypeWEB": "web",
+      "model": "模型",
+      "modelTip": "選擇模型",
+      "max_tokens": "單次回覆限制",
+      "max_tokensTip": "單次互動所用的最大 Token 數",
+      "top_p": "回覆篩選",
+      "top_pTip": "top_p 值越大，回覆越有可能是高品質的",
+      "temperature": "回覆隨機性",
+      "temperatureTip": "temperature 值越大，回覆越有可能是隨機的",
+      "presence_penalty": "話題重複度",
+      "presence_penaltyTip": "presence_penalty 值越大，越有可能談論新內容話題",
+      "frequency_penalty": "詞彙重複度",
+      "frequency_penaltyTip": "frequency_penalty 值越大，越有可能避免重複內容",
+      "stop": "結束字元",
+      "stopTip": "回覆中出現該字元時，停止回覆"
+    }
+  },
+  "prompt": {
+    "newPrompt": "建立提示詞",
+    "editPrompt": "編輯提示詞",
+    "save": "儲存",
+    "onlinePrompt": "線上提示詞",
+    "promptStoreTitle": "推薦提示詞",
+    "importExport": "匯入匯出",
+    "search": "搜尋",
+    "searchPlaceholder": "請輸入提示詞"
+  },
+  "setting": {
+    "m_surface": "外觀設定",
+    "m_surface_option": {
+      "theme": "主題",
+      "main_color": "主色",
+      "radius": "圓角",
+      "loose": "寬鬆",
+      "default": "預設"
+    },
+    "m_common": "一般設定",
+    "m_common_option": {
+      "lang": "語言",
+      "send_message_style": "發送訊息方式"
+    },
+    "m_network": "網路設定",
+    "m_network_option": {
+      "DEFAULT_API_TYPE": "預設存取模式",
+      "apiTypeAPI": "api",
+      "apiTypeWEB": "web",
+      "OPENAI_API_KEY": "OpenAI API 金鑰",
+      "OPENAI_API_BASE_URL": "OpenAI API 網址",
+      "OPENAI_ACCESS_TOKEN": "OpenAI Access Token",
+      "API_REVERSE_PROXY": "API 反向代理"
+    },
+    "m_feedback": "意見回饋",
+    "m_feedback_option": {},
+    "m_about": "關於應用",
+    "m_about_option": {
+      "now_version": "目前版本",
+      "check_update": "檢查更新",
+      "update_log": "更新日誌"
+    }
+  }
+}

@@ -2,7 +2,7 @@ import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
 // import path from 'path'
 
-const locales = ['zh-CN', 'en-US']
+const locales = ['zh-CN', 'zh-TW', 'en-US']
 
 const resources = () => {
   const _resources: any = {}
