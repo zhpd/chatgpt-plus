@@ -9,6 +9,7 @@ import { SiteProvider, ChatProvider, PromptProvider, useSiteContext, SettingProv
 import dynamic from 'next/dynamic'
 import withTheme from '@/themes'
 import { GetServerSideProps } from 'next'
+import { Analytics } from '@vercel/analytics/react'
 
 const Layout = dynamic(() => import('@/components/Layout'), {
   ssr: false,
@@ -21,25 +22,28 @@ const Layout = dynamic(() => import('@/components/Layout'), {
 
 function App({ Component, pageProps: { ...pageProps } }: AppProps) {
   return (
-    <AntdApp style={{ height: '100%' }}>
-      <SiteProvider>
-        <SettingProvider>
-          <PromptProvider>
-            <ChatProvider>
-              {withTheme(
-                <AntdApp style={{ height: '100%' }}>
-                  <StyleProvider hashPriority="high">
-                    <Layout>
-                      <Component {...pageProps} />
-                    </Layout>
-                  </StyleProvider>
-                </AntdApp>
-              )}
-            </ChatProvider>
-          </PromptProvider>
-        </SettingProvider>
-      </SiteProvider>
-    </AntdApp>
+    <>
+      <AntdApp style={{ height: '100%' }}>
+        <SiteProvider>
+          <SettingProvider>
+            <PromptProvider>
+              <ChatProvider>
+                {withTheme(
+                  <AntdApp style={{ height: '100%' }}>
+                    <StyleProvider hashPriority="high">
+                      <Layout>
+                        <Component {...pageProps} />
+                      </Layout>
+                    </StyleProvider>
+                  </AntdApp>
+                )}
+              </ChatProvider>
+            </PromptProvider>
+          </SettingProvider>
+        </SiteProvider>
+      </AntdApp>
+      <Analytics />
+    </>
   )
 }
 

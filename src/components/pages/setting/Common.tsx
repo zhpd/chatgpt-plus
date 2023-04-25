@@ -23,7 +23,7 @@ function Setting() {
   ]
   const styleList = [
     { label: 'Ctrl + Enter', value: 'ctrl+enter' },
-    { label: 'Ctrl', value: 'ctrl' },
+    { label: 'Enter', value: 'enter' },
   ]
 
   useEffect(() => {
