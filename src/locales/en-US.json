@@ -73,7 +73,7 @@
     "m_surface": "Surface",
     "m_surface_option": {
       "theme": "theme",
-      "main_color": "main_color",
+      "colorPrimary": "colorPrimary",
       "radius": "radius",
       "loose": "loose",
       "default": "default"

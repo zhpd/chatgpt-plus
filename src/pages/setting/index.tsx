@@ -3,17 +3,9 @@ import { SkinOutlined, ControlOutlined, IdcardOutlined, ExceptionOutlined, Excla
 import { useTranslation } from '@/locales'
 import { useSiteContext } from '@/contexts/site'
 import { useEffect, useState } from 'react'
-import Surface from './Surface'
-import Network from './Network'
-import Common from './Common'
-
-const emptyStyle: React.CSSProperties = {
-  height: '100%',
-  alignItems: 'center',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-}
+import Surface from '@/components/pages/setting/Surface'
+import Network from '@/components/pages/setting/Network'
+import Common from '@/components/pages/setting/Common'
 
 function IndexPage() {
   const { lang, setTitle } = useSiteContext()
@@ -29,7 +21,7 @@ function IndexPage() {
           {t('setting.m_surface')}
         </span>
       ),
-      children: <Surface />,
+      children: <Surface style={{ paddingTop: 10 }} />,
     },
     {
       key: 'common',
@@ -39,7 +31,7 @@ function IndexPage() {
           {t('setting.m_common')}
         </span>
       ),
-      children: <Common />,
+      children: <Common style={{ paddingTop: 10 }} />,
     },
     {
       key: 'network',
@@ -49,30 +41,9 @@ function IndexPage() {
           {t('setting.m_network')}
         </span>
       ),
-      children: <Network />,
+      children: <Network style={{ paddingTop: 10 }} />,
     },
   ]
-
-  // {
-  //   key: 'feedback',
-  //   label: (
-  //     <span>
-  //       <ExceptionOutlined />
-  //       {t('setting.m_feedback')}
-  //     </span>
-  //   ),
-  //   children: <Empty style={{ ...emptyStyle }} description="正在添加更多AI功能，敬请期待！" />,
-  // },
-  // {
-  //   key: 'about',
-  //   label: (
-  //     <span>
-  //       <ExclamationCircleOutlined />
-  //       {t('setting.m_about')}
-  //     </span>
-  //   ),
-  //   children: <Empty style={{ ...emptyStyle }} description="正在添加更多AI功能，敬请期待！" />,
-  // },
   useEffect(() => {
     const title = t('window.title', { title: t('c.setting') })
     setTitle(title)
@@ -83,12 +54,12 @@ function IndexPage() {
   }, [lang])
 
   const onChange = (key: string) => {
-    console.log(key);
-  };
+    console.log(key)
+  }
 
   return (
-    <div style={{ background: token.colorBgContainer }}>
-      <Tabs defaultActiveKey="surface" destroyInactiveTabPane={true} items={items} onChange={onChange} />
+    <div style={{ background: token.colorBgContainer, padding: 5, display: 'flex', width: '100%', height: '100%' }}>
+      <Tabs defaultActiveKey="surface" tabPosition="left" destroyInactiveTabPane={false} items={items} onChange={onChange} style={{width: '100%'}} />
     </div>
   )
 }

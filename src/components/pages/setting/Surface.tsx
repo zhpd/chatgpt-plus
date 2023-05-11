@@ -5,15 +5,16 @@ import { Chat } from '@/types/chat'
 import { useSettingContext } from '@/contexts'
 import { useTranslation } from '@/locales'
 import { useEffect, useState } from 'react'
+import Box from './Box'
 
-function Setting() {
+function Setting(props: { children?: React.ReactElement; style?: React.CSSProperties }) {
   const { t } = useTranslation()
   const { surface, setSurface } = useSettingContext()
   const { lang, setTheme } = useSiteContext()
   const [form] = Form.useForm()
   const [option, setOption] = useState<{ [key: string]: string | number | boolean }>({
-    theme: 'default',
-    main_color: '#1677ff',
+    theme: 'light',
+    colorPrimary: '#1677ff',
     radius: 4,
     loose: 'default',
     ...surface
@@ -34,15 +35,15 @@ function Setting() {
   const onValuesChange = (changedValues: any, values: any) => {
     console.log('changedValues', changedValues)
     if (changedValues['theme']) {
-      if (changedValues['theme'] != 'light' && changedValues['theme'] != 'dark') {
+      if (changedValues['theme'] == 'light' || changedValues['theme'] == 'dark') {
+        setTheme(changedValues['theme'])
+      } else {
         // 获取颜色
         const _theme = themeList.find((item) => item.value == changedValues['theme'])
         if (_theme?.color) {
-          form.setFieldValue('main_color', _theme?.color)
-          changedValues.main_color = _theme?.color
+          form.setFieldValue('colorPrimary', _theme?.color)
+          changedValues.colorPrimary = _theme?.color
         }
-      } else {
-        setTheme(changedValues['theme'])
       }
     }
     const _option = { ...option, ...changedValues }
@@ -51,7 +52,7 @@ function Setting() {
   }
 
   return (
-    <>
+    <Box style={{...props?.style}}>
       <Form
         form={form}
         initialValues={{ ...option }}
@@ -70,7 +71,7 @@ function Setting() {
             ))}
           </Radio.Group>
         </Form.Item>
-        <Form.Item label={t('setting.m_surface_option.main_color')} name="main_color">
+        <Form.Item label={t('setting.m_surface_option.colorPrimary')} name="colorPrimary">
           <Input style={{ width: '90px' }} />
         </Form.Item>
         <Form.Item label={t('setting.m_surface_option.radius')} name="radius">
@@ -87,7 +88,7 @@ function Setting() {
           </Radio.Group>
         </Form.Item>
       </Form>
-    </>
+    </Box>
   )
 }
 

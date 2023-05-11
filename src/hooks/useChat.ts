@@ -32,7 +32,7 @@ async function onConversation(props: MessageProps) {
             let chunk = dataline?.substring(5)
             // console.log('onProgress chunk', chunk, lines)
             const data = chunk && JSON.parse(chunk)
-            console.log('onProgress data', data)
+            // console.log('onProgress data', data)
             if (data) {
               if (data?.complete) {
                 onProgress?.(event, 'complete', data)

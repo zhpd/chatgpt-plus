@@ -5,8 +5,9 @@ import { Chat } from '@/types/chat'
 import { useSettingContext } from '@/contexts'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
+import Box from './Box'
 
-function Setting() {
+function Setting(props: { children?: React.ReactElement; style?: React.CSSProperties }) {
   const { t, i18n } = useTranslation()
   const { common, setCommon } = useSettingContext()
   const { lang, setLang } = useSiteContext()
@@ -22,8 +23,10 @@ function Setting() {
     { label: 'English', value: 'en-US' },
   ]
   const styleList = [
-    { label: 'Ctrl + Enter', value: 'ctrl+enter' },
     { label: 'Enter', value: 'enter' },
+    { label: 'Ctrl + Enter', value: 'ctrl.enter' },
+    { label: 'Shift + Enter', value: 'shift.enter' },
+    { label: 'Alt + Enter', value: 'alt.enter' },
   ]
 
   useEffect(() => {
@@ -45,7 +48,7 @@ function Setting() {
   }
 
   return (
-    <>
+    <Box style={{...props?.style}}>
       <Form
         form={form}
         initialValues={{ ...option }}
@@ -70,7 +73,7 @@ function Setting() {
           />
         </Form.Item>
       </Form>
-    </>
+    </Box>
   )
 }
 

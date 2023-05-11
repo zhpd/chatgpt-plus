@@ -5,8 +5,9 @@ import { Chat } from '@/types/chat'
 import { useSettingContext } from '@/contexts'
 import { useTranslation } from '@/locales'
 import { useEffect, useState } from 'react'
+import Box from './Box'
 
-function Setting() {
+function Setting(props: { children?: React.ReactElement; style?: React.CSSProperties }) {
   const { t } = useTranslation()
   const { network, setNetwork } = useSettingContext()
   const [form] = Form.useForm()
@@ -33,7 +34,7 @@ function Setting() {
   }
 
   return (
-    <>
+    <Box style={{...props?.style}}>
       <Form
         form={form}
         initialValues={{ ...option }}
@@ -66,7 +67,7 @@ function Setting() {
           <Input />
         </Form.Item>
       </Form>
-    </>
+    </Box>
   )
 }
 

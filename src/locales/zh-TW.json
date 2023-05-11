@@ -77,7 +77,7 @@
     "m_surface": "外觀設定",
     "m_surface_option": {
       "theme": "主題",
-      "main_color": "主色",
+      "colorPrimary": "主色",
       "radius": "圓角",
       "loose": "寬鬆",
       "default": "預設"
