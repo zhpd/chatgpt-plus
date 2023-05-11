@@ -1,21 +1,25 @@
 import { useRouter } from 'next/router'
 import { ConfigProvider, Layout, App as AntdApp, theme as antdTheme, Avatar, Space, Button, Typography, Spin } from 'antd'
-import Icon, { MenuFoldOutlined, MenuUnfoldOutlined, ApiOutlined, BulbOutlined, SettingOutlined, MessageOutlined, ShoppingOutlined, ReadOutlined, RadiusSettingOutlined } from '@ant-design/icons'
+import Icon, { MenuFoldOutlined, MenuUnfoldOutlined, ApiOutlined, BulbOutlined, SettingOutlined, MessageOutlined, ShoppingOutlined, ShareAltOutlined, ReadOutlined, RadiusSettingOutlined } from '@ant-design/icons'
 const { Header, Sider, Content } = Layout
 import React, { useEffect, useState } from 'react'
 import { useSiteContext } from '@/contexts/site'
+import { useSettingContext } from '@/contexts/setting'
 import { useTranslation } from '@/locales'
 import Head from 'next/head'
 import Image from 'next/image'
 import IconLight from '@/assets/icons/light.svg'
 import IconDark from '@/assets/icons/dark.svg'
 import { tool } from '@/utils'
-import Setting from '../pages/setting/index'
+
+// default colorPrimary
+export const colorPrimary = '#1677ff'
 
 export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
   const { t } = useTranslation()
   const { title, theme, setTheme, event$ } = useSiteContext()
+  const { surface: surfaceConfig, common: commonConfig  } = useSettingContext()
   const router = useRouter()
   const [colorBgContainer, setColorBgContainer] = useState(token.colorBgContainer)
   const [colorPrimary, setColorPrimary] = useState(token.colorPrimary)
@@ -27,10 +31,11 @@ export default function LayoutBase(props: any) {
     { name: 'c.prompt', path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     { name: 'c.plugin', path: '/plugin', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     // { name: 'c.store', path: '/store', icon: <ShoppingOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: 'c.readme', path: '/readme', icon: <ReadOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
     // { name: 'c.share', path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.readme', path: '/readme', icon: <ReadOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
   ]
   const [menu, setMenu] = useState<any>(menuList[0])
+  const [headTitle, setHeadTitle] = useState<any>(t(menuList[0]?.['name']))
 
   const toUrl = (url: string) => {
     const { pathname } = router
@@ -55,7 +60,7 @@ export default function LayoutBase(props: any) {
     return false
   }
 
-  const switchTheme = () => {
+  const autoSwitchTheme = () => {
     let newTheme = theme
     switch (theme) {
       case 'light':
@@ -69,9 +74,18 @@ export default function LayoutBase(props: any) {
     }
     setColorBgContainer(newTheme == 'dark' ? token.colorFillContent : token.colorBgContainer)
     setColorPrimary(token.colorPrimary)
+    console.log('switchTheme', theme, newTheme)
     setTheme(newTheme)
-    console.log('newTheme', newTheme)
   }
+  useEffect(()=>{
+    if(surfaceConfig?.theme == 'light' || surfaceConfig?.theme == 'dark'){
+      let newTheme = surfaceConfig?.theme
+      setColorBgContainer(newTheme == 'dark' ? token.colorFillContent : token.colorBgContainer)
+      setColorPrimary(token.colorPrimary)
+      console.log('switchTheme', theme, newTheme)
+      setTheme(newTheme)
+    }
+  }, [surfaceConfig])
 
   const renderLogo = (props?: { style?: { [key: string]: any } } | undefined) => {
     const { style } = props || {}
@@ -91,7 +105,11 @@ export default function LayoutBase(props: any) {
   return (
     <ConfigProvider
       theme={{
-        algorithm: theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
+        token: {
+          colorPrimary: surfaceConfig?.colorPrimary || colorPrimary,
+          borderRadius: surfaceConfig?.radius || 6,
+        },
+        algorithm: [theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm, ...(surfaceConfig?.loose == 'loose' ? [antdTheme.compactAlgorithm] : [])],
       }}
     >
       <AntdApp>
@@ -126,6 +144,7 @@ export default function LayoutBase(props: any) {
                       key={item.path}
                       onClick={() => {
                         setMenu(item)
+                        setHeadTitle(t(item.name))
                         toUrl(item.path)
                       }}
                       ghost={getActive(item.path) ? false : true}
@@ -142,7 +161,7 @@ export default function LayoutBase(props: any) {
                 <Button
                   onClick={() => {
                     // 切换antd主题
-                    switchTheme()
+                    autoSwitchTheme()
                   }}
                   ghost
                   style={{ border: 'none', color: '#fff' }}
@@ -152,13 +171,15 @@ export default function LayoutBase(props: any) {
                 ></Button>
                 <Button
                   onClick={() => {
-                    // 设置弹窗
-                    tool.showModal(<Setting></Setting>, {
-                      title: t('c.setting'),
-                      width: 600,
-                      bodyStyle: { minHeight: 400 },
-                      footer: null
-                    })
+                    setHeadTitle(t('c.setting'))
+                    router.push('/setting')
+                    // // 设置弹窗
+                    // tool.showModal(<Setting></Setting>, {
+                    //   title: t('c.setting'),
+                    //   width: 600,
+                    //   bodyStyle: { minHeight: 400 },
+                    //   footer: null
+                    // })
                   }}
                   ghost
                   style={{ border: 'none' }}
@@ -166,7 +187,10 @@ export default function LayoutBase(props: any) {
                   icon={<SettingOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
                 ></Button>
                 <Button
-                  onClick={() => setCollapsed(!collapsed)}
+                  onClick={() =>  {
+                    setCollapsed(!collapsed)
+                    // setSide(!side)
+                  }}
                   ghost
                   style={{ border: 'none' }}
                   size={'large'}
@@ -193,7 +217,7 @@ export default function LayoutBase(props: any) {
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 {!side ? renderLogo({ style: { marginRight: 20 } }) : null}
                 <Typography.Title level={3} style={{ marginBottom: 0 }}>
-                  {t(menu.name)}
+                  {headTitle}
                 </Typography.Title>
               </div>
               <div></div>

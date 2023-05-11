@@ -14,7 +14,7 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
   const [form] = Form.useForm()
   const [option, setOption] = useState<{ [key: string]: string | number | boolean }>({
     lang: 'zh-CN',
-    send_style: 'ctrl+enter',
+    send_style: 'ctrl.enter',
     ...common
   })
   const langList = [

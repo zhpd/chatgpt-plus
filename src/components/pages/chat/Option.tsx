@@ -12,10 +12,10 @@ function Option(props: { chat: Chat }) {
   const { upChat } = useChatContext()
   const { theme } = useSiteContext()
   const { token } = antdTheme.useToken()
-  const [apitype, setApitype] = useState<'chatgpt-web' | 'chatgpt-api'>('chatgpt-web')
+  const [apitype, setApitype] = useState<'chatgpt-web' | 'chatgpt-api'>('chatgpt-api')
   const [modelList, setModelList] = useState<{ [key: string]: any }[]>([])
   const [option, setOption] = useState<{ [key: string]: string | number }>({
-    apitype: 'chatgpt-web',
+    apitype: 'chatgpt-api',
     model: 'chatgpt-web' == apitype ? 'text-davinci-002-render-sha' : 'gpt-3.5-turbo',
     max_tokens: 4000,
     temperature: 0.8,
@@ -26,7 +26,7 @@ function Option(props: { chat: Chat }) {
   const [form] = Form.useForm()
 
   useEffect(() => {
-    setApitype(chat?.option?.apitype || 'chatgpt-web')
+    setApitype(chat?.option?.apitype || 'chatgpt-api')
     setOption({ ...option, ...chat?.option })
     form.setFieldsValue({ ...option, ...chat?.option })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,7 +56,7 @@ function Option(props: { chat: Chat }) {
         {
           label: 'gpt-4',
           value: 'gpt-4',
-          disabled: true,
+          // disabled: true,
         },
       ])
     }

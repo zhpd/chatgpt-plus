@@ -120,12 +120,12 @@ function IndexPage(props: { style?: React.CSSProperties }) {
                 avatar={<Avatar shape={'circle'} size={42} style={{ padding: 4 }} src={<Image src={require('@/assets/openai.png')} width={42} height={42} alt="avatar" />} />}
                 title={
                   <Typography.Paragraph ellipsis={{ rows: 1 }} style={{ marginBottom: 0, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }}>
-                    {item.name}
+                    {item?.name}
                   </Typography.Paragraph>
                 }
                 description={
                   <Typography.Paragraph style={{ marginBottom: 0, fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }} ellipsis={{ rows: 1 }}>
-                    {item.lastMessageText || 'No message'}
+                    {item?.description || item?.lastMessageText || 'No message'}
                   </Typography.Paragraph>
                 }
               />
@@ -145,10 +145,11 @@ function IndexPage(props: { style?: React.CSSProperties }) {
           paddingBottom: 16,
           bottom: 0,
           height: 80,
-          background: token.colorBgContainer,
         }}
       >
-        <Button type="primary" block size="large">
+        <Button type="primary" block size="large" onClick={()=>{
+          open('https://chat.openai.com')
+        }}>
           {t('chat.tryGpt4')}
         </Button>
       </div>

@@ -34,7 +34,7 @@ function Message() {
   const bodySize = useSize(typeof document !== 'undefined' ? document?.querySelector('body') : null)
 
   useEffect(() => {
-    console.log(activeChat, activeChat?.uuid)
+    console.log('activeChat message:', activeChat, activeChat?.uuid)
     if (activeChat) {
       setUuid(activeChat?.uuid as string)
       setInfo(activeChat as Chat)
@@ -90,16 +90,19 @@ function Message() {
             parentMessageId: activeChat?.lastMessage?.messageId,
           }
         : {}),
+      messageId: uuidv4(),
       ...options,
     }
+    console.log('newOptions', newOptions)
     // 配置
     const newConfig = {
-      API_TYPE: activeChat?.option?.apitype || 'chatgpt-web',
+      API_TYPE: activeChat?.option?.apitype || 'chatgpt-api',
     }
     const _uuid = activeChat?.uuid || uuidv4()
     setUuid(_uuid)
+    const messageId = newOptions?.messageId || uuidv4()
     const nMessage: Message = {
-      id: uuidv4(),
+      id: messageId,
       uuid: _uuid,
       dateTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
       text,
@@ -160,7 +163,7 @@ function Message() {
       options: newOptions,
       config: newConfig,
       onProgress: (e: any, scene: any, body?: any) => {
-        console.log('onProgress', e, scene, body)
+        // console.log('onProgress', e, scene, body)
         switch (scene) {
           case 'error':
             message.error(body?.err)
@@ -186,6 +189,7 @@ function Message() {
             setTempMessage(undefined)
             newMessage(uuid, { ...errorMesasge })
             scrollBottom()
+            console.log('onProgress', e, scene, body)
             break
           case 'receive':
             // 接收到回复消息，添加临时-消息列表
@@ -201,18 +205,20 @@ function Message() {
             }
             setTempMessage(_tempMesasge)
             scrollBottom()
+            console.log('onProgress receive')
             break
           case 'complete':
             // 接收到回复消息，添加到消息列表
+            const _messageId = body?.messageId || uuidv4()
             const newMesasge = {
-              id: body?.id || uuidv4(),
+              id: _messageId,
               uuid: uuid,
               dateTime: dateTime,
               text: body?.text,
               inversion: false,
               error: false,
               conversationId: body?.conversationId,
-              messageId: body?.id,
+              messageId: _messageId,
               conversationOptions: newOptions,
               requestOptions: {
                 prompt: text,
@@ -233,6 +239,7 @@ function Message() {
             setTempMessage(undefined)
             newMessage(uuid, { ...newMesasge })
             scrollBottom()
+            console.log('onProgress', e, scene, body)
             break
           default:
             break
@@ -328,7 +335,7 @@ function Message() {
               }
               style={{ fontSize: 12, width: '100%', color: theme === 'dark' ? '#eee' : undefined, margin: 0, display: (bodySize?.width as number) < 500 ? 'none' : 'block' }}
             >
-              {info?.description || info?.uuid}
+              {info?.description}
             </Typography.Paragraph>
           </div>
         </div>

@@ -12,7 +12,7 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
   const { network, setNetwork } = useSettingContext()
   const [form] = Form.useForm()
   const [option, setOption] = useState<{ [key: string]: string | number | boolean }>({
-    API_TYPE: 'web',
+    API_TYPE: 'chatgpt-api',
     OPENAI_API_KEY: '',
     OPENAI_API_BASE_URL: '',
     OPENAI_ACCESS_TOKEN: '',
@@ -46,10 +46,10 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
       >
         <Form.Item label={t('setting.m_network_option.DEFAULT_API_TYPE')} name="API_TYPE">
           <Radio.Group size="small">
-            <Radio value={'web'}>
+            <Radio value={'chatgpt-web'}>
               {t('setting.m_network_option.apiTypeWEB')}
             </Radio>
-            <Radio value={'api'}>
+            <Radio value={'chatgpt-api'}>
               {t('setting.m_network_option.apiTypeAPI')}
             </Radio>
           </Radio.Group>

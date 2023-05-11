@@ -4,8 +4,9 @@ import { DisconnectOutlined, LinkOutlined, SendOutlined } from '@ant-design/icon
 import type { Message } from '@/types/chat'
 import type { MentionsOptionProps } from 'antd/es/mentions'
 import { useEffect, useState } from 'react'
+import { useKeyPress } from 'ahooks';
 import { t } from 'i18next'
-import { usePromptContext } from '@/contexts'
+import { usePromptContext, useSettingContext } from '@/contexts'
 
 export type BoxProps = {
   coiled: boolean
@@ -16,6 +17,7 @@ export type BoxProps = {
 function InputArea(props: BoxProps) {
   const { coiled, setCoiled, sendMessageText } = props
   const { promptList } = usePromptContext()
+  const { common: commonConfig  } = useSettingContext()
   const [plist, setPlist] = useState<{ label: string; value: string }[]>([])
   const [input, setInput] = useState<string>('')
   const [canSend, setCanSend] = useState<boolean>(false)
@@ -50,6 +52,21 @@ function InputArea(props: BoxProps) {
     setInput('')
     sendMessageText(input)
   }
+
+  useKeyPress(
+    [commonConfig?.send_style||'ctrl.enter'],
+    (event) => {
+      console.log('event', event);
+      onSend()
+      setTimeout(()=>{
+        setInput('')
+      }, 200)
+    },
+    {
+      exactMatch: true,
+      // events: ['keydown', 'keyup'],
+    },
+  );
 
   return (
     <div
