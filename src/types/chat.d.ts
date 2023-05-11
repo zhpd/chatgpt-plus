@@ -46,6 +46,7 @@ export interface ChatState {
 }
 
 export interface ConversationRequest {
+  messageId?: string
   conversationId?: string
   parentMessageId?: string
 }

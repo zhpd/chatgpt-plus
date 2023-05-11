@@ -78,6 +78,12 @@ function Message() {
     console.log('text', text)
     // !todo 过滤输入字符串
     if (!text) return
+    // 配置
+    const newConfig = {
+      API_TYPE: activeChat?.option?.apitype || 'chatgpt-api',
+    }
+    const _uuid = activeChat?.uuid || uuidv4()
+    setUuid(_uuid)
     // 是否联系上下文,最后一条消息的conversationOptions
     const newOptions = {
       ...(coiled && activeChat?.lastMessage && activeChat?.lastMessage?.conversationId
@@ -87,19 +93,18 @@ function Message() {
         : {}),
       ...(coiled && activeChat?.lastMessage && activeChat?.lastMessage?.messageId
         ? {
+            conversationId: _uuid,
             parentMessageId: activeChat?.lastMessage?.messageId,
           }
         : {}),
-      messageId: uuidv4(),
+      ...(newConfig?.API_TYPE == 'chatgpt-api'
+        ? {
+            messageId: uuidv4(),
+          }
+        : {}),
       ...options,
     }
     console.log('newOptions', newOptions)
-    // 配置
-    const newConfig = {
-      API_TYPE: activeChat?.option?.apitype || 'chatgpt-api',
-    }
-    const _uuid = activeChat?.uuid || uuidv4()
-    setUuid(_uuid)
     const messageId = newOptions?.messageId || uuidv4()
     const nMessage: Message = {
       id: messageId,
@@ -181,6 +186,7 @@ function Message() {
                 options: newOptions,
               },
               conversationRequest: {
+                messageId: newOptions?.messageId,
                 conversationId: newOptions?.conversationId,
                 parentMessageId: newOptions?.parentMessageId,
               },
@@ -209,7 +215,7 @@ function Message() {
             break
           case 'complete':
             // 接收到回复消息，添加到消息列表
-            const _messageId = body?.messageId || uuidv4()
+            const _messageId = body?.id || uuidv4()
             const newMesasge = {
               id: _messageId,
               uuid: uuid,
@@ -225,6 +231,7 @@ function Message() {
                 options: newOptions,
               },
               conversationRequest: {
+                messageId: newOptions?.messageId,
                 conversationId: newOptions?.conversationId,
                 parentMessageId: newOptions?.parentMessageId,
               },
