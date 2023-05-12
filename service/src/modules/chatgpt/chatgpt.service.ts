@@ -10,6 +10,8 @@ import type {
 } from 'chatgpt';
 // import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt';
 // import fetch from 'node-fetch';
+// import QuickLRU from 'quick-lru';
+import Keyv from 'keyv';
 import type { OutputOptions } from '../../utils';
 import { output } from '../../utils';
 
@@ -33,6 +35,7 @@ export class ChatgptService {
     throw new Error('Method not implemented.');
   }
   private api: ChatGPTAPI | ChatGPTUnofficialProxyAPI;
+  private messageStore: Keyv<ChatMessage>;
 
   constructor(private config: ConfigService) {}
 
@@ -59,6 +62,15 @@ export class ChatgptService {
     let fetch = await importDynamic('node-fetch');
     fetch = fetch.default;
 
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    let QuickLRU = await importDynamic('quick-lru');
+    QuickLRU = QuickLRU.default;
+    if (!this.messageStore) {
+      this.messageStore = new Keyv<ChatMessage, any>({
+        store: new QuickLRU({ maxSize: 10000 }),
+      });
+    }
+
     const _options: ChatGPTAPIOptions = {
       apiKey: '',
       fetch,
@@ -80,6 +92,7 @@ export class ChatgptService {
           frequency_penalty: 0,
           ...(options as SendMessageOptions)?.completionParams,
         },
+        messageStore: this.messageStore,
         maxModelTokens: 4000,
         maxResponseTokens: 1000,
       });
@@ -119,11 +132,12 @@ export class ChatgptService {
       ...options,
       // print the partial response as the AI is "typing"
       onProgress: (partialResponse) => {
-        console.log('gpt:', partialResponse);
+        // console.log('gpt:', partialResponse);
         resData = partialResponse;
         onProgress?.(partialResponse);
       },
     });
+    console.log('sendMessage result:', resData);
     return output({ code: 0, data: resData });
   }
 

@@ -37,6 +37,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@keyv/redis": "^2.5.8",
     "@nestjs/common": "9.3.12",
     "@nestjs/config": "2.3.1",
     "@nestjs/core": "9.3.12",
@@ -45,8 +46,10 @@
     "@nestjs/typeorm": "9.0.1",
     "cache-manager": "5.2.0",
     "chatgpt": "5.2.4",
+    "keyv": "^4.5.2",
     "mysql2": "3.2.0",
     "node-fetch": "3.3.1",
+    "quick-lru": "^6.1.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.8.0",
     "typeorm": "0.3.12",
