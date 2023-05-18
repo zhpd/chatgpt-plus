@@ -52,7 +52,7 @@ function Message() {
       setInfo(undefined)
       setList([])
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeChat])
 
   // resend message
@@ -81,6 +81,12 @@ function Message() {
     // 配置
     const newConfig = {
       API_TYPE: activeChat?.option?.apitype || 'chatgpt-api',
+      ...(activeChat?.option?.model ? { model: activeChat?.option?.model } : {}),
+      ...(activeChat?.option?.max_tokens ? { max_tokens: activeChat?.option?.max_tokens } : {}),
+      ...(activeChat?.option?.temperature ? { temperature: activeChat?.option?.temperature } : {}),
+      ...(activeChat?.option?.top_p ? { top_p: activeChat?.option?.top_p } : {}),
+      ...(activeChat?.option?.presence_penalty ? { presence_penalty: activeChat?.option?.presence_penalty } : {}),
+      ...(activeChat?.option?.frequency_penalty ? { frequency_penalty: activeChat?.option?.frequency_penalty } : {}),
     }
     const _uuid = activeChat?.uuid || uuidv4()
     setUuid(_uuid)

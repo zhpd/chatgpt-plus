@@ -45,6 +45,8 @@
       "apiType": "Access method",
       "apiTypeAPI": "api",
       "apiTypeWEB": "web",
+      "model": "Model",
+      "modelTip": "Select model",
       "max_tokens": "Maximum reply length",
       "max_tokensTip": "The maximum number of tokens used in a single interaction",
       "top_p": "Reply filter",
