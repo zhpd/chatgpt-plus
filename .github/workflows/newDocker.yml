@@ -29,7 +29,7 @@ jobs:
           node-version: 18.x
       
       - name: Install
-        run: npm ci
+        run: npm i
 
       - name: Build
         run: npm run build
@@ -45,7 +45,7 @@ jobs:
       
       - name: Install
         run: cd service | 
-            npm ci
+            npm i
 
       - name: Build
         run: cd service |
