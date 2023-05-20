@@ -2,6 +2,7 @@ import { Chat, Message } from '@/types/chat'
 import { uuidv4 } from '@/utils/uuid'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
+import storage from '@/utils/storage'
 
 export type ChatContentType = {
   chatList: Array<Chat>
@@ -36,19 +37,20 @@ export function ChatProvider({ children }) {
   let refList = useRef<Chat[]>()
 
   useEffect(() => {
-    let _chatListStr: string | '' = typeof window !== 'undefined' ? localStorage.getItem('chatList') || '[]' : '[]'
-    if (!_chatListStr) {
-      _chatListStr = '[]'
-    }
-    let _chatList = JSON.parse(_chatListStr)
-    setChatList(_chatList)
-    console.log(_chatList)
+    storage.get('chatList').then((res) => {
+      let _chatList = res
+      // 如果是string，则转换成数组
+      if (typeof _chatList == 'string') {
+        _chatList = JSON.parse(_chatList)
+      }
+      setChatList(_chatList as any[])
+    })
   }, [])
 
   useEffect(() => {
     refList.current = chatList
-    // 存储localStorage
-    localStorage.setItem('chatList', JSON.stringify(chatList))
+    // 存储
+    storage.set('chatList', chatList)
   }, [chatList])
 
   const newChat = (chat?: Chat, message?: Message) => {

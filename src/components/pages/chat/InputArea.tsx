@@ -26,13 +26,13 @@ function InputArea(props: BoxProps) {
 
   useEffect(() => {
     if (promptList) {
-      const list = promptList.map((item) => {
+      const list = promptList?.map?.((item) => {
         return {
           key: item.uuid as string,
           label: item.name as string,
           value: item.prompt as string,
         }
-      })
+      }) || []
       setPlist(list)
     }
   }, [promptList])

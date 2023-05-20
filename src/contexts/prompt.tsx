@@ -1,6 +1,7 @@
 import { Prompt } from '@/types/prompt'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
+import storage from '@/utils/storage'
 
 export type PromptContentType = {
   promptList: Array<Prompt>
@@ -30,19 +31,20 @@ export function PromptProvider({ children }) {
   let refList = useRef<Prompt[]>()
 
   useEffect(() => {
-    let _promptListStr: string | '' = typeof window !== 'undefined' ? localStorage.getItem('promptList') || '[]' : '[]'
-    if (!_promptListStr) {
-      _promptListStr = '[]'
-    }
-    let _promptList = JSON.parse(_promptListStr)
-    setPromptList(_promptList)
-    console.log(_promptList)
+    storage.get('promptList').then((res) => {
+      let _promptList = res
+      // 如果是string，则转换成数组
+      if (typeof _promptList == 'string') {
+        _promptList = JSON.parse(_promptList)
+      }
+      setPromptList(_promptList as any[])
+    })
   }, [])
 
   useEffect(() => {
     refList.current = promptList
-    // 存储localStorage
-    localStorage.setItem('promptList', JSON.stringify(promptList))
+    // 存储
+    storage.set('promptList', promptList)
   }, [promptList])
 
   const addPrompt = (prompt?: Prompt) => {

@@ -10,20 +10,17 @@ import Box from './Box'
 function Setting(props: { children?: React.ReactElement; style?: React.CSSProperties }) {
   const { t } = useTranslation()
   const { surface, setSurface } = useSettingContext()
-  const { lang, setTheme } = useSiteContext()
   const [form] = Form.useForm()
   const [option, setOption] = useState<{ [key: string]: string | number | boolean }>({
-    theme: 'light',
     colorPrimary: '#1677ff',
     radius: 4,
     loose: 'default',
     ...surface
   })
   const themeList = [
-    { label: '', value: 'light', color: '#ffffff' },
-    { label: '', value: 'dark', color: '#000000' },
-    { label: '', value: 'green', color: '#00B96B' },
-    { label: '', value: 'f60', color: '#ff6600' },
+    { label: '', value: '#1677ff'},
+    { label: '', value: '#00B96B'},
+    { label: '', value: '#ff6600'},
   ]
 
   useEffect(() => {
@@ -34,18 +31,6 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
 
   const onValuesChange = (changedValues: any, values: any) => {
     console.log('changedValues', changedValues)
-    if (changedValues['theme']) {
-      if (changedValues['theme'] == 'light' || changedValues['theme'] == 'dark') {
-        setTheme(changedValues['theme'])
-      } else {
-        // 获取颜色
-        const _theme = themeList.find((item) => item.value == changedValues['theme'])
-        if (_theme?.color) {
-          form.setFieldValue('colorPrimary', _theme?.color)
-          changedValues.colorPrimary = _theme?.color
-        }
-      }
-    }
     const _option = { ...option, ...changedValues }
     setOption({ ..._option })
     setSurface && setSurface({ ..._option })
@@ -62,11 +47,11 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
         layout="horizontal"
       // style={{ minWidth: '340px' }}
       >
-        <Form.Item label={t('setting.m_surface_option.theme')} name="theme">
+        <Form.Item label={t('setting.m_surface_option.theme')} name="colorPrimary">
           <Radio.Group size="small">
             {themeList.map((item) => (
               <Radio key={item.value} value={item.value}>
-                <div style={{ width: 50, height: 50, borderRadius: 10, backgroundColor: item?.color || undefined, border: '2px solid #efefef' }}></div>
+                <div style={{ width: 50, height: 50, borderRadius: 10, backgroundColor: item?.value || undefined, border: '2px solid #efefef' }}></div>
               </Radio>
             ))}
           </Radio.Group>

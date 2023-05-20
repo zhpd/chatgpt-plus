@@ -73,17 +73,13 @@ export default function LayoutBase(props: any) {
         break
     }
     setColorBgContainer(newTheme == 'dark' ? token.colorFillContent : token.colorBgContainer)
-    setColorPrimary(token.colorPrimary)
     console.log('switchTheme', theme, newTheme)
     setTheme(newTheme)
   }
   useEffect(()=>{
-    if(surfaceConfig?.theme == 'light' || surfaceConfig?.theme == 'dark'){
-      let newTheme = surfaceConfig?.theme
-      setColorBgContainer(newTheme == 'dark' ? token.colorFillContent : token.colorBgContainer)
-      setColorPrimary(token.colorPrimary)
-      console.log('switchTheme', theme, newTheme)
-      setTheme(newTheme)
+    if(surfaceConfig?.colorPrimary){
+      let _colorPrimary = surfaceConfig?.colorPrimary
+      setColorPrimary(_colorPrimary)
     }
   }, [surfaceConfig])
 
@@ -181,8 +177,8 @@ export default function LayoutBase(props: any) {
                     //   footer: null
                     // })
                   }}
-                  ghost
-                  style={{ border: 'none' }}
+                  ghost={getActive('/setting') ? false : true}
+                  style={{ border: getActive('/setting') ? undefined : 'none', color: getActive('/setting') ? colorPrimary : theme === 'dark' ? iconColor : '#555' }}
                   size={'large'}
                   icon={<SettingOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
                 ></Button>

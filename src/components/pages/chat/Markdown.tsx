@@ -29,7 +29,7 @@ function Markdown(props: MarkdownProps) {
   const backgroundColor = () => {
     if (role === 'user') {
       if (theme === 'dark') {
-        return token.colorLinkHover
+        return token.colorPrimaryBgHover
       } else {
         return token.colorPrimaryBgHover
       }
@@ -69,6 +69,7 @@ function Markdown(props: MarkdownProps) {
             // const match = /language-(\w+)/.exec(className || '')
             const language = className.split('-')[1]
             return !inline ? (
+              // @ts-ignore
               <SyntaxHighlighter
                 showLineNumbers={true} // 是否展示左侧行数
                 lineNumberStyle={{ color: '#ddd', fontSize: 10 }} // 左侧行数的样式

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import storage from '@/utils/storage'
 
 export type SettingType = {
   common: any
@@ -25,8 +26,8 @@ export function SettingProvider({ children }) {
   const [network, setNetwork] = useState<any>({})
 
   // useEffect(() => {
-  //   // 存储localStorage
-  //   localStorage.setItem('theme', theme)
+  //   // 存储
+  //   storage.set('theme', theme)
   //   console.log('theme', theme)
   //   // 现在可以使用 JavaScript 来更改颜色方案
   //   document?.documentElement?.setAttribute('data-theme', theme)

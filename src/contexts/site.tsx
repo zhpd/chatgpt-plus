@@ -2,6 +2,7 @@ import { useEventEmitter } from 'ahooks'
 import { EventEmitter } from 'ahooks/lib/useEventEmitter'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import storage from '@/utils/storage'
 
 export type SiteType = {
   theme: 'dark' | 'light' | 'auto'
@@ -15,11 +16,11 @@ export type SiteType = {
 
 const Context = createContext<SiteType>({
   theme: 'light',
-  setTheme: (theme: string) => { },
+  setTheme: (theme: string) => {},
   lang: 'zh-CN',
-  setLang: (lang: string) => { },
+  setLang: (lang: string) => {},
   title: 'ChatGPT-Plus',
-  setTitle: (title: string) => { },
+  setTitle: (title: string) => {},
   event$: new EventEmitter(), // 全局event事件
 })
 
@@ -32,24 +33,27 @@ export function SiteProvider({ children }) {
   // const refTheme = useRef<'dark' | 'light' | 'auto' >('light')
   // const refLang = useRef<string>('zh-CN')
 
-  // useEffect(() => {
-  //   let _theme: string = typeof window !== 'undefined' ? localStorage.getItem('theme') || '' : 'light'
-  //   if (_theme !== 'dark' && _theme !== 'light' && _theme !== 'auto') {
-  //     _theme = 'light'
-  //   }
-  //   setTheme(_theme as 'dark' | 'light' | 'auto' )
-
-  //   let _lang: string = typeof window !== 'undefined' ? localStorage.getItem('lang') || '' : 'zh-CN'
-  //   if (_lang !== 'zh-CN' && _lang !== 'en-US') {
-  //     _lang = 'zh-CN'
-  //   }
-  //   setLang(_lang)
-  // }, [])
+  useEffect(() => {
+    // storage.get('theme').then((res) => {
+    //   let _theme = res
+    //   if (_theme !== 'dark' && _theme !== 'light' && _theme !== 'auto') {
+    //     _theme = 'light'
+    //   }
+    //   setTheme(_theme)
+    // })
+    storage.get('lang').then((res) => {
+      let _lang = res
+      if (_lang !== 'zh-CN' && _lang !== 'en-US' && _lang !== 'zh-TW') {
+        _lang = 'zh-CN'
+      }
+      setLang(_lang)
+    })
+  }, [])
 
   useEffect(() => {
     // refTheme.current = theme
-    // 存储localStorage
-    localStorage.setItem('theme', theme)
+    // 存储
+    storage.set('theme', theme)
     console.log('theme', theme)
     // 现在可以使用 JavaScript 来更改颜色方案
     document?.documentElement?.setAttribute('data-theme', theme)
@@ -70,8 +74,8 @@ export function SiteProvider({ children }) {
   useEffect(() => {
     // refLang.current = lang
     console.log('site lang', lang)
-    // 存储localStorage
-    localStorage.setItem('lang', lang)
+    // 存储
+    storage.set('lang', lang)
   }, [lang])
 
   return (

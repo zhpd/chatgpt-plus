@@ -45,7 +45,7 @@ function IndexPage() {
     console.log(_uuid, _prompt)
     if (_uuid) {
       setUuid(_uuid)
-      const _chat = chatList.find((item) => item.uuid == _uuid)
+      const _chat = chatList?.find?.((item) => item.uuid == _uuid)
       if (_chat) {
         console.log(_chat)
         setActiveChat(_chat)
@@ -54,7 +54,7 @@ function IndexPage() {
       if (_prompt) {
         addChat(_prompt)
       } else {
-        if (chatList && chatList.length > 0) {
+        if (chatList && chatList?.length > 0) {
           openChat(chatList[0]['uuid'])
         }
       }

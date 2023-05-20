@@ -27,7 +27,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
     const _uuid = router.query?.uuid as string
     if (_action) {
       if (_action == 'edit' && _uuid) {
-        openAction(_action, { prompt: promptList.find((item) => item.uuid == _uuid) })
+        openAction(_action, { prompt: promptList?.find?.((item) => item.uuid == _uuid) || {} })
       } else {
         openAction(_action)
       }
