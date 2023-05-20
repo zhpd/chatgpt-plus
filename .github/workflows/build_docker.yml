@@ -29,6 +29,26 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Build Web
+        id: build_web
+        run: | 
+          npm i
+          npm run build
+
+      - name: Build Service
+        id: build_service
+        run: | 
+          cd service 
+          npm i 
+          npm run build
+          cd ../
+
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v4
