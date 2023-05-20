@@ -22,7 +22,7 @@
   },
   "scripts": {
     "dev": "nest start --watch",
-    "build": "nest build",
+    "build": "nest build --webpack && cd dist && npm init -y && npm i . chatgpt node-fetch quick-lru --production && cd ..",
     "start": "node dist/main",
     "start:nest": "nest start",
     "start:dev": "nest start --watch",
@@ -45,15 +45,16 @@
     "@nestjs/throttler": "4.0.0",
     "@nestjs/typeorm": "9.0.1",
     "cache-manager": "5.2.0",
-    "chatgpt": "5.2.4",
+    "chatgpt": "^5.2.4",
     "keyv": "4.5.2",
     "mysql2": "3.2.0",
-    "node-fetch": "3.3.1",
-    "quick-lru": "6.1.1",
+    "node-fetch": "^3.3.1",
+    "quick-lru": "^6.1.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.8.0",
     "typeorm": "0.3.12",
-    "uuid": "9.0.0"
+    "uuid": "9.0.0",
+    "webpack-node-externals": "^3.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "9.3.0",
