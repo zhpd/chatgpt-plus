@@ -45,8 +45,8 @@ function Box(props: BoxProps) {
             token={token}
             role={item?.inversion == true ? 'user' : 'system'}
             style={{
-              ...(item.error && { border: item.error ? `1px solid ${token.colorBorderSecondary}` : undefined }),
-              ...(item.error && { backgroundColor: item.error ? token.colorWarningBorder : undefined }),
+              ...item?.error ? {border: `1px solid ${token.colorBorderSecondary}`}:{},
+              ...item?.error ? {backgroundColor: `${token.colorWarningBorder}`}:{},
             }}
           >
             {item?.text}
