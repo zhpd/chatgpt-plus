@@ -9,7 +9,8 @@ on:
     types: [created] # 表示在创建新的 Release 时触发
 
 jobs:
-  checkout:
+  build_docker:
+    name: Build docker
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,43 +20,6 @@ jobs:
           echo 本次构建的版本为：${{ github.ref_name }}
           env
 
-  build_web:
-    needs: [checkout]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-      
-      - name: Install
-        run: npm i
-
-      - name: Build
-        run: npm run build
-      
-  build_service:
-    needs: [checkout]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-      
-      - name: Install
-        run: cd service | 
-            npm i
-
-      - name: Build
-        run: cd service |
-             npm run build
-
-  build_docker:
-    needs: [build_web, build_service]
-    name: Build docker
-    runs-on: ubuntu-latest
-    steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -65,6 +29,23 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Build Web
+        id: build_web
+        run: | 
+          npm i
+          npm run build
+
+      - name: Build Service
+        id: build_service
+        run: | 
+          cd service && npm i
+          cd service && npm run build
 
       - name: Build and push
         id: docker_build
