@@ -1,5 +1,6 @@
 import { useSiteContext } from '@/contexts/site'
-import { Checkbox, Form, Input, InputNumber, Slider, Radio, Select, Switch, theme as antdTheme, Typography } from 'antd'
+import { Checkbox, Form, Input, InputNumber, Slider, Radio, Select, Switch, theme as antdTheme, Typography, ColorPicker } from 'antd'
+import type { Color } from 'antd/es/color-picker';
 import { PlusOutlined } from '@ant-design/icons'
 import { Chat } from '@/types/chat'
 import { useSettingContext } from '@/contexts'
@@ -31,6 +32,12 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
 
   const onValuesChange = (changedValues: any, values: any) => {
     console.log('changedValues', changedValues)
+    if(changedValues.colorPrimary){
+      // 判断Color类型
+      if(typeof changedValues.colorPrimary === 'object'){
+        changedValues.colorPrimary = changedValues.colorPrimary?.toHexString?.()
+      }
+    }
     const _option = { ...option, ...changedValues }
     setOption({ ..._option })
     setSurface && setSurface({ ..._option })
@@ -57,7 +64,7 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
           </Radio.Group>
         </Form.Item>
         <Form.Item label={t('setting.m_surface_option.colorPrimary')} name="colorPrimary">
-          <Input style={{ width: '90px' }} />
+          <ColorPicker format={'hex'} />
         </Form.Item>
         <Form.Item label={t('setting.m_surface_option.radius')} name="radius">
           <InputNumber />
