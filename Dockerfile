@@ -38,16 +38,16 @@ WORKDIR /app
 # COPY ./public /app/web/public
 
 # copy .next/front -- 从源码构建结果中复制
-COPY ./.next/standalone/* /app/web/
-COPY ./.next/static/* /app/web/.next/static/
-COPY ./public/* /app/web/public/
+COPY .next/standalone/* /app/web/
+COPY .next/static/* /app/web/.next/static/
+COPY public/* /app/web/public/
 
 WORKDIR /app/service
 # # copy backend -- 从docker构建中复制,运行太慢
 # COPY --from=backend /app/dist /app/service/dist
 
 # copy service/dist/backend -- 从源码构建结果中复制
-COPY ./service/dist/* /app/service/dist/
+COPY service/dist/* /app/service/dist/
 
 # start.sh
 COPY ./docker-start.sh /app
