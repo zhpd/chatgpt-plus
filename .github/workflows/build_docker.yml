@@ -59,6 +59,11 @@ jobs:
           ls -la
           cd ../../
 
+      - name: Get version number
+        id: version
+        run: |
+          echo ::set-output name=VERSION::$(node -p "require('./package.json').version")
+
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v4
@@ -68,5 +73,5 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/chatgpt-plus:${{ github.ref_name }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/chatgpt-plus:${{ steps.version.outputs.VERSION }}
             ${{ secrets.DOCKERHUB_USERNAME }}/chatgpt-plus:latest
