@@ -47,7 +47,6 @@ jobs:
           cd service 
           npm i 
           npm run build
-          cd ../
 
       - name: Build and push
         id: docker_build
