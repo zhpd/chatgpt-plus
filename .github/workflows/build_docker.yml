@@ -40,6 +40,7 @@ jobs:
         run: | 
           npm i
           npm run build
+          ls -la
 
       - name: Build Service
         id: build_service
@@ -47,6 +48,13 @@ jobs:
           cd service 
           npm i 
           npm run build
+          cd ../
+          ls -la
+      
+      - name: Show List
+        id: show_list
+        run: | 
+          ls -la
 
       - name: Build and push
         id: docker_build
