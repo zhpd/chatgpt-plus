@@ -1,8 +1,4 @@
-**/node_modules
-*/node_modules
-node_modules
 Dockerfile
-.next
-dist
-*/.*
-!.env
+node_modules
+*.log
+.DS_Store
