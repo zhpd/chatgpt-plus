@@ -12,8 +12,6 @@ jobs:
   build_docker:
     name: Build docker
     runs-on: ubuntu-latest
-    env:
-      VERSION: ""
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -64,7 +62,7 @@ jobs:
       - name: Get version number
         id: version
         run: |
-          echo "::set-env name=VERSION::$(node -p "require('./package.json').version")"
+          echo "::set-output name=version::$(node -p "require('./package.json').version")"
 
       - name: Build and push
         id: docker_build
@@ -75,5 +73,5 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/chatgpt-plus:${{ env.VERSION }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/chatgpt-plus:${{ steps.version.outputs.version }}
             ${{ secrets.DOCKERHUB_USERNAME }}/chatgpt-plus:latest
