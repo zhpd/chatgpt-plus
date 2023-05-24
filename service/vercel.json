@@ -1,16 +1,10 @@
 {
   "devCommand": "npm run dev",
   "outputDirectory": "./dist/",
-  "builds": [
-    {
-      "src": "src/main.ts",
-      "use": "@vercel/node"
-    }
-  ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/main.js",
+      "dest": "main.js",
       "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"],
       "headers": {
         "Access-Control-Allow-Credentials": "true",
