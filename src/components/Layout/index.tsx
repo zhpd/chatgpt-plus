@@ -1,6 +1,18 @@
 import { useRouter } from 'next/router'
 import { ConfigProvider, Layout, App as AntdApp, theme as antdTheme, Avatar, Space, Button, Typography, Spin } from 'antd'
-import Icon, { MenuFoldOutlined, MenuUnfoldOutlined, ApiOutlined, BulbOutlined, SettingOutlined, MessageOutlined, ShoppingOutlined, ShareAltOutlined, ReadOutlined, RadiusSettingOutlined } from '@ant-design/icons'
+import Icon, {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  ApiOutlined,
+  GithubOutlined,
+  BulbOutlined,
+  SettingOutlined,
+  MessageOutlined,
+  ShoppingOutlined,
+  ShareAltOutlined,
+  ReadOutlined,
+  RadiusSettingOutlined,
+} from '@ant-design/icons'
 const { Header, Sider, Content } = Layout
 import React, { useEffect, useState } from 'react'
 import { useSiteContext } from '@/contexts/site'
@@ -12,6 +24,8 @@ import IconLight from '@/assets/icons/light.svg'
 import IconDark from '@/assets/icons/dark.svg'
 import { tool } from '@/utils'
 
+const {version: packageVersion, name: packageName} = require('@/../package.json')
+
 // default colorPrimary
 export const colorPrimary = '#1677ff'
 
@@ -19,7 +33,7 @@ export default function LayoutBase(props: any) {
   const { token } = antdTheme.useToken()
   const { t } = useTranslation()
   const { title, theme, setTheme, event$ } = useSiteContext()
-  const { surface: surfaceConfig, common: commonConfig  } = useSettingContext()
+  const { surface: surfaceConfig, common: commonConfig } = useSettingContext()
   const router = useRouter()
   const [colorBgContainer, setColorBgContainer] = useState(token.colorBgContainer)
   const [colorPrimary, setColorPrimary] = useState(token.colorPrimary)
@@ -76,8 +90,8 @@ export default function LayoutBase(props: any) {
     console.log('switchTheme', theme, newTheme)
     setTheme(newTheme)
   }
-  useEffect(()=>{
-    if(surfaceConfig?.colorPrimary){
+  useEffect(() => {
+    if (surfaceConfig?.colorPrimary) {
       let _colorPrimary = surfaceConfig?.colorPrimary
       setColorPrimary(_colorPrimary)
     }
@@ -146,6 +160,8 @@ export default function LayoutBase(props: any) {
                       ghost={getActive(item.path) ? false : true}
                       size={'large'}
                       icon={item.icon}
+                      // @ts-ignore
+                      title={t(item.name)}
                       style={{ border: getActive(item.path) ? undefined : 'none', color: getActive(item.path) ? item.iconColorActive : theme === 'dark' ? item.iconColor : '#555' }}
                     >
                       {collapsed ? '' : t(item.name)}
@@ -169,20 +185,13 @@ export default function LayoutBase(props: any) {
                   onClick={() => {
                     setHeadTitle(t('c.setting'))
                     router.push('/setting')
-                    // // 设置弹窗
-                    // tool.showModal(<Setting></Setting>, {
-                    //   title: t('c.setting'),
-                    //   width: 600,
-                    //   bodyStyle: { minHeight: 400 },
-                    //   footer: null
-                    // })
                   }}
                   ghost={getActive('/setting') ? false : true}
                   style={{ border: getActive('/setting') ? undefined : 'none', color: getActive('/setting') ? colorPrimary : theme === 'dark' ? iconColor : '#555' }}
                   size={'large'}
                   icon={<SettingOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
                 ></Button>
-                <Button
+                {/* <Button
                   onClick={() =>  {
                     setCollapsed(!collapsed)
                     // setSide(!side)
@@ -194,7 +203,20 @@ export default function LayoutBase(props: any) {
                     className: 'trigger',
                     style: { color: theme === 'dark' ? iconColor : '#555' },
                   })}
+                ></Button> */}
+                <Button
+                  onClick={() => {
+                    setHeadTitle(t('c.github'))
+                    window.open('https://github.com/zhpd/chatgpt-plus')
+                  }}
+                  ghost={getActive('/github') ? false : true}
+                  style={{ border: getActive('/github') ? undefined : 'none', color: getActive('/github') ? colorPrimary : theme === 'dark' ? iconColor : '#555' }}
+                  size={'large'}
+                  icon={<GithubOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
                 ></Button>
+                {packageVersion && <Typography.Paragraph type="secondary" style={{ color: theme === 'dark' ? iconColor : '#555', fontSize:'10px', marginBottom:0 }}>
+                  {'v'+packageVersion}
+                </Typography.Paragraph>}
               </Space>
             </div>
           </Sider>
