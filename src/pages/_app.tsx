@@ -20,28 +20,27 @@ const Layout = dynamic(() => import('@/components/Layout'), {
   ),
 })
 
+ConfigProvider.config({
+  prefixCls: 'ant', // 4.13.0+
+  iconPrefixCls: 'anticon', // 4.17.0+
+})
+
 function App({ Component, pageProps: { ...pageProps } }: AppProps) {
   return (
     <>
-      <AntdApp style={{ height: '100%' }}>
-        <SiteProvider>
-          <SettingProvider>
-            <PromptProvider>
-              <ChatProvider>
-                {withTheme(
-                  <AntdApp style={{ height: '100%' }}>
-                    <StyleProvider hashPriority="high">
-                      <Layout>
-                        <Component {...pageProps} />
-                      </Layout>
-                    </StyleProvider>
-                  </AntdApp>
-                )}
-              </ChatProvider>
-            </PromptProvider>
-          </SettingProvider>
-        </SiteProvider>
-      </AntdApp>
+      <SiteProvider>
+        <SettingProvider>
+          <PromptProvider>
+            <ChatProvider>
+              <StyleProvider hashPriority="high">
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </StyleProvider>
+            </ChatProvider>
+          </PromptProvider>
+        </SettingProvider>
+      </SiteProvider>
       <Analytics />
     </>
   )

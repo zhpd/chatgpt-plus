@@ -122,7 +122,7 @@ export default function LayoutBase(props: any) {
         algorithm: [theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm, ...(surfaceConfig?.loose == 'loose' ? [antdTheme.compactAlgorithm] : [])],
       }}
     >
-      <AntdApp>
+      <AntdApp style={{ height: '100vh', width: '100vw', overflow:'hidden', display:'flex' }}>
         <Head>
           <title>{title || 'ChatGPT-Plus'}</title>
           <meta property="og:title" content={title} key={title} />
@@ -132,6 +132,11 @@ export default function LayoutBase(props: any) {
             borderRadius: '6px',
             overflow: 'hidden',
             height: 'calc(100vh - 20px)',
+            // maxWidth: '1024px',
+            // maxHeight: '768px',
+            // justifyContent: 'center',
+            // alignSelf: 'center',
+            // margin: '10px auto',
             margin: '10px',
             backgroundColor: '#000',
             border: theme === 'dark' ? `1px solid ${token.colorBorder}22` : '1px solid #ffffffff',
@@ -214,7 +219,7 @@ export default function LayoutBase(props: any) {
                   size={'large'}
                   icon={<GithubOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
                 ></Button>
-                {packageVersion && <Typography.Paragraph type="secondary" style={{ color: theme === 'dark' ? iconColor : '#555', fontSize:'10px', marginBottom:0 }}>
+                {packageVersion && <Typography.Paragraph type="secondary" style={{ color: theme === 'dark' ? '#555' : '#ccc', fontSize:'8px', marginBottom:0 }}>
                   {'v'+packageVersion}
                 </Typography.Paragraph>}
               </Space>
