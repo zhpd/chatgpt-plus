@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { ConfigProvider, Layout, App as AntdApp, theme as antdTheme, Avatar, Space, Button, Typography, Spin } from 'antd'
-import Icon, {
+import AntIcon, {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   ApiOutlined,
@@ -13,6 +13,7 @@ import Icon, {
   ReadOutlined,
   RadiusSettingOutlined,
 } from '@ant-design/icons'
+import Icon from '@/components/Icon'
 const { Header, Sider, Content } = Layout
 import React, { useEffect, useState } from 'react'
 import { useSiteContext } from '@/contexts/site'
@@ -24,7 +25,7 @@ import IconLight from '@/assets/icons/light.svg'
 import IconDark from '@/assets/icons/dark.svg'
 import { tool } from '@/utils'
 
-const {version: packageVersion, name: packageName} = require('@/../package.json')
+const { version: packageVersion, name: packageName } = require('@/../package.json')
 
 // default colorPrimary
 export const colorPrimary = '#1677ff'
@@ -41,12 +42,12 @@ export default function LayoutBase(props: any) {
   const [side, setSide] = useState(true)
   const iconColor = '#CCC'
   const menuList = [
-    { name: 'c.message', path: '/chat', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: 'c.prompt', path: '/prompt', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: 'c.plugin', path: '/plugin', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    // { name: 'c.store', path: '/store', icon: <ShoppingOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    // { name: 'c.share', path: '/share', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
-    { name: 'c.readme', path: '/readme', icon: <ReadOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.message', path: '/chat', iconName: 'MessageOutlined', icon: <MessageOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.prompt', path: '/prompt', iconName: 'BulbOutlined', icon: <BulbOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.plugin', path: '/plugin', iconName: 'ApiOutlined', icon: <ApiOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    // { name: 'c.store', path: '/store',iconName: 'ShoppingOutlined', icon: <ShoppingOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    // { name: 'c.share', path: '/share',iconName: 'ShareAltOutlined', icon: <ShareAltOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
+    { name: 'c.readme', path: '/readme', iconName: 'ReadOutlined', icon: <ReadOutlined />, iconColor: iconColor, iconColorActive: colorPrimary },
   ]
   const [menu, setMenu] = useState<any>(menuList[0])
   const [headTitle, setHeadTitle] = useState<any>(t(menuList[0]?.['name']))
@@ -122,7 +123,7 @@ export default function LayoutBase(props: any) {
         algorithm: [theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm, ...(surfaceConfig?.loose == 'loose' ? [antdTheme.compactAlgorithm] : [])],
       }}
     >
-      <AntdApp style={{ height: '100vh', width: '100vw', overflow:'hidden', display:'flex' }}>
+      <AntdApp style={{ height: '100vh', width: '100vw', overflow: 'hidden', display: 'flex' }}>
         <Head>
           <title>{title || 'ChatGPT-Plus'}</title>
           <meta property="og:title" content={title} key={title} />
@@ -162,12 +163,14 @@ export default function LayoutBase(props: any) {
                         setHeadTitle(t(item.name))
                         toUrl(item.path)
                       }}
+                      type={getActive(item.path) ? 'primary' : 'text'}
                       ghost={getActive(item.path) ? false : true}
                       size={'large'}
-                      icon={item.icon}
+                      icon={<Icon name={item.iconName} style={{ color: getActive(item.path) ? '#fff' : theme === 'dark' ? '#fff' : '#555' }} />}
                       // @ts-ignore
                       title={t(item.name)}
-                      style={{ border: getActive(item.path) ? undefined : 'none', color: getActive(item.path) ? item.iconColorActive : theme === 'dark' ? item.iconColor : '#555' }}
+                      style={{ border: 'none' }}
+                      // style={{ border: getActive(item.path) ? undefined : 'none', color: getActive(item.path) ? item.iconColorActive : theme === 'dark' ? '#fff' : '#555' }}
                     >
                       {collapsed ? '' : t(item.name)}
                     </Button>
@@ -184,7 +187,9 @@ export default function LayoutBase(props: any) {
                   style={{ border: 'none', color: '#fff' }}
                   size={'large'}
                   // icon={theme === 'dark' ? <SkinFilled style={{ color: iconColor }} /> : <SkinOutlined style={{ color: '#555' }} />}
-                  icon={theme === 'dark' ? <Icon component={IconDark} style={{ color: iconColor, fontSize: '18px' }} /> : <Icon component={IconLight} style={{ color: '#333', fontSize: '20px' }} />}
+                  icon={
+                    theme === 'dark' ? <AntIcon component={IconDark} style={{ color: iconColor, fontSize: '20px' }} /> : <AntIcon component={IconLight} style={{ color: '#333', fontSize: '22px' }} />
+                  }
                 ></Button>
                 <Button
                   onClick={() => {
@@ -196,7 +201,7 @@ export default function LayoutBase(props: any) {
                   size={'large'}
                   icon={<SettingOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
                 ></Button>
-                {/* <Button
+                <Button
                   onClick={() =>  {
                     setCollapsed(!collapsed)
                     // setSide(!side)
@@ -208,7 +213,7 @@ export default function LayoutBase(props: any) {
                     className: 'trigger',
                     style: { color: theme === 'dark' ? iconColor : '#555' },
                   })}
-                ></Button> */}
+                ></Button>
                 <Button
                   onClick={() => {
                     setHeadTitle(t('c.github'))
@@ -219,9 +224,11 @@ export default function LayoutBase(props: any) {
                   size={'large'}
                   icon={<GithubOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
                 ></Button>
-                {packageVersion && <Typography.Paragraph type="secondary" style={{ color: theme === 'dark' ? '#555' : '#ccc', fontSize:'8px', marginBottom:0 }}>
-                  {'v'+packageVersion}
-                </Typography.Paragraph>}
+                {packageVersion && (
+                  <Typography.Paragraph type="secondary" style={{ color: theme === 'dark' ? '#555' : '#ccc', fontSize: '8px', marginBottom: 0 }}>
+                    {'v' + packageVersion}
+                  </Typography.Paragraph>
+                )}
               </Space>
             </div>
           </Sider>
