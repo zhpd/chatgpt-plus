@@ -71,8 +71,52 @@
     "onlinePrompt": "在线提示语",
     "promptStoreTitle": "推荐提示语Prompt",
     "importExport": "导入导出",
+    "copy": "复制",
+    "copySuccess": "复制成功",
+    "chat": "对话",
     "search": "搜索",
-    "searchPlaceholder": "请输入提示词"
+    "searchPlaceholder": "请输入提示词",
+    "languagePlaceholder": "请选择语言",
+    "tag": {
+      "all": "全部",
+      "recommend": "推荐",
+      "star": "收藏",
+      "delete": "删除",
+      "deleteSuccess": "删除成功",
+      "deleteFailed": "删除失败",
+      "starSuccess": "收藏成功",
+      "starFailed": "收藏失败",
+      "unstarSuccess": "取消收藏成功",
+      "unstarFailed": "取消收藏失败"
+    }
+  },
+  "plugin": {
+    "newPlugin": "创建插件",
+    "editPlugin": "编辑插件",
+    "save": "保存",
+    "onlinePlugin": "在线插件",
+    "pluginStoreTitle": "推荐插件",
+    "importExport": "导入导出",
+    "search": "搜索",
+    "searchPlaceholder": "请输入插件",
+    "tag": {
+      "all": "全部",
+      "official": "官方",
+      "recommend": "推荐",
+      "star": "收藏",
+      "install": "安装",
+      "delete": "删除",
+      "deleteSuccess": "删除成功",
+      "deleteFailed": "删除失败",
+      "starSuccess": "收藏成功",
+      "starFailed": "收藏失败",
+      "unstarSuccess": "取消收藏成功",
+      "unstarFailed": "取消收藏失败",
+      "installSuccess": "安装成功",
+      "installFailed": "安装失败",
+      "uninstallSuccess": "卸载成功",
+      "uninstallFailed": "卸载失败"
+    }
   },
   "setting": {
     "m_surface": "外观配置",

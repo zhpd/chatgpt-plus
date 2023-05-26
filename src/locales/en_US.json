@@ -70,7 +70,48 @@
     "promptStoreTitle": "Recommended Prompts",
     "importExport": "Import and Export",
     "search": "Search",
-    "searchPlaceholder": "Enter a prompt"
+    "searchPlaceholder": "Enter a keyword ",
+    "languagePlaceholder": "Select language",
+    "tag": {
+      "all": "All",
+      "recommend": "Recommend",
+      "star": "Star",
+      "delete": "Delete",
+      "deleteSuccess": "Delete succeeded",
+      "deleteFailed": "Delete failed",
+      "starSuccess": "Star succeeded",
+      "starFailed": "Star failed",
+      "unstarSuccess": "Unstar succeeded",
+      "unstarFailed": "Unstar failed"
+    }
+  },
+  "plugin": {
+    "newPlugin": "Create plugin",
+    "editPlugin": "Edit plugin",
+    "save": "Save",
+    "onlinePlugin": "Online plugin",
+    "pluginStoreTitle": "Recommended plugins",
+    "importExport": "Import and Export",
+    "search": "Search",
+    "searchPlaceholder": "Enter a plugin",
+    "tag": {
+      "all": "All",
+      "official": "Official",
+      "recommend": "Recommend",
+      "star": "Star",
+      "install": "Install",
+      "delete": "Delete",
+      "deleteSuccess": "Delete succeeded",
+      "deleteFailed": "Delete failed",
+      "starSuccess": "Star succeeded",
+      "starFailed": "Star failed",
+      "unstarSuccess": "Unstar succeeded",
+      "unstarFailed": "Unstar failed",
+      "installSuccess": "Install succeeded",
+      "installFailed": "Install failed",
+      "uninstallSuccess": "Uninstall succeeded",
+      "uninstallFailed": "Uninstall failed"
+    }
   },
   "setting": {
     "m_surface": "Surface",

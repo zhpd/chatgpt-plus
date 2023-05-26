@@ -1,77 +1,82 @@
 import { useSiteContext } from '@/contexts/site'
-import { Avatar, Button, Card, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Empty, Col, Row, Select, Tag, Badge } from 'antd'
+import { Avatar, Button, Card, Drawer, FloatButton, Input, Tag, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Empty, Col, Row, Select, Badge } from 'antd'
 import { StarOutlined, StarFilled } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { Prompt } from '@/types/prompt'
-import { usePromptContext } from '@/contexts/prompt'
-import { LanguageList } from '@/config/constant'
-import { uuidv4 } from '@/utils'
-import Item from './Item'
+import { Plugin } from '@/types/plugin'
+import { usePluginContext } from '@/contexts/plugin'
 
-let _datas: Prompt[] = [
+import Item from './Item'
+import { uuidv4 } from '@/utils'
+
+let _datas: Plugin[] = [
   {
     uuid: uuidv4(),
-    name: '机器学习',
-    image: 'https://cdn.staticfile.org/emoji-datasource-apple/14.0.0/img/apple/64/1f600.png',
-    description: '机器学习',
-    intro: '我想让你担任机器学习工程师。我会写一些机器学习的概念，你的工作就是用通俗易懂的术语来解释它们。这可能包括提供构建模型的分步说明、给出所用的技术或者理论、提供评估函数等。我的问题是',
-    prompt: '我想让你担任机器学习工程师。我会写一些机器学习的概念，你的工作就是用通俗易懂的术语来解释它们。这可能包括提供构建模型的分步说明、给出所用的技术或者理论、提供评估函数等。我的问题是',
+    name: 'Zapier',
+    image: 'https://cdn.zappy.app/8f853364f9b383d65b44e184e04689ed.png',
+    intro:
+      'Interact with over 5,000+ apps like Google Sheets, Gmail, HubSpot, Salesforce, and thousands more.Interact with over 5,000+ apps like Google Sheets, Gmail, HubSpot, Salesforce, and thousands more.',
+    description:
+      'Zapier can talk to any of 20k+ actions the user has exposed. Actions are single tasks (EG: add a lead, find a doc), Zaps are workflows of actions. Start new chat to refresh actions. Markdown links are relative to https://zapier.com/.',
+    mail: 'nla@zapier.com',
+    website: 'zapier.com',
+    apiurl: 'https://nla.zapier.com/api/v1/dynamic/openapi.json',
+    namespace: 'Zapier',
     datetime: '2023/3/20 11:32:26',
-    type: 'text',
-    status: 'online',
-    private: true,
-    star: 0,
-    isStar: false,
-    isSystem: true,
-    historyList: [
-      {
-        uuid: uuidv4(),
-        datetime: '2023/3/20 11:32:26',
-        name: '机器学习',
-        description: '机器学习',
-        prompt: '机器学习',
-        type: 'text',
-        status: 'online',
+    apply: 'chatgpt',
+    isInstall: true,
+    isStar: true,
+    isOfficial: true,
+    isRecommend: true,
+    lang: {
+      zh_CN: {
+        name: 'Zapier',
+        intro: '与超过5,000个应用程序（如Google表格，Gmail，HubSpot，Salesforce等）进行交互。与超过5,000个应用程序（如Google表格，Gmail，HubSpot，Salesforce等）进行交互。',
+        description:
+          'Zapier可以与用户公开的20k +操作中的任何操作进行通信。操作是单个任务（例如：添加线索，查找文档），Zaps是操作的工作流程。开始新的聊天以刷新操作。 Markdown链接相对于https://zapier.com/。',
       },
-    ],
-    lang: ['zh_CN', 'en_US'],
+    },
   },
 ]
 // 复制20个
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 136; i++) {
   _datas.push({
     ..._datas[0],
     uuid: uuidv4(),
+    // 随机一个是否安装
+    isInstall: Math.random() > 0.5,
     // 随机一个是否收藏
     isStar: Math.random() > 0.5,
-    // 随机一个是否系统
-    isSystem: Math.random() > 0.5,
+    // 随机一个是否官方
+    isOfficial: Math.random() > 0.5,
     // 随机一个是否推荐
     isRecommend: Math.random() > 0.5,
   })
 }
 
-function OnlinePrompt() {
+function OnlinePlugin() {
   const router = useRouter()
   const { token } = antdTheme.useToken()
   const { theme, lang } = useSiteContext()
   const { message, modal, notification } = App.useApp()
-  const { promptList, starPrompt, unstarPrompt } = usePromptContext()
+  const { pluginList, starPlugin, unstarPlugin } = usePluginContext()
   const { t } = useTranslation()
   const [search, setSearch] = useState<string>('')
-  const [language, setLanguage] = useState<string>(lang)
-  const [alllist, setAlllist] = useState<Prompt[]>(_datas)
-  const [list, setList] = useState<Prompt[]>(_datas)
+  const [alllist, setAlllist] = useState<Plugin[]>(_datas)
+  const [list, setList] = useState<Plugin[]>(_datas)
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [tagsData, setTagsData] = useState<{ [key: string]: string }[]>([
-    { key: 'prompt.tag.all', value: 'all', color: '' },
+    { key: 'plugin.tag.all', value: 'all', color: '' },
     // 推荐
-    { key: 'prompt.tag.recommend', value: 'recommend', color: 'red' },
+    { key: 'plugin.tag.recommend', value: 'recommend', color: 'red' },
+    // 安装
+    { key: 'plugin.tag.install', value: 'install', color: 'blue' },
     // 收藏
-    { key: 'prompt.tag.star', value: 'star', color: 'orange' },
+    { key: 'plugin.tag.star', value: 'star', color: 'orange' },
+    // 官方
+    { key: 'plugin.tag.official', value: 'official', color: 'green' },
   ])
 
   // useEffect(() => {
@@ -80,24 +85,25 @@ function OnlinePrompt() {
   // }, [])
 
   useEffect(() => {
-    // 判断是否存在已经收藏过
+    // 判断是否存在已经安装过
     const _list = list?.map((item) => {
-      let index = promptList.findIndex((tt) => item.uuid == tt.uuid)
+      let index = pluginList.findIndex((tt) => item.uuid == tt.uuid)
       if (index > -1) {
-        item.isStar = true
-        item.isRecommend = true
+        item.isInstall = true
       }
       return item
     })
     setList(_list)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [promptList])
+  }, [pluginList])
 
   useEffect(() => {
     // 通过标签筛选
     let _isAll = false
     let _isRecommend = false
+    let _isInstall = false
     let _isStar = false
+    let _isOfficial = false
     if (selectedTags.length > 0) {
       selectedTags.map((tag) => {
         if (tag == 'all') {
@@ -105,32 +111,43 @@ function OnlinePrompt() {
         } else if (tag == 'recommend') {
           _isRecommend = true
           _isAll = false
+        } else if (tag == 'install') {
+          _isInstall = true
+          _isAll = false
         } else if (tag == 'star') {
           _isStar = true
+          _isAll = false
+        } else if (tag == 'official') {
+          _isOfficial = true
           _isAll = false
         }
       })
     }
-    const _list = alllist.filter((item: Prompt) => {
+    const _list = alllist.filter((item: Plugin) => {
       // 通过搜索筛选
       if (search) {
-        if (item?.name?.indexOf(search) == -1 && item?.intro?.indexOf(search) == -1 && item?.description?.indexOf(search) == -1) {
+        if (
+          item?.name?.indexOf(search) == -1 &&
+          item?.intro?.indexOf(search) == -1 &&
+          item?.description?.indexOf(search) == -1 &&
+          item?.lang?.[lang]?.name?.indexOf(search) == -1 &&
+          item?.lang?.[lang]?.intro?.indexOf(search) == -1 &&
+          item?.lang?.[lang]?.description?.indexOf(search) == -1
+        ) {
           return false
         }
-      }
-      // 通过语言筛选
-      if (language && item?.lang?.indexOf(language) == -1) {
-        return false
       }
       if (_isAll) return true
       // 如果多个标签都选中了，则所有标签都需要符合
       if (_isRecommend && !item.isRecommend) return false
+      if (_isInstall && !item.isInstall) return false
       if (_isStar && !item.isStar) return false
+      if (_isOfficial && !item.isOfficial) return false
       return true
     })
     // console.log('_list', _list?.length, _list)
     setList(_list)
-  }, [search, language, selectedTags, alllist])
+  }, [search, lang, selectedTags, alllist])
 
   const searchRequest = () => {
     console.log('searchRequest', search)
@@ -190,32 +207,8 @@ function OnlinePrompt() {
           </Space>
         </div>
         <Space>
-          <Select
-            style={{ width: 120 }}
-            value={language}
-            placeholder={t('prompt.languagePlaceholder') as string}
-            onChange={(value) => {
-              setLanguage(value)
-            }}
-          >
-            {LanguageList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              )
-            })}
-          </Select>
           <Space.Compact style={{ width: '100%' }}>
-            <Input.Search
-              allowClear
-              placeholder={t('prompt.searchPlaceholder') as string}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              onPressEnter={() => {
-                searchRequest()
-              }}
-            />
+            <Input.Search allowClear placeholder={t('plugin.searchPlaceholder') as string} value={search} onChange={(e) => setSearch(e.target.value)} onPressEnter={searchRequest} />
           </Space.Compact>
         </Space>
       </div>
@@ -224,7 +217,7 @@ function OnlinePrompt() {
           <Empty style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}></Empty>
         ) : (
           <Row style={{ flexWrap: 'wrap', paddingLeft: 8, paddingTop: 8 }} gutter={[16, 16]}>
-            {list.map((item: Prompt) => {
+            {list.map((item: Plugin) => {
               return (
                 <Col key={item.uuid} span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
                   <Item info={item} />
@@ -245,4 +238,4 @@ function OnlinePrompt() {
   )
 }
 
-export default OnlinePrompt
+export default OnlinePlugin

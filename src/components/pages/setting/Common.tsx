@@ -5,6 +5,7 @@ import { Chat } from '@/types/chat'
 import { useSettingContext } from '@/contexts'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
+import { LanguageList, EnterKeyList } from '@/config/constant'
 import Box from './Box'
 
 function Setting(props: { children?: React.ReactElement; style?: React.CSSProperties }) {
@@ -13,20 +14,20 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
   const { lang, setLang } = useSiteContext()
   const [form] = Form.useForm()
   const [option, setOption] = useState<{ [key: string]: string | number | boolean }>({
-    lang: 'zh-CN',
+    lang: 'zh_CN',
     send_style: 'ctrl.enter',
-    ...common
+    ...common,
   })
   const langList = [
-    { label: '简体中文', value: 'zh-CN' },
-    { label: '繁體中文', value: 'zh-TW' },
-    { label: 'English', value: 'en-US' },
+    // { name: '简体中文', value: 'zh_CN' },
+    // { name: '繁體中文', value: 'zh_TW' },
+    // { name: 'English', value: 'en_US' },
+    ...LanguageList,
   ]
-  const styleList = [
-    { label: 'Enter', value: 'enter' },
-    { label: 'Ctrl + Enter', value: 'ctrl.enter' },
-    { label: 'Shift + Enter', value: 'shift.enter' },
-    { label: 'Alt + Enter', value: 'alt.enter' },
+  const enterKeyList = [
+    // { name: 'Enter', value: 'enter' },
+    // { name: 'Ctrl + Enter', value: 'ctrl.enter' },
+    ...EnterKeyList,
   ]
 
   useEffect(() => {
@@ -48,7 +49,7 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
   }
 
   return (
-    <Box style={{...props?.style}}>
+    <Box style={{ ...props?.style }}>
       <Form
         form={form}
         initialValues={{ ...option }}
@@ -56,21 +57,13 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
         labelCol={{ span: 6 }}
         // wrapperCol={{ span: 14, offset: 1 }}
         layout="horizontal"
-      // style={{ minWidth: '340px' }}
+        // style={{ minWidth: '340px' }}
       >
         <Form.Item label={t('setting.m_common_option.lang')} name="lang">
-          <Select
-            defaultValue="zh-CN"
-            style={{ width: 120 }}
-            options={langList}
-          />
+          <Select defaultValue="zh_CN" style={{ width: 180 }} options={langList} />
         </Form.Item>
         <Form.Item label={t('setting.m_common_option.send_message_style')} name="send_style">
-          <Select
-            defaultValue="ctrl+enter"
-            style={{ width: 120 }}
-            options={styleList}
-          />
+          <Select defaultValue="ctrl+enter" style={{ width: 180 }} options={enterKeyList} />
         </Form.Item>
       </Form>
     </Box>

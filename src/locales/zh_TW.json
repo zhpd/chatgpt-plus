@@ -72,7 +72,48 @@
     "promptStoreTitle": "推薦提示詞",
     "importExport": "匯入匯出",
     "search": "搜尋",
-    "searchPlaceholder": "請輸入提示詞"
+    "searchPlaceholder": "請輸入提示詞",
+    "languagePlaceholder": "請選擇語言",
+    "tag": {
+      "all": "全部",
+      "recommend": "推薦",
+      "star": "收藏",
+      "delete": "刪除",
+      "deleteSuccess": "刪除成功",
+      "deleteFailed": "刪除失敗",
+      "starSuccess": "收藏成功",
+      "starFailed": "收藏失敗",
+      "unstarSuccess": "取消收藏成功",
+      "unstarFailed": "取消收藏失敗"
+    }
+  },
+  "plugin": {
+    "newPlugin": "创建插件",
+    "editPlugin": "编辑插件",
+    "save": "保存",
+    "onlinePlugin": "在线插件",
+    "pluginStoreTitle": "推荐插件",
+    "importExport": "导入导出",
+    "search": "搜索",
+    "searchPlaceholder": "请输入插件",
+    "tag": {
+      "all": "全部",
+      "official": "官方",
+      "recommend": "推薦",
+      "star": "收藏",
+      "install": "安裝",
+      "delete": "刪除",
+      "deleteSuccess": "刪除成功",
+      "deleteFailed": "刪除失敗",
+      "starSuccess": "收藏成功",
+      "starFailed": "收藏失敗",
+      "unstarSuccess": "取消收藏成功",
+      "unstarFailed": "取消收藏失敗",
+      "installSuccess": "安裝成功",
+      "installFailed": "安裝失敗",
+      "uninstallSuccess": "卸載成功",
+      "uninstallFailed": "卸載失敗"
+    }
   },
   "setting": {
     "m_surface": "外觀設定",

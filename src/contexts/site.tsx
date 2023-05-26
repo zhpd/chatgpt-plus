@@ -17,7 +17,7 @@ export type SiteType = {
 const Context = createContext<SiteType>({
   theme: 'light',
   setTheme: (theme: string) => {},
-  lang: 'zh-CN',
+  lang: 'zh_CN',
   setLang: (lang: string) => {},
   title: 'ChatGPT-Plus',
   setTitle: (title: string) => {},
@@ -27,11 +27,11 @@ const Context = createContext<SiteType>({
 // @ts-ignore
 export function SiteProvider({ children }) {
   const [theme, setTheme] = useState<'dark' | 'light' | 'auto'>('light')
-  const [lang, setLang] = useState<string>('zh-CN')
+  const [lang, setLang] = useState<string>('zh_CN')
   const [title, setTitle] = useState<string>('ChatGPT-Plus')
   const event$ = useEventEmitter()
   // const refTheme = useRef<'dark' | 'light' | 'auto' >('light')
-  // const refLang = useRef<string>('zh-CN')
+  // const refLang = useRef<string>('zh_CN')
 
   useEffect(() => {
     // storage.get('theme').then((res) => {
@@ -43,8 +43,8 @@ export function SiteProvider({ children }) {
     // })
     storage.get('lang').then((res) => {
       let _lang = res
-      if (_lang !== 'zh-CN' && _lang !== 'en-US' && _lang !== 'zh-TW') {
-        _lang = 'zh-CN'
+      if (_lang !== 'zh_CN' && _lang !== 'en_US' && _lang !== 'zh_TW') {
+        _lang = 'zh_CN'
       }
       setLang(_lang)
     })
