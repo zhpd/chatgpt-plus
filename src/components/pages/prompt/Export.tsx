@@ -16,7 +16,7 @@ const _data: Prompt = {
   name: '小冰',
   description: '你的私人小秘书',
   prompt: '你好，我是小冰，你的私人小秘书',
-  dateTime: '2023/3/20 11:32:26',
+  datetime: '2023/3/20 11:32:26',
   type: 'text',
   status: 'online',
   private: true,
@@ -24,7 +24,7 @@ const _data: Prompt = {
   historyList: [
     {
       uuid: '1679282990940',
-      dateTime: '2023/3/20 11:32:26',
+      datetime: '2023/3/20 11:32:26',
       name: '小冰',
       description: '你的私人小秘书',
       prompt: '你好，我是小冰，你的私人小秘书',

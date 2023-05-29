@@ -19,6 +19,7 @@ import {
   Upload,
   Divider,
   Slider,
+  Collapse,
 } from 'antd'
 import { DeleteOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { usePromptContext } from '@/contexts'
@@ -26,13 +27,13 @@ import { Prompt } from '@/types/prompt'
 import { useTranslation } from '@/locales'
 import { uuidv4 } from '@/utils/uuid'
 import { useEffect, useState } from 'react'
-import { Model, ModelList } from '@/config/constant'
+import { Model, ModelList, LanguageList } from '@/config/constant'
 import { useRouter } from 'next/router'
 
-function Edit(props: { action: string; page: boolean; prompt?: Prompt }) {
+function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boolean }) {
   // const router = useRouter()
-  const { action, prompt, page = true } = props
-  const { theme } = useSiteContext()
+  const { action, prompt, page = true, edit = true } = props
+  const { theme, lang } = useSiteContext()
   const { t } = useTranslation()
   const { addPrompt, upPrompt, delPrompt } = usePromptContext()
   const { token } = antdTheme.useToken()
@@ -57,18 +58,18 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt }) {
 
   const onFinish = (values: any) => {
     console.log('Success:', values, action)
-    // if (action == 'add') {
-    //   // 新建
-    //   const _prompt: Prompt = {
-    //     uuid: uuidv4(),
-    //     ...values,
-    //     datetime: new Date().getTime().toString(),
-    //   }
-    //   addPrompt(_prompt)
-    // } else {
-    //   // 编辑
-    //   upPrompt(prompt?.uuid as string, values)
-    // }
+    if (action == 'add') {
+      // 新建
+      const _prompt: Prompt = {
+        uuid: uuidv4(),
+        ...values,
+        datetime: new Date().getTime().toString(),
+      }
+      addPrompt(_prompt)
+    } else {
+      // 编辑
+      upPrompt(prompt?.uuid as string, values)
+    }
   }
   const onReset = () => {
     form.resetFields()
@@ -130,7 +131,17 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt }) {
           </Space>
         </div>
       )}
-      <Form form={form} labelCol={{ span: 6 }} style={{ marginTop: 20 }} wrapperCol={{ span: 14 }} labelAlign="right" layout="horizontal" initialValues={{ ...initForm }} onFinish={onFinish}>
+      <Form
+        form={form}
+        disabled={edit ? false : true}
+        labelCol={{ span: 6 }}
+        style={{ marginTop: 20 }}
+        wrapperCol={{ span: 14 }}
+        labelAlign="right"
+        layout="horizontal"
+        initialValues={{ ...initForm }}
+        onFinish={onFinish}
+      >
         {/* <Form.Item label="类型" hidden name="type" valuePropName="type">
           <Radio.Group>
             <Radio value="text">文本</Radio>
@@ -142,7 +153,18 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt }) {
         <Form.Item label="介绍" name="intro" required>
           <Input />
         </Form.Item>
-        <Form.Item label="提示语" required>
+        <Form.Item label="语言" name="lang" required>
+          <Select defaultValue={lang} style={{ width: 120 }} placeholder={t('prompt.languagePlaceholder') as string}>
+            {LanguageList.map((item) => {
+              return (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              )
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item label="上下文提示词" required>
           <Form.List name="context">
             {(fields, { add, remove }) => (
               <>
@@ -158,20 +180,22 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt }) {
                     <Form.Item {...field} label="Prompt" name={[field.name, 'content']} noStyle rules={[{ required: true, message: 'Prompt is required' }]}>
                       <Input.TextArea placeholder="Input Prompt" rows={4} style={{ width: '100%' }} />
                     </Form.Item>
-                    <MinusCircleOutlined style={{ right: '-20px', position: 'absolute' }} onClick={() => remove(field.name)} />
+                    {edit && <MinusCircleOutlined style={{ right: '-20px', position: 'absolute' }} onClick={() => remove(field.name)} />}
                   </div>
                 ))}
-                <Form.Item>
-                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                    Add Prompt
-                  </Button>
-                </Form.Item>
+                {edit && (
+                  <Form.Item>
+                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                      Add Prompt
+                    </Button>
+                  </Form.Item>
+                )}
               </>
             )}
           </Form.List>
         </Form.Item>
 
-        <Divider plain>{'model config'}</Divider>
+        <Divider plain>{'模型参数配置'}</Divider>
 
         <Form.Item label={t('chat.option.model')} extra={t('chat.option.modelTip')} name="model">
           <Select defaultValue={Model['GPT-3.5-Turbo']}>

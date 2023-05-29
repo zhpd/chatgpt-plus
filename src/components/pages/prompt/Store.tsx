@@ -1,6 +1,6 @@
 import { useSiteContext } from '@/contexts/site'
 import { Avatar, Button, Card, Drawer, FloatButton, Input, InputRef, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Empty, Col, Row, Select, Tag, Badge } from 'antd'
-import { StarOutlined, StarFilled } from '@ant-design/icons'
+import { StarOutlined, StarFilled, FireFilled, FireOutlined } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -9,7 +9,7 @@ import { Prompt } from '@/types/prompt'
 import { usePromptContext } from '@/contexts/prompt'
 import { LanguageList } from '@/config/constant'
 import { tool, uuidv4 } from '@/utils'
-import { useSize } from 'ahooks';
+import { useSize } from 'ahooks'
 import Item from './Item'
 import Edit from './Edit'
 
@@ -61,9 +61,9 @@ function OnlinePrompt() {
   const { token } = antdTheme.useToken()
   const { theme, lang } = useSiteContext()
   const { message, modal, notification } = App.useApp()
-  const { promptList, starPrompt, unstarPrompt } = usePromptContext()
+  const { promptList, starPrompt, unstarPrompt, addPrompt } = usePromptContext()
   const { t } = useTranslation()
-  const size = useSize(document.body);
+  const size = useSize(document.body)
   const [open, setOpen] = useState<boolean>(false)
   const [openItem, setOpenItem] = useState<Prompt | null>(null)
   const [search, setSearch] = useState<string>('')
@@ -141,6 +141,27 @@ function OnlinePrompt() {
   const searchRequest = () => {
     console.log('searchRequest', search)
     // !todo 查询线上数据
+  }
+
+  const toStar = (item: Prompt) => {
+    if (item.isStar) {
+      unstarPrompt(item?.uuid)
+      setOpenItem({ ...item, isStar: false })
+      message.success(t('prompt.tag.unstarSuccess'))
+    } else {
+      starPrompt(item)
+      setOpenItem({ ...item, isStar: true })
+      message.success(t('prompt.tag.starSuccess'))
+    }
+  }
+
+  const toCopy = (item: Prompt) => {
+    addPrompt(item)
+    message.success(t('prompt.copySuccess'))
+  }
+
+  const toChat = (item: Prompt) => {
+    router.push(`/chat`)
   }
 
   const openInfo = (item: Prompt) => {
@@ -252,8 +273,53 @@ function OnlinePrompt() {
           }}
         />
       </div>
-      <Drawer title={t('c.prompt')} onClose={() => setOpen(false)} open={open} width={578} height={'80%'} destroyOnClose={true} placement={(size?.width as number) <= 1024 ? 'bottom' : 'right'}>
-        <Edit action="add" page={false} prompt={openItem as Prompt} />
+      <Drawer
+        title={t('c.prompt')}
+        onClose={() => setOpen(false)}
+        extra={
+          <Space>
+            {(openItem as Prompt)?.isRecommend && (
+              <Button type="dashed" style={{ color: token.colorError }} icon={(openItem as Prompt)?.isRecommend ? <FireFilled color={token.colorError} /> : <FireOutlined />}></Button>
+            )}
+            <Button
+              type="dashed"
+              style={{ color: token.colorWarning }}
+              icon={(openItem as Prompt)?.isStar ? <StarFilled color={token.colorError} /> : <StarOutlined />}
+              onClick={() => {
+                toStar(openItem as Prompt)
+              }}
+            ></Button>
+          </Space>
+        }
+        footer={
+          <Space align={'end'} style={{ width: '100%', justifyContent: 'flex-end' }}>
+            <Button
+              type="default"
+              onClick={() => {
+                toCopy(openItem as Prompt)
+                setOpen(false)
+              }}
+            >
+              {t('prompt.copy')}
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                setOpen(false)
+                toChat(openItem as Prompt)
+              }}
+            >
+              {t('prompt.chat')}
+            </Button>
+          </Space>
+        }
+        open={open}
+        width={578}
+        height={'80%'}
+        destroyOnClose={true}
+        placement={(size?.width as number) <= 1024 ? 'bottom' : 'right'}
+      >
+        <Edit action="add" page={false} edit={false} prompt={openItem as Prompt} />
       </Drawer>
     </div>
   )

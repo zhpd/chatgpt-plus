@@ -2,17 +2,13 @@ import List from '@/components/pages/prompt/List'
 import { useTranslation } from '@/locales'
 import { useSiteContext } from '@/contexts/site'
 import { ReactNode, useEffect, useState } from 'react'
-import { usePromptContext } from '@/contexts'
-import { useRouter } from 'next/router'
+import Store from '@/components/pages/prompt/Store'
 
 function IndexPage() {
-  const router = useRouter()
   const { setTitle, event$ } = useSiteContext()
   const { t } = useTranslation()
-  const { promptList } = usePromptContext()
-  const [action, setAction] = useState<string>('')
   const [openList, setOpenList] = useState<boolean>(true)
-  const [ContentElement, setContentElement] = useState<ReactNode>(<></>)
+  const [ContentElement, setContentElement] = useState<ReactNode>(<Store></Store>)
 
   event$.useSubscription((val: any) => {
     if (val?.type == 'tabSwich') {

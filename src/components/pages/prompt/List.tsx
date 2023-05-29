@@ -1,4 +1,4 @@
-import { Avatar, Button, List, Typography, App, Popconfirm, theme as antdTheme, Divider, Space } from 'antd'
+import { Avatar, Button, List, Typography, App, Popconfirm, theme as antdTheme, Divider, Space, Drawer } from 'antd'
 import { ShoppingOutlined, ExportOutlined, MessageOutlined } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import Image from 'next/image'
@@ -11,6 +11,7 @@ import { uuidv4 } from '@/utils/uuid'
 import Edit from './Edit'
 import Store from './Store'
 import Export from './Export'
+import { useSize } from 'ahooks'
 
 function IndexPage(props: { setContent: Function; style?: React.CSSProperties }) {
   const router = useRouter()
@@ -19,6 +20,9 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
   const { message, modal, notification } = App.useApp()
   const { promptList, setPromptList, delPrompt } = usePromptContext()
   const { t } = useTranslation()
+  const size = useSize(document.body)
+  const [open, setOpen] = useState<boolean>(false)
+  const [openItem, setOpenItem] = useState<Prompt | null>(null)
   const [uuid, setUuid] = useState<string>('')
   const [list, setList] = useState<Prompt[]>([])
 
@@ -56,7 +60,6 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
     // 从数据中删除聊天
     delPrompt(uuid)
     setUuid('')
-    props?.setContent(<div></div>)
     console.log('delPrompt', uuid)
   }
 
@@ -65,13 +68,12 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
     console.log('openAction', action, _props)
     switch (action) {
       case 'add':
-        router.push('/prompt?action=add')
-        props?.setContent(<Edit action={'add'}></Edit>)
+        setOpenItem(null)
+        setOpen(true)
         break
       case 'edit':
-        setUuid(_props?.prompt?.uuid)
-        router.push('/prompt?action=edit&uuid=' + _props?.prompt?.uuid)
-        props?.setContent(<Edit action={'edit'} prompt={_props?.prompt as Prompt}></Edit>)
+        setOpenItem(_props?.prompt)
+        setOpen(true)
         break
       case 'store':
         router.push('/prompt?action=store')
@@ -82,7 +84,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
         props?.setContent(<Export></Export>)
         break
       case 'message':
-        router.push('/chat?prompt' + _props?.prompt?.prompt)
+        router.push('/chat?prompt' + _props?.prompt?.prompt || _props?.prompt?.context?.[0]?.content || '')
         break
       default:
         break
@@ -162,14 +164,14 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
         }}
       >
         <Space direction={'vertical'}>
-          <Button type="primary" block size="large" icon={<ShoppingOutlined />} onClick={() => openAction('store')}>
-            {t('prompt.onlinePrompt')}
-          </Button>
-          <Button type="primary" block size="large" icon={<ExportOutlined />} onClick={() => openAction('export')}>
+          {/* <Button type="primary" block size="large" icon={<ExportOutlined />} onClick={() => openAction('export')}>
             {t('prompt.importExport')}
-          </Button>
+          </Button> */}
         </Space>
       </div>
+      <Drawer title={t('c.prompt')} onClose={() => setOpen(false)} open={open} width={578} height={'80%'} destroyOnClose={true} placement={(size?.width as number) <= 1024 ? 'bottom' : 'right'}>
+        <Edit action="add" page={false} edit={true} prompt={openItem as Prompt} />
+      </Drawer>
     </div>
   )
 }
