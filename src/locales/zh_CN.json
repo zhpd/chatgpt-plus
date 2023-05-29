@@ -105,6 +105,7 @@
       "recommend": "推荐",
       "star": "收藏",
       "install": "安装",
+      "uninstall": "卸载",
       "delete": "删除",
       "deleteSuccess": "删除成功",
       "deleteFailed": "删除失败",

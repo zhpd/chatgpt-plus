@@ -102,6 +102,7 @@
       "recommend": "推薦",
       "star": "收藏",
       "install": "安裝",
+      "uninstall": "卸載",
       "delete": "刪除",
       "deleteSuccess": "刪除成功",
       "deleteFailed": "刪除失敗",

@@ -26,6 +26,8 @@ function Item(props: { info: Plugin }) {
     })
   }, [info, lang])
 
+  const toInstall = (item: Plugin) => {}
+
   return (
     <>
       <Card
@@ -42,27 +44,37 @@ function Item(props: { info: Plugin }) {
         bordered={true}
         style={{ width: '100%' }}
       >
-        <div style={{ width: '100%', flexDirection: 'row', display: 'flex' }}>
-          <div style={{ width: 90, overflow: 'hidden' }}>
-            <Image src={item.image as string} width={80} height={80} alt={item.name as string} style={{ borderRadius: 4, overflow: 'hidden' }} />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ width: '100%', flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
-              <Typography.Title style={{}} level={5}>
-                {item.name}
-              </Typography.Title>
-              <Space size={6} align={'start'}>
-                {item?.isRecommend && <Badge color={'red'} title={t('plugin.tag.recommend') as string} />}
-                {item?.isInstall && <Badge color={'blue'} title={t('plugin.tag.install') as string} />}
-                {item?.isStar && <Badge color={'orange'} title={t('plugin.tag.star') as string} />}
-                {item?.isOfficial && <Badge color={'green'} title={t('plugin.tag.official') as string} />}
-              </Space>
+        <div style={{ width: '100%', flexDirection: 'column', display: 'flex' }}>
+          <div style={{ width: '100%', flexDirection: 'row', display: 'flex' }}>
+            <div style={{ width: 80, overflow: 'hidden' }}>
+              <Image src={item.image as string} width={64} height={64} alt={item.name as string} style={{ borderRadius: 4, overflow: 'hidden' }} />
             </div>
-
-            <Typography.Paragraph style={{ fontSize: 12 }} ellipsis={{ expandable: false, rows: 3 }} copyable={false}>
+            <div style={{ flex: 1 }}>
+              <div style={{ width: '100%', flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
+                <Typography.Title style={{}} level={5}>
+                  {item.name}
+                </Typography.Title>
+                <Space size={6} align={'start'}>
+                  {item?.isRecommend && <Badge color={'red'} title={t('plugin.tag.recommend') as string} />}
+                  {item?.isInstall && <Badge color={'blue'} title={t('plugin.tag.install') as string} />}
+                  {item?.isStar && <Badge color={'orange'} title={t('plugin.tag.star') as string} />}
+                  {item?.isOfficial && <Badge color={'green'} title={t('plugin.tag.official') as string} />}
+                </Space>
+              </div>
+              <div>
+                <Space>
+                  <Button type={item?.isInstall ? 'default' : 'primary'} size={'small'} style={{ fontSize: 12 }} onClick={() => toInstall(item)}>
+                    {item?.isInstall ? t('plugin.tag.uninstall') : t('plugin.tag.install')}
+                  </Button>
+                </Space>
+              </div>
+              {/* <Typography.Text style={{ fontSize: 12, color: token.colorTextDisabled }}>{item.datetime}</Typography.Text> */}
+            </div>
+          </div>
+          <div style={{ marginTop: 10, minHeight: 58 }}>
+            <Typography.Paragraph style={{ fontSize: 12, marginBottom: 0 }} ellipsis={{ expandable: false, rows: 3 }} copyable={false}>
               {item.intro}
             </Typography.Paragraph>
-            <Typography.Text style={{ fontSize: 12, color: token.colorTextDisabled }}>{item.datetime}</Typography.Text>
           </div>
         </div>
       </Card>
