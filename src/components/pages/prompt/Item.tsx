@@ -7,9 +7,11 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { Prompt } from '@/types/prompt'
 import { usePromptContext } from '@/contexts/prompt'
+import { tool } from '@/utils'
+import Edit from './Edit'
 
-function Item(props: { info: Prompt }) {
-  const { info } = props
+function Item(props: { info: Prompt; openInfo?: Function }) {
+  const { info, openInfo } = props
   const router = useRouter()
   const [item, setItem] = useState<Prompt>(info)
   const { promptList, starPrompt, unstarPrompt, addPrompt } = usePromptContext()
@@ -32,6 +34,11 @@ function Item(props: { info: Prompt }) {
     // 跳转到聊天页面
     router.push(`/chat`)
   }
+
+  const toInfo = () => {
+    // 跳转到详情页面
+    openInfo?.(item)
+  }
   return (
     <>
       <Card
@@ -44,7 +51,7 @@ function Item(props: { info: Prompt }) {
         }
         hoverable={true}
         title={
-          <div style={{ flexDirection: 'row', display: 'flex', margin: '2px', alignItems: 'center' }}>
+          <div style={{ flexDirection: 'row', display: 'flex', margin: '2px', alignItems: 'center' }} onClick={toInfo}>
             <Image
               src={item.image as string}
               width={30}
@@ -58,16 +65,16 @@ function Item(props: { info: Prompt }) {
         bordered={true}
         style={{ width: '100%' }}
       >
-        <Typography.Paragraph style={{ fontSize: 12, color: token.colorTextLabel }} ellipsis={{ expandable: false, rows: 3 }} copyable={false}>
-          {item.intro}
+        <Typography.Paragraph onClick={toInfo} style={{ fontSize: 12, color: token.colorTextLabel, minHeight: 58 }} ellipsis={{ expandable: false, rows: 3 }} copyable={false}>
+          {item.intro || item.prompt || item.context?.[0]?.content || ''}
         </Typography.Paragraph>
         <div style={{ width: '100%', flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
           <Typography.Text style={{ fontSize: 12, color: token.colorTextDisabled }}>{item.star || ''}</Typography.Text>
           <Space>
-            <Button type={'text'} size={'small'} onClick={toCopy}>
+            <Button type={'text'} size={'small'} style={{ fontSize: 12 }} onClick={toCopy}>
               {t('prompt.copy')}
             </Button>
-            <Button type={'text'} size={'small'} onClick={toChat}>
+            <Button type={'text'} size={'small'} style={{ fontSize: 12 }} onClick={toChat}>
               {t('prompt.chat')}
             </Button>
           </Space>

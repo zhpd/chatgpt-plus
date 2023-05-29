@@ -8,8 +8,10 @@ import { useEffect, useRef, useState } from 'react'
 import { Prompt } from '@/types/prompt'
 import { usePromptContext } from '@/contexts/prompt'
 import { LanguageList } from '@/config/constant'
-import { uuidv4 } from '@/utils'
+import { tool, uuidv4 } from '@/utils'
+import { useSize } from 'ahooks';
 import Item from './Item'
+import Edit from './Edit'
 
 let _datas: Prompt[] = [
   {
@@ -61,6 +63,9 @@ function OnlinePrompt() {
   const { message, modal, notification } = App.useApp()
   const { promptList, starPrompt, unstarPrompt } = usePromptContext()
   const { t } = useTranslation()
+  const size = useSize(document.body);
+  const [open, setOpen] = useState<boolean>(false)
+  const [openItem, setOpenItem] = useState<Prompt | null>(null)
   const [search, setSearch] = useState<string>('')
   const [language, setLanguage] = useState<string>(lang)
   const [alllist, setAlllist] = useState<Prompt[]>(_datas)
@@ -129,6 +134,7 @@ function OnlinePrompt() {
       return true
     })
     // console.log('_list', _list?.length, _list)
+    // 筛选分类分组
     setList(_list)
   }, [search, language, selectedTags, alllist])
 
@@ -137,6 +143,11 @@ function OnlinePrompt() {
     // !todo 查询线上数据
   }
 
+  const openInfo = (item: Prompt) => {
+    setOpenItem(item)
+    setOpen(true)
+    // tool.showDrawer(<Edit action="add" page={false} prompt={item} />, { title: t('c.prompt'), width: 500, placement: 'bottom' })
+  }
   return (
     <div style={{ border: '0px solid #efeff5', flex: 1, padding: '16 16 0 16', display: 'flex', flexDirection: 'column', overflow: 'auto', width: '100%' }}>
       <div
@@ -227,7 +238,7 @@ function OnlinePrompt() {
             {list.map((item: Prompt) => {
               return (
                 <Col key={item.uuid} span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
-                  <Item info={item} />
+                  <Item info={item} openInfo={() => openInfo(item)} />
                 </Col>
               )
             })}
@@ -241,6 +252,9 @@ function OnlinePrompt() {
           }}
         />
       </div>
+      <Drawer title={t('c.prompt')} onClose={() => setOpen(false)} open={open} width={578} height={'80%'} destroyOnClose={true} placement={(size?.width as number) <= 1024 ? 'bottom' : 'right'}>
+        <Edit action="add" page={false} prompt={openItem as Prompt} />
+      </Drawer>
     </div>
   )
 }

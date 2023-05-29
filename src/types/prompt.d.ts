@@ -5,6 +5,9 @@ export interface Prompt {
   intro?: string // 简介
   description?: string // 描述
   prompt?: string // 提示词
+  context?: { role: string; content: string }[] // 上下文内容
+  modelConfig?: { [key: string]: any } // 模型配置
+  category?: string // 分类
   type?: 'text' // 类型
   self?: boolean // 是否自有
   isRecommend?: boolean // 是否推荐

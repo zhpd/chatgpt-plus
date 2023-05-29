@@ -4,6 +4,7 @@ export interface Plugin {
   image?: string // 图片
   intro?: string // 简介
   description?: string // 描述
+  category?: string // 分类
   mail?: string // 邮箱
   website?: string // 网站
   apiurl?: string // api地址
