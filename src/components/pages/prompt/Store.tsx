@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { Prompt } from '@/types/prompt'
 import { usePromptContext } from '@/contexts/prompt'
-import { LanguageList } from '@/config/constant'
+import { LanguageList, ModelList } from '@/config/constant'
 import { tool, uuidv4 } from '@/utils'
 import { useSize } from 'ahooks'
 import Item from './Item'
@@ -28,6 +28,9 @@ let _datas: Prompt[] = [
     star: 0,
     isStar: false,
     isSystem: true,
+    modelConfig: {
+      model: 'GPT-3.5-Turbo',
+    },
     historyList: [
       {
         uuid: uuidv4(),
@@ -53,6 +56,10 @@ for (let i = 0; i < 100; i++) {
     isSystem: Math.random() > 0.5,
     // 随机一个是否推荐
     isRecommend: Math.random() > 0.5,
+    // 随机一个模型
+    modelConfig: {
+      model: ModelList[Math.floor(Math.random() * 7)]['label'],
+    },
   })
 }
 

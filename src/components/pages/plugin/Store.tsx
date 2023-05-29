@@ -1,6 +1,6 @@
 import { useSiteContext } from '@/contexts/site'
 import { Avatar, Button, Card, Drawer, FloatButton, Input, Tag, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Empty, Col, Row, Select, Badge } from 'antd'
-import { StarOutlined, StarFilled } from '@ant-design/icons'
+import { StarOutlined, StarFilled, FireFilled, FireOutlined, DisconnectOutlined, ApiFilled } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -10,6 +10,8 @@ import { usePluginContext } from '@/contexts/plugin'
 
 import Item from './Item'
 import { uuidv4 } from '@/utils'
+import Info from './Info'
+import { useSize } from 'ahooks'
 
 let _datas: Plugin[] = [
   {
@@ -61,8 +63,11 @@ function OnlinePlugin() {
   const { token } = antdTheme.useToken()
   const { theme, lang } = useSiteContext()
   const { message, modal, notification } = App.useApp()
-  const { pluginList, starPlugin, unstarPlugin } = usePluginContext()
+  const { pluginList, starPlugin, unstarPlugin, installPlugin, uninstallPlugin } = usePluginContext()
   const { t } = useTranslation()
+  const size = useSize(document.body)
+  const [open, setOpen] = useState<boolean>(false)
+  const [openItem, setOpenItem] = useState<Plugin | null>(null)
   const [search, setSearch] = useState<string>('')
   const [alllist, setAlllist] = useState<Plugin[]>(_datas)
   const [list, setList] = useState<Plugin[]>(_datas)
@@ -154,6 +159,38 @@ function OnlinePlugin() {
     // !todo 查询线上数据
   }
 
+  const toStar = (item: Plugin) => {
+    if (item.isStar) {
+      unstarPlugin(item?.uuid)
+      setOpenItem({ ...item, isStar: false })
+      message.success(t('plugin.tag.unstarSuccess'))
+    } else {
+      starPlugin(item)
+      setOpenItem({ ...item, isStar: true })
+      message.success(t('plugin.tag.starSuccess'))
+    }
+  }
+
+  const toInstall = (item: Plugin) => {
+    if (item.isInstall) {
+      uninstallPlugin(item?.uuid)
+      setOpenItem({ ...item, isInstall: false })
+      message.success(t('plugin.tag.uninstallSuccess'))
+    } else {
+      installPlugin(item)
+      setOpenItem({ ...item, isInstall: true })
+      message.success(t('plugin.tag.installSuccess'))
+    }
+  }
+
+  const toChat = (item: Plugin) => {
+    router.push(`/chat`)
+  }
+
+  const openInfo = (item: Plugin) => {
+    setOpenItem(item)
+    setOpen(true)
+  }
   return (
     <div style={{ border: '0px solid #efeff5', flex: 1, padding: '16 16 0 16', display: 'flex', flexDirection: 'column', overflow: 'auto', width: '100%' }}>
       <div
@@ -220,7 +257,7 @@ function OnlinePlugin() {
             {list.map((item: Plugin) => {
               return (
                 <Col key={item.uuid} span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
-                  <Item info={item} />
+                  <Item info={item} openInfo={() => openInfo(item)} />
                 </Col>
               )
             })}
@@ -234,6 +271,40 @@ function OnlinePlugin() {
           }}
         />
       </div>
+      <Drawer
+        title={t('c.plugin')}
+        onClose={() => setOpen(false)}
+        extra={
+          <Space>
+            {(openItem as Plugin)?.isRecommend && (
+              <Button type="dashed" style={{ color: token.colorError }} icon={(openItem as Plugin)?.isRecommend ? <FireFilled color={token.colorError} /> : <FireOutlined />}></Button>
+            )}
+            <Button
+              type="dashed"
+              style={{ color: token.colorWarning }}
+              icon={(openItem as Plugin)?.isStar ? <StarFilled color={token.colorWarning} /> : <StarOutlined />}
+              onClick={() => {
+                toStar(openItem as Plugin)
+              }}
+            ></Button>
+            <Button
+              type="dashed"
+              style={{ color: 'blue' }}
+              icon={(openItem as Plugin)?.isInstall ? <ApiFilled color={'blue'} /> : <DisconnectOutlined />}
+              onClick={() => {
+                toInstall(openItem as Plugin)
+              }}
+            ></Button>
+          </Space>
+        }
+        open={open}
+        width={578}
+        height={'80%'}
+        destroyOnClose={true}
+        placement={(size?.width as number) <= 1024 ? 'bottom' : 'right'}
+      >
+        <Info action="add" page={false} edit={false} plugin={openItem as Plugin} />
+      </Drawer>
     </div>
   )
 }
