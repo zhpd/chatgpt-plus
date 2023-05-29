@@ -77,7 +77,7 @@ function OnlinePlugin() {
     // 推荐
     { key: 'plugin.tag.recommend', value: 'recommend', color: 'red' },
     // 安装
-    { key: 'plugin.tag.install', value: 'install', color: 'blue' },
+    { key: 'plugin.tag.install', value: 'install', color: '#2db7f5' },
     // 收藏
     { key: 'plugin.tag.star', value: 'star', color: 'orange' },
     // 官方
@@ -277,10 +277,16 @@ function OnlinePlugin() {
         extra={
           <Space>
             {(openItem as Plugin)?.isRecommend && (
-              <Button type="dashed" style={{ color: token.colorError }} icon={(openItem as Plugin)?.isRecommend ? <FireFilled color={token.colorError} /> : <FireOutlined />}></Button>
+              <Button type={openItem?.isRecommend ? 'primary' : 'dashed'} title={t('plugin.tag.recommend') as string} style={{ color: token.colorError }} icon={(openItem as Plugin)?.isRecommend ? <FireFilled color={token.colorError} /> : <FireOutlined />} onClick={() => {
+              }}></Button>
+            )}
+            {(openItem as Plugin)?.isOfficial && (
+              <Button type={openItem?.isOfficial ? 'primary' : 'dashed'} title={t('plugin.tag.official') as string} style={{ color: 'green' }} icon={(openItem as Plugin)?.isOfficial ? <FireFilled color={'green'} /> : <FireOutlined />} onClick={() => {
+              }}></Button>
             )}
             <Button
-              type="dashed"
+              type={openItem?.isStar ? 'primary' : 'dashed'}
+              title={t('plugin.tag.star') as string}
               style={{ color: token.colorWarning }}
               icon={(openItem as Plugin)?.isStar ? <StarFilled color={token.colorWarning} /> : <StarOutlined />}
               onClick={() => {
@@ -288,9 +294,10 @@ function OnlinePlugin() {
               }}
             ></Button>
             <Button
-              type="dashed"
-              style={{ color: 'blue' }}
-              icon={(openItem as Plugin)?.isInstall ? <ApiFilled color={'blue'} /> : <DisconnectOutlined />}
+              type={openItem?.isInstall ? 'primary' : 'dashed'}
+              title={t('plugin.tag.install') as string}
+              style={{ color: '#2db7f5' }}
+              icon={(openItem as Plugin)?.isInstall ? <ApiFilled color={'#2db7f5'} /> : <DisconnectOutlined />}
               onClick={() => {
                 toInstall(openItem as Plugin)
               }}
@@ -303,7 +310,7 @@ function OnlinePlugin() {
         destroyOnClose={true}
         placement={(size?.width as number) <= 1024 ? 'bottom' : 'right'}
       >
-        <Info action="add" page={false} edit={false} plugin={openItem as Plugin} />
+        <Info plugin={openItem as Plugin} />
       </Drawer>
     </div>
   )
