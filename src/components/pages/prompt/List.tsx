@@ -1,5 +1,5 @@
 import { Avatar, Button, List, Typography, App, Popconfirm, theme as antdTheme, Divider, Space, Drawer } from 'antd'
-import { ShoppingOutlined, ExportOutlined, MessageOutlined } from '@ant-design/icons'
+import { DeleteOutlined, ExportOutlined, MessageOutlined } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -21,6 +21,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
   const { promptList, setPromptList, delPrompt } = usePromptContext()
   const { t } = useTranslation()
   const size = useSize(document.body)
+  const [action, setAction] = useState<string>('')
   const [open, setOpen] = useState<boolean>(false)
   const [openItem, setOpenItem] = useState<Prompt | null>(null)
   const [uuid, setUuid] = useState<string>('')
@@ -43,23 +44,11 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
     setList(promptList)
   }, [promptList])
 
-  const confirm = (e: React.MouseEvent<HTMLElement>, uuid: string) => {
-    e.stopPropagation()
-    console.log(e)
-    deletePrompt(uuid)
-    message.success('Click on Yes')
-  }
-
-  const cancel = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation()
-    console.log(e)
-    message.error('Click on No')
-  }
-
   const deletePrompt = (uuid: string) => {
-    // 从数据中删除聊天
+    // 从数据中删除
     delPrompt(uuid)
     setUuid('')
+    setOpen(false)
     console.log('delPrompt', uuid)
   }
 
@@ -68,10 +57,12 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
     console.log('openAction', action, _props)
     switch (action) {
       case 'add':
+        setAction('add')
         setOpenItem(null)
         setOpen(true)
         break
       case 'edit':
+        setAction('edit')
         setOpenItem(_props?.prompt)
         setOpen(true)
         break
@@ -103,6 +94,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
         style={{ marginTop: 10, paddingBottom: 100, paddingLeft: 4, paddingRight: 4, overflow: 'scroll', height: '100%', maxHeight: 'inherit', scrollbarWidth: 'none' }}
         renderItem={(item, index) => (
           <Button
+            key={item.uuid}
             block
             type="default"
             style={{
@@ -169,8 +161,34 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
           </Button> */}
         </Space>
       </div>
-      <Drawer title={t('c.prompt')} onClose={() => setOpen(false)} open={open} width={578} height={'80%'} destroyOnClose={true} placement={(size?.width as number) <= 1024 ? 'bottom' : 'right'}>
-        <Edit action="add" page={false} edit={true} prompt={openItem as Prompt} />
+      <Drawer
+        title={t('c.prompt')}
+        extra={
+          <Space>
+            <Popconfirm
+              key="del"
+              title="Delete the prompt"
+              description="Are you sure to delete this prompt?"
+              onConfirm={(e?: React.MouseEvent<HTMLElement>) => {
+                deletePrompt(openItem?.uuid || '')
+                return
+              }}
+              onCancel={(e?: React.MouseEvent<HTMLElement>) => {}}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button type={'default'} size="middle" style={{ color: token.colorError }} icon={<DeleteOutlined />}></Button>
+            </Popconfirm>
+          </Space>
+        }
+        onClose={() => setOpen(false)}
+        open={open}
+        width={578}
+        height={'80%'}
+        destroyOnClose={true}
+        placement={(size?.width as number) <= 1024 ? 'bottom' : 'right'}
+      >
+        <Edit action={action} page={false} edit={true} prompt={openItem as Prompt} />
       </Drawer>
     </div>
   )

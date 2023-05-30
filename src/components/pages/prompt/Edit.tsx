@@ -21,6 +21,7 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
     name: prompt?.name || '',
     context: prompt?.context || [
       {
+        key: 'user',
         role: 'user',
         content: prompt?.prompt || '',
       },
@@ -143,7 +144,7 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
             {(fields, { add, remove }) => (
               <>
                 {fields.map((field, index) => (
-                  <div key={field.key + index} style={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column', width: '100%', marginBottom: 10 }}>
+                  <div key={field.name + index} style={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column', width: '100%', marginBottom: 10 }}>
                     <Form.Item {...field} name={[field.name, 'role']} noStyle rules={[{ required: true, message: 'Role is required' }]}>
                       <Select placeholder="Role" disabled={!edit} defaultValue={'user'} style={{ width: '100%', marginBottom: 4 }}>
                         <Select.Option value="user">
@@ -172,7 +173,7 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
                         </Select.Option>
                       </Select>
                     </Form.Item>
-                    <Form.Item {...field} label="Prompt" name={[field.name, 'content']} noStyle rules={[{ required: true, message: 'Prompt is required' }]}>
+                    <Form.Item {...field} key={'content' + index} label="Prompt" name={[field.name, 'content']} noStyle rules={[{ required: true, message: 'Prompt is required' }]}>
                       <Input.TextArea readOnly={!edit} placeholder="Input Prompt" rows={4} style={{ width: '100%' }} />
                     </Form.Item>
                     {edit && <MinusCircleOutlined style={{ right: '-20px', marginTop: 10, position: 'absolute' }} onClick={() => remove(field.name)} />}
@@ -193,9 +194,9 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
         <Divider plain>{'模型参数配置'}</Divider>
 
         <Form.Item label={t('chat.option.model')} extra={t('chat.option.modelTip')} name="model">
-          <Select defaultValue={Model['GPT-3.5-Turbo']}>
+          <Select defaultValue={Model['GPT-3.5-Turbo']} disabled={!edit}>
             {ModelList.map((item) => (
-              <Select.Option key={item?.value} value={item.value} disabled={!edit}>
+              <Select.Option key={item?.value} value={item.value}>
                 {item.label}
               </Select.Option>
             ))}

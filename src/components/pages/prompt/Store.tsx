@@ -42,7 +42,7 @@ let _datas: Prompt[] = [
         status: 'online',
       },
     ],
-    lang: ['zh_CN', 'en_US'],
+    lang: ['zh_CN'],
   },
 ]
 // 复制20个
