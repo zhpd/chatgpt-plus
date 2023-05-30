@@ -1,6 +1,6 @@
 import { useSiteContext } from '@/contexts/site'
-import { Button, Form, Input, InputNumber, Popconfirm, Select, Space, theme as antdTheme, Typography, Divider, Tag, message } from 'antd'
-import { DeleteOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Form, Input, InputNumber, Popconfirm, Select, Space, theme as antdTheme, Typography, Divider, Tag, message, Tooltip } from 'antd'
+import AntIcon, { DeleteOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { usePromptContext } from '@/contexts'
 import { Prompt } from '@/types/prompt'
 import { useTranslation } from '@/locales'
@@ -8,6 +8,7 @@ import { uuidv4 } from '@/utils/uuid'
 import { useEffect, useState } from 'react'
 import { Model, ModelList, LanguageList } from '@/config/constant'
 import { useRouter } from 'next/router'
+import ButtonEmojiPicker from '@/components/EmojiPicker/Button'
 
 function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boolean }) {
   // const router = useRouter()
@@ -122,6 +123,9 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
             <Radio value="text">文本</Radio>
           </Radio.Group>
         </Form.Item> */}
+        <Form.Item label="图标" name="image" required>
+          <ButtonEmojiPicker theme={theme} style={'apple'} readOnly={!edit} />
+        </Form.Item>
         <Form.Item label="名称" name="name" required>
           <Input readOnly={!edit} />
         </Form.Item>
@@ -226,16 +230,18 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
         {/* <Form.Item label="是否公开" name="private" valuePropName="private">
           <Switch />
         </Form.Item> */}
-        <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
-          <Space>
-            <Button type="primary" htmlType="submit">
-              保存
-            </Button>
-            <Button type="text" htmlType="button" onClick={onReset}>
-              重置
-            </Button>
-          </Space>
-        </Form.Item>
+        {edit && (
+          <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+            <Space>
+              <Button type="primary" htmlType="submit">
+                保存
+              </Button>
+              <Button type="text" htmlType="button" onClick={onReset}>
+                重置
+              </Button>
+            </Space>
+          </Form.Item>
+        )}
       </Form>
     </div>
   )

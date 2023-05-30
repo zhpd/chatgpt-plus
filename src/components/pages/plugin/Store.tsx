@@ -275,7 +275,7 @@ function OnlinePlugin() {
         />
       </div>
       <Drawer
-        title={t('c.plugin')}
+        title={(openItem as Plugin)?.name || t('c.plugin')}
         onClose={() => setOpen(false)}
         extra={
           <Space>

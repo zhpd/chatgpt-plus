@@ -35,12 +35,15 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@emoji-mart/data": "1.1.2",
+    "@emoji-mart/react": "1.1.1",
     "@reduxjs/toolkit": "1.9.5",
     "@vercel/analytics": "1.0.1",
     "ahooks": "3.7.7",
     "antd": "5.5.0",
     "axios": "1.4.0",
     "dayjs": "1.11.7",
+    "emoji-mart": "5.5.2",
     "github-markdown-css": "5.2.0",
     "i18next": "22.5.0",
     "katex": "0.16.7",
@@ -52,6 +55,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "12.3.1",
+    "react-icons": "4.9.0",
     "react-markdown": "8.0.7",
     "react-redux": "8.0.5",
     "react-syntax-highlighter": "15.5.0",

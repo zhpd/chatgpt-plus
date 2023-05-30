@@ -132,7 +132,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
                     ellipsis={{ rows: 1 }}
                     style={{ marginBottom: '0.5em', fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }}
                   >
-                    {item.description || 'No description'}
+                    {item.intro || 'No intro'}
                   </Typography.Paragraph>
                 }
               />
@@ -162,7 +162,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
         </Space>
       </div>
       <Drawer
-        title={t('c.prompt')}
+        title={(openItem as Prompt)?.name || t('c.prompt')}
         extra={
           <Space>
             <Popconfirm

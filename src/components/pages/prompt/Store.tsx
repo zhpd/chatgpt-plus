@@ -281,7 +281,7 @@ function OnlinePrompt() {
         />
       </div>
       <Drawer
-        title={t('c.prompt')}
+        title={(openItem as Prompt)?.name || t('c.prompt')}
         onClose={() => setOpen(false)}
         extra={
           <Space>
