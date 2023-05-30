@@ -33,6 +33,8 @@ let _datas: Plugin[] = [
     isStar: true,
     isNew: true,
     isRecommend: true,
+    basicPrompts: ['连接我的谷歌表，获取有关我的最新开支的数据'],
+    advancedPrompts: ['建立一个Zapier任务，把我的Gmail附件保存到Dropbox里', '创建一个Zap任务，把我的Instagram照片发到Twitter 上', '建立一个自动化任务，把新的销售领导添加到我的谷歌表格中。'],
     lang: {
       zh_CN: {
         name: 'Zapier',

@@ -27,4 +27,6 @@ export interface Plugin {
       description?: string // 描述
     }
   }
+  basicPrompts?: string[] // 基础提示词
+  advancedPrompts?: string[] // 高级提示词
 }
