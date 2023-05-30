@@ -164,7 +164,7 @@ export default function LayoutBase(props: any) {
                         toUrl(item.path)
                       }}
                       type={getActive(item.path) ? 'primary' : 'text'}
-                      ghost={getActive(item.path) ? false : true}
+                      // ghost={getActive(item.path) ? false : true}
                       size={'large'}
                       icon={<Icon name={item.iconName} style={{ color: getActive(item.path) ? '#fff' : theme === 'dark' ? '#fff' : '#555' }} />}
                       // @ts-ignore

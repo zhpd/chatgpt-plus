@@ -286,13 +286,18 @@ function OnlinePrompt() {
         extra={
           <Space>
             {(openItem as Prompt)?.isRecommend && (
-              <Button type={openItem?.isRecommend ? 'primary' : 'dashed'} title={t('prompt.tag.recommend') as string} style={{ color: token.colorError }} icon={(openItem as Prompt)?.isRecommend ? <FireFilled color={token.colorError} /> : <FireOutlined />}></Button>
+              <Button
+                type={openItem?.isRecommend ? 'default' : 'dashed'}
+                title={t('prompt.tag.recommend') as string}
+                style={{ color: openItem?.isRecommend ? token.colorError : token.colorTextLabel }}
+                icon={(openItem as Prompt)?.isRecommend ? <FireFilled color={token.colorError} /> : <FireOutlined color={token.colorTextLabel} />}
+              ></Button>
             )}
             <Button
-              type={openItem?.isStar ? 'primary' : 'dashed'}
+              type={openItem?.isStar ? 'default' : 'dashed'}
               title={t('prompt.tag.star') as string}
-              style={{ color: token.colorWarning }}
-              icon={(openItem as Prompt)?.isStar ? <StarFilled color={token.colorError} /> : <StarOutlined />}
+              style={{ color: openItem?.isStar ? token.colorWarning : token.colorTextLabel }}
+              icon={(openItem as Prompt)?.isStar ? <StarFilled color={token.colorError} /> : <StarOutlined color={token.colorTextLabel} />}
               onClick={() => {
                 toStar(openItem as Prompt)
               }}

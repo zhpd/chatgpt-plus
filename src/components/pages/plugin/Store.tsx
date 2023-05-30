@@ -1,6 +1,6 @@
 import { useSiteContext } from '@/contexts/site'
 import { Avatar, Button, Card, Drawer, FloatButton, Input, Tag, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Empty, Col, Row, Select, Badge } from 'antd'
-import { StarOutlined, StarFilled, FireFilled, FireOutlined, DisconnectOutlined, ApiFilled } from '@ant-design/icons'
+import { StarOutlined, StarFilled, FireFilled, FireOutlined, DisconnectOutlined, ApiFilled, IdcardFilled } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -277,27 +277,37 @@ function OnlinePlugin() {
         extra={
           <Space>
             {(openItem as Plugin)?.isRecommend && (
-              <Button type={openItem?.isRecommend ? 'primary' : 'dashed'} title={t('plugin.tag.recommend') as string} style={{ color: token.colorError }} icon={(openItem as Plugin)?.isRecommend ? <FireFilled color={token.colorError} /> : <FireOutlined />} onClick={() => {
-              }}></Button>
+              <Button
+                type={openItem?.isRecommend ? 'default' : 'dashed'}
+                title={t('plugin.tag.recommend') as string}
+                style={{ color: openItem?.isRecommend ? token.colorError : token.colorTextLabel }}
+                icon={(openItem as Plugin)?.isRecommend ? <FireFilled color={token.colorError} /> : <FireOutlined color={token.colorTextLabel} />}
+                onClick={() => {}}
+              ></Button>
             )}
             {(openItem as Plugin)?.isOfficial && (
-              <Button type={openItem?.isOfficial ? 'primary' : 'dashed'} title={t('plugin.tag.official') as string} style={{ color: 'green' }} icon={(openItem as Plugin)?.isOfficial ? <FireFilled color={'green'} /> : <FireOutlined />} onClick={() => {
-              }}></Button>
+              <Button
+                type={openItem?.isOfficial ? 'default' : 'dashed'}
+                title={t('plugin.tag.official') as string}
+                style={{ color: openItem?.isOfficial ? 'green' : token.colorTextLabel }}
+                icon={(openItem as Plugin)?.isOfficial ? <IdcardFilled color={'green'} /> : <IdcardFilled color={token.colorTextLabel} />}
+                onClick={() => {}}
+              ></Button>
             )}
             <Button
-              type={openItem?.isStar ? 'primary' : 'dashed'}
+              type={openItem?.isStar ? 'default' : 'dashed'}
               title={t('plugin.tag.star') as string}
-              style={{ color: token.colorWarning }}
-              icon={(openItem as Plugin)?.isStar ? <StarFilled color={token.colorWarning} /> : <StarOutlined />}
+              style={{ color: openItem?.isStar ? token.colorWarning : token.colorTextLabel }}
+              icon={(openItem as Plugin)?.isStar ? <StarFilled color={token.colorWarning} /> : <StarOutlined color={token.colorTextLabel} />}
               onClick={() => {
                 toStar(openItem as Plugin)
               }}
             ></Button>
             <Button
-              type={openItem?.isInstall ? 'primary' : 'dashed'}
+              type={openItem?.isInstall ? 'default' : 'dashed'}
               title={t('plugin.tag.install') as string}
-              style={{ color: '#2db7f5' }}
-              icon={(openItem as Plugin)?.isInstall ? <ApiFilled color={'#2db7f5'} /> : <DisconnectOutlined />}
+              style={{ color: openItem?.isInstall ? '#2db7f5' : token.colorTextLabel }}
+              icon={(openItem as Plugin)?.isInstall ? <ApiFilled color={'#2db7f5'} /> : <DisconnectOutlined color={token.colorTextLabel} />}
               onClick={() => {
                 toInstall(openItem as Plugin)
               }}
