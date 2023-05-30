@@ -14,7 +14,7 @@ export interface Plugin {
   version?: string // 版本
   isInstall?: boolean // 是否安装
   isRecommend?: boolean // 是否推荐
-  isOfficial?: boolean // 是否官方
+  isNew?: boolean // 是否新品
   isStar?: boolean // 是否收藏
   isSystem?: boolean // 是否系统预设
   apply?: string | string[] // 适用

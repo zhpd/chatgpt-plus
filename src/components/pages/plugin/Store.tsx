@@ -1,12 +1,13 @@
 import { useSiteContext } from '@/contexts/site'
 import { Avatar, Button, Card, Drawer, FloatButton, Input, Tag, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Empty, Col, Row, Select, Badge } from 'antd'
-import { StarOutlined, StarFilled, FireFilled, FireOutlined, DisconnectOutlined, ApiFilled, IdcardFilled } from '@ant-design/icons'
+import { StarOutlined, StarFilled, FireFilled, FireOutlined, DisconnectOutlined, ApiFilled, ThunderboltFilled } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { Plugin } from '@/types/plugin'
 import { usePluginContext } from '@/contexts/plugin'
+import { EmptyImage } from '@/config/constant'
 
 import Item from './Item'
 import { uuidv4 } from '@/utils'
@@ -30,7 +31,7 @@ let _datas: Plugin[] = [
     apply: 'chatgpt',
     isInstall: true,
     isStar: true,
-    isOfficial: true,
+    isNew: true,
     isRecommend: true,
     lang: {
       zh_CN: {
@@ -52,7 +53,7 @@ for (let i = 0; i < 136; i++) {
     // 随机一个是否收藏
     isStar: Math.random() > 0.5,
     // 随机一个是否官方
-    isOfficial: Math.random() > 0.5,
+    isNew: Math.random() > 0.5,
     // 随机一个是否推荐
     isRecommend: Math.random() > 0.5,
   })
@@ -74,14 +75,14 @@ function OnlinePlugin() {
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [tagsData, setTagsData] = useState<{ [key: string]: string }[]>([
     { key: 'plugin.tag.all', value: 'all', color: '' },
+    // 新品
+    { key: 'plugin.tag.new', value: 'new', color: 'green' },
     // 推荐
     { key: 'plugin.tag.recommend', value: 'recommend', color: 'red' },
-    // 安装
-    { key: 'plugin.tag.install', value: 'install', color: '#2db7f5' },
     // 收藏
     { key: 'plugin.tag.star', value: 'star', color: 'orange' },
-    // 官方
-    { key: 'plugin.tag.official', value: 'official', color: 'green' },
+    // 安装
+    { key: 'plugin.tag.install', value: 'install', color: '#2db7f5' },
   ])
 
   // useEffect(() => {
@@ -108,7 +109,7 @@ function OnlinePlugin() {
     let _isRecommend = false
     let _isInstall = false
     let _isStar = false
-    let _isOfficial = false
+    let _isNew = false
     if (selectedTags.length > 0) {
       selectedTags.map((tag) => {
         if (tag == 'all') {
@@ -122,8 +123,8 @@ function OnlinePlugin() {
         } else if (tag == 'star') {
           _isStar = true
           _isAll = false
-        } else if (tag == 'official') {
-          _isOfficial = true
+        } else if (tag == 'new') {
+          _isNew = true
           _isAll = false
         }
       })
@@ -147,7 +148,7 @@ function OnlinePlugin() {
       if (_isRecommend && !item.isRecommend) return false
       if (_isInstall && !item.isInstall) return false
       if (_isStar && !item.isStar) return false
-      if (_isOfficial && !item.isOfficial) return false
+      if (_isNew && !item.isNew) return false
       return true
     })
     // console.log('_list', _list?.length, _list)
@@ -285,12 +286,12 @@ function OnlinePlugin() {
                 onClick={() => {}}
               ></Button>
             )}
-            {(openItem as Plugin)?.isOfficial && (
+            {(openItem as Plugin)?.isNew && (
               <Button
-                type={openItem?.isOfficial ? 'default' : 'dashed'}
-                title={t('plugin.tag.official') as string}
-                style={{ color: openItem?.isOfficial ? 'green' : token.colorTextLabel }}
-                icon={(openItem as Plugin)?.isOfficial ? <IdcardFilled color={'green'} /> : <IdcardFilled color={token.colorTextLabel} />}
+                type={openItem?.isNew ? 'default' : 'dashed'}
+                title={t('plugin.tag.new') as string}
+                style={{ color: openItem?.isNew ? 'green' : token.colorTextLabel }}
+                icon={(openItem as Plugin)?.isNew ? <ThunderboltFilled color={'green'} /> : <ThunderboltFilled color={token.colorTextLabel} />}
                 onClick={() => {}}
               ></Button>
             )}

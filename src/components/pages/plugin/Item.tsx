@@ -73,7 +73,7 @@ function Item(props: { info: Plugin; openInfo?: Function }) {
                   {item?.isRecommend && <Badge color={'red'} title={t('plugin.tag.recommend') as string} />}
                   {item?.isInstall && <Badge color={'blue'} title={t('plugin.tag.install') as string} />}
                   {item?.isStar && <Badge color={'orange'} title={t('plugin.tag.star') as string} />}
-                  {item?.isOfficial && <Badge color={'green'} title={t('plugin.tag.official') as string} />}
+                  {item?.isNew && <Badge color={'green'} title={t('plugin.tag.new') as string} />}
                 </Space>
               </div>
               <div>

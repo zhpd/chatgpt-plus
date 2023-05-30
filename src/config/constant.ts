@@ -1,5 +1,10 @@
 // 常量枚举
 
+// 空图片枚举
+export enum EmptyImage {
+  EMPTY_BOX = '@/assets/images/empty_box.png',
+}
+
 // 主题枚举
 export enum Theme {
   LIGHT = 'light',
@@ -21,31 +26,31 @@ export enum Model {
 export const ModelList = [
   {
     label: 'GPT-3.5-Turbo',
-    value: Model["GPT-3.5-Turbo"],
+    value: Model['GPT-3.5-Turbo'],
   },
   {
     label: 'GPT-3.5-Turbo-0301',
-    value: Model["GPT-3.5-Turbo-0301"],
+    value: Model['GPT-3.5-Turbo-0301'],
   },
   {
     label: 'GPT-4',
-    value: Model["GPT-4"],
+    value: Model['GPT-4'],
   },
   {
     label: 'GPT-4-0314',
-    value: Model["GPT-4-0314"],
+    value: Model['GPT-4-0314'],
   },
   {
     label: 'GPT-4-32k',
-    value: Model["GPT-4-32k"],
+    value: Model['GPT-4-32k'],
   },
   {
     label: 'GPT-4-32k-0314',
-    value: Model["GPT-4-32k-0314"],
+    value: Model['GPT-4-32k-0314'],
   },
   {
     label: 'GPT-4-Mobile',
-    value: Model["GPT-4-Mobile"],
+    value: Model['GPT-4-Mobile'],
   },
 ]
 

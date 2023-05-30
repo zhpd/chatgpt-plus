@@ -69,7 +69,9 @@ function Item(props: { info: Prompt; openInfo?: Function }) {
           {item.intro || item.prompt || item.context?.[0]?.content || ''}
         </Typography.Paragraph>
         <div style={{ width: '100%', flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
-          <Tag color="magenta" size="small">{item.modelConfig?.model || ''}</Tag>
+          <Tag color="magenta" bordered={false}>
+            {item.modelConfig?.model || ''}
+          </Tag>
           {/* <Typography.Text style={{ fontSize: 12, color: token.colorTextDisabled }}>{item.star || ''}</Typography.Text> */}
           <Space>
             <Button type={'dashed'} size={'small'} style={{ fontSize: 12 }} onClick={toCopy}>
