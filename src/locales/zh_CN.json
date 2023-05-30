@@ -65,11 +65,11 @@
     }
   },
   "prompt": {
-    "newPrompt": "创建提示语",
-    "editPrompt": "编辑提示语",
+    "newPrompt": "创建提示词",
+    "editPrompt": "编辑提示词",
     "save": "保存",
-    "onlinePrompt": "在线提示语",
-    "promptStoreTitle": "推荐提示语Prompt",
+    "onlinePrompt": "在线提示词",
+    "promptStoreTitle": "推荐提示词Prompt",
     "importExport": "导入导出",
     "copy": "复制",
     "copySuccess": "复制成功",
