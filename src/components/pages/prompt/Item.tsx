@@ -73,7 +73,7 @@ function Item(props: { info: Prompt; openInfo?: Function }) {
             {item.modelConfig?.model || ''}
           </Tag>
           {/* <Typography.Text style={{ fontSize: 12, color: token.colorTextDisabled }}>{item.star || ''}</Typography.Text> */}
-          <Space>
+          <Space style={{ position: 'absolute', right: '5px' }}>
             <Button type={'dashed'} size={'small'} style={{ fontSize: 12 }} onClick={toCopy}>
               {t('prompt.copy')}
             </Button>
