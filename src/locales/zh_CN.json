@@ -68,6 +68,7 @@
     "newPrompt": "创建提示词",
     "editPrompt": "编辑提示词",
     "save": "保存",
+    "contextEmpty": "上下文提示词不能为空",
     "onlinePrompt": "在线提示词",
     "promptStoreTitle": "推荐提示词Prompt",
     "importExport": "导入导出",

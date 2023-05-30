@@ -1,26 +1,5 @@
 import { useSiteContext } from '@/contexts/site'
-import {
-  Avatar,
-  Button,
-  Cascader,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Popconfirm,
-  Radio,
-  Select,
-  Space,
-  Switch,
-  theme as antdTheme,
-  TreeSelect,
-  Typography,
-  Upload,
-  Divider,
-  Slider,
-  Collapse,
-} from 'antd'
+import { Button, Form, Input, InputNumber, Popconfirm, Select, Space, theme as antdTheme, Typography, Divider, Tag, message } from 'antd'
 import { DeleteOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { usePromptContext } from '@/contexts'
 import { Prompt } from '@/types/prompt'
@@ -58,6 +37,11 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
 
   const onFinish = (values: any) => {
     console.log('Success:', values, action)
+    // 提示词不能为空
+    if (!values.context || values.context.length == 0) {
+      message.error(t('prompt.contextEmpty'))
+      return
+    }
     if (action == 'add') {
       // 新建
       const _prompt: Prompt = {
@@ -131,30 +115,20 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
           </Space>
         </div>
       )}
-      <Form
-        form={form}
-        disabled={edit ? false : true}
-        labelCol={{ span: 6 }}
-        style={{ marginTop: 20 }}
-        wrapperCol={{ span: 14 }}
-        labelAlign="right"
-        layout="horizontal"
-        initialValues={{ ...initForm }}
-        onFinish={onFinish}
-      >
+      <Form form={form} labelCol={{ span: 6 }} style={{ marginTop: 20 }} wrapperCol={{ span: 14 }} labelAlign="right" layout="horizontal" initialValues={{ ...initForm }} onFinish={onFinish}>
         {/* <Form.Item label="类型" hidden name="type" valuePropName="type">
           <Radio.Group>
             <Radio value="text">文本</Radio>
           </Radio.Group>
         </Form.Item> */}
         <Form.Item label="名称" name="name" required>
-          <Input />
+          <Input readOnly={!edit} />
         </Form.Item>
         <Form.Item label="介绍" name="intro" required>
-          <Input />
+          <Input readOnly={!edit} />
         </Form.Item>
         <Form.Item label="语言" name="lang" required>
-          <Select defaultValue={lang} style={{ width: 120 }} placeholder={t('prompt.languagePlaceholder') as string}>
+          <Select defaultValue={lang} disabled={!edit} style={{ width: 120 }} placeholder={t('prompt.languagePlaceholder') as string}>
             {LanguageList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
@@ -169,18 +143,39 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
             {(fields, { add, remove }) => (
               <>
                 {fields.map((field, index) => (
-                  <div key={field.key + index} style={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'row', width: '100%', marginBottom: 10 }}>
+                  <div key={field.key + index} style={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column', width: '100%', marginBottom: 10 }}>
                     <Form.Item {...field} name={[field.name, 'role']} noStyle rules={[{ required: true, message: 'Role is required' }]}>
-                      <Select placeholder="Role" defaultValue={'user'} style={{ width: '170px', marginRight: 4 }}>
-                        <Select.Option value="user">User</Select.Option>
-                        <Select.Option value="assistant">Assistant</Select.Option>
-                        <Select.Option value="system">System</Select.Option>
+                      <Select placeholder="Role" disabled={!edit} defaultValue={'user'} style={{ width: '100%', marginBottom: 4 }}>
+                        <Select.Option value="user">
+                          <div style={{ justifyContent: 'flex-start', flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                            User{' '}
+                            <Tag color="blue" style={{ fontSize: 12, marginLeft: 10 }}>
+                              User
+                            </Tag>
+                          </div>
+                        </Select.Option>
+                        <Select.Option value="assistant">
+                          <div style={{ justifyContent: 'flex-start', flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                            Assistant{' '}
+                            <Tag color="blue" style={{ fontSize: 12, marginLeft: 10 }}>
+                              Assistant
+                            </Tag>
+                          </div>
+                        </Select.Option>
+                        <Select.Option value="system">
+                          <div style={{ justifyContent: 'flex-start', flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                            System{' '}
+                            <Tag color="blue" style={{ fontSize: 12, marginLeft: 10 }}>
+                              System
+                            </Tag>
+                          </div>
+                        </Select.Option>
                       </Select>
                     </Form.Item>
                     <Form.Item {...field} label="Prompt" name={[field.name, 'content']} noStyle rules={[{ required: true, message: 'Prompt is required' }]}>
-                      <Input.TextArea placeholder="Input Prompt" rows={4} style={{ width: '100%' }} />
+                      <Input.TextArea readOnly={!edit} placeholder="Input Prompt" rows={4} style={{ width: '100%' }} />
                     </Form.Item>
-                    {edit && <MinusCircleOutlined style={{ right: '-20px', position: 'absolute' }} onClick={() => remove(field.name)} />}
+                    {edit && <MinusCircleOutlined style={{ right: '-20px', marginTop: 10, position: 'absolute' }} onClick={() => remove(field.name)} />}
                   </div>
                 ))}
                 {edit && (
@@ -200,26 +195,26 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
         <Form.Item label={t('chat.option.model')} extra={t('chat.option.modelTip')} name="model">
           <Select defaultValue={Model['GPT-3.5-Turbo']}>
             {ModelList.map((item) => (
-              <Select.Option key={item?.value} value={item.value}>
+              <Select.Option key={item?.value} value={item.value} disabled={!edit}>
                 {item.label}
               </Select.Option>
             ))}
           </Select>
         </Form.Item>
         <Form.Item label={t('chat.option.max_tokens')} extra={t('chat.option.max_tokensTip')} name="max_tokens">
-          <InputNumber defaultValue={2000} min={0} max={2000} />
+          <InputNumber readOnly={!edit} defaultValue={2000} min={0} max={2000} />
         </Form.Item>
         <Form.Item label={t('chat.option.top_p')} extra={t('chat.option.top_pTip')} name="top_p">
-          <InputNumber defaultValue={1} min={0} max={1} step={0.1} />
+          <InputNumber readOnly={!edit} defaultValue={1} min={0} max={1} step={0.1} />
         </Form.Item>
         <Form.Item label={t('chat.option.temperature')} extra={t('chat.option.temperatureTip')} name="temperature">
-          <InputNumber defaultValue={0.5} min={0.0} max={0.9} step={0.1} />
+          <InputNumber readOnly={!edit} defaultValue={0.5} min={0.0} max={0.9} step={0.1} />
         </Form.Item>
         <Form.Item label={t('chat.option.presence_penalty')} extra={t('chat.option.presence_penaltyTip')} name="presence_penalty">
-          <InputNumber defaultValue={1} min={-2.0} max={2.0} step={1} />
+          <InputNumber readOnly={!edit} defaultValue={1} min={-2.0} max={2.0} step={1} />
         </Form.Item>
         <Form.Item label={t('chat.option.frequency_penalty')} extra={t('chat.option.frequency_penaltyTip')} name="frequency_penalty">
-          <InputNumber defaultValue={1} min={-2.0} max={2.0} step={1} />
+          <InputNumber readOnly={!edit} defaultValue={1} min={-2.0} max={2.0} step={1} />
         </Form.Item>
 
         {/* <Form.Item label="Select">

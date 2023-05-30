@@ -68,6 +68,7 @@
     "newPrompt": "建立提示詞",
     "editPrompt": "編輯提示詞",
     "save": "儲存",
+    "contextEmpty": "上下文提示詞為空",
     "onlinePrompt": "線上提示詞",
     "promptStoreTitle": "推薦提示詞",
     "importExport": "匯入匯出",

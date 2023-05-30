@@ -66,6 +66,7 @@
     "newPrompt": "Create prompt",
     "editPrompt": "Edit prompt",
     "save": "Save",
+    "contextEmpty": "Context prompt cannot be empty",
     "onlinePrompt": "Online prompt",
     "promptStoreTitle": "Recommended Prompts",
     "importExport": "Import and Export",
