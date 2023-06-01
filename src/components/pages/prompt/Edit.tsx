@@ -20,6 +20,8 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
   const [initForm, setInitForm] = useState<any>({
     type: 'text',
     name: prompt?.name || '',
+    lang: lang,
+    ...prompt,
     context: prompt?.context || [
       {
         key: 'user',
@@ -27,7 +29,15 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
         content: prompt?.prompt || '',
       },
     ],
-    ...prompt,
+    modelConfig: {
+      model: Model['GPT-3.5-Turbo'],
+      max_tokens: 2000,
+      top_p: 1.0,
+      temperature: 0.8,
+      presence_penalty: 1.0,
+      frequency_penalty: 0,
+      ...prompt?.modelConfig,
+    },
   })
   const [form] = Form.useForm()
 
@@ -133,7 +143,7 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
           <Input readOnly={!edit} />
         </Form.Item>
         <Form.Item label="语言" name="lang" required>
-          <Select defaultValue={lang} disabled={!edit} style={{ width: 120 }} placeholder={t('prompt.languagePlaceholder') as string}>
+          <Select disabled={!edit} style={{ width: 120 }} placeholder={t('prompt.languagePlaceholder') as string}>
             {LanguageList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
@@ -150,7 +160,7 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
                 {fields.map((field, index) => (
                   <div key={field.name + index} style={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column', width: '100%', marginBottom: 10 }}>
                     <Form.Item {...field} name={[field.name, 'role']} noStyle rules={[{ required: true, message: 'Role is required' }]}>
-                      <Select placeholder="Role" disabled={!edit} defaultValue={'user'} style={{ width: '100%', marginBottom: 4 }}>
+                      <Select placeholder="Role" disabled={!edit} style={{ width: '100%', marginBottom: 4 }}>
                         <Select.Option value="user">
                           <div style={{ justifyContent: 'flex-start', flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
                             User{' '}
@@ -197,8 +207,8 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
 
         <Divider plain>{'模型参数配置'}</Divider>
 
-        <Form.Item label={t('chat.option.model')} extra={t('chat.option.modelTip')} name="model">
-          <Select defaultValue={Model['GPT-3.5-Turbo']} disabled={!edit}>
+        <Form.Item label={t('chat.option.model')} extra={t('chat.option.modelTip')} name={['modelConfig', 'model']}>
+          <Select disabled={!edit}>
             {ModelList.map((item) => (
               <Select.Option key={item?.value} value={item.value}>
                 {item.label}
@@ -206,20 +216,20 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
             ))}
           </Select>
         </Form.Item>
-        <Form.Item label={t('chat.option.max_tokens')} extra={t('chat.option.max_tokensTip')} name="max_tokens">
-          <InputNumber readOnly={!edit} defaultValue={2000} min={0} max={2000} />
+        <Form.Item label={t('chat.option.max_tokens')} extra={t('chat.option.max_tokensTip')} name={['modelConfig', 'max_tokens']}>
+          <InputNumber readOnly={!edit} min={0} max={2000} />
         </Form.Item>
-        <Form.Item label={t('chat.option.top_p')} extra={t('chat.option.top_pTip')} name="top_p">
-          <InputNumber readOnly={!edit} defaultValue={1} min={0} max={1} step={0.1} />
+        <Form.Item label={t('chat.option.top_p')} extra={t('chat.option.top_pTip')} name={['modelConfig', 'top_p']}>
+          <InputNumber readOnly={!edit} min={0} max={1} step={0.1} />
         </Form.Item>
-        <Form.Item label={t('chat.option.temperature')} extra={t('chat.option.temperatureTip')} name="temperature">
-          <InputNumber readOnly={!edit} defaultValue={0.5} min={0.0} max={0.9} step={0.1} />
+        <Form.Item label={t('chat.option.temperature')} extra={t('chat.option.temperatureTip')} name={['modelConfig', 'temperature']}>
+          <InputNumber readOnly={!edit} min={0.0} max={0.9} step={0.1} />
         </Form.Item>
-        <Form.Item label={t('chat.option.presence_penalty')} extra={t('chat.option.presence_penaltyTip')} name="presence_penalty">
-          <InputNumber readOnly={!edit} defaultValue={1} min={-2.0} max={2.0} step={1} />
+        <Form.Item label={t('chat.option.presence_penalty')} extra={t('chat.option.presence_penaltyTip')} name={['modelConfig', 'presence_penalty']}>
+          <InputNumber readOnly={!edit} min={-2.0} max={2.0} step={1} />
         </Form.Item>
-        <Form.Item label={t('chat.option.frequency_penalty')} extra={t('chat.option.frequency_penaltyTip')} name="frequency_penalty">
-          <InputNumber readOnly={!edit} defaultValue={1} min={-2.0} max={2.0} step={1} />
+        <Form.Item label={t('chat.option.frequency_penalty')} extra={t('chat.option.frequency_penaltyTip')} name={['modelConfig', 'frequency_penalty']}>
+          <InputNumber readOnly={!edit} min={-2.0} max={2.0} step={1} />
         </Form.Item>
 
         {/* <Form.Item label="Select">

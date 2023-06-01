@@ -1,10 +1,10 @@
 import { useSiteContext } from '@/contexts/site'
-import { Avatar, Button, Mentions, Popconfirm, Space, Tooltip, theme as antdTheme } from 'antd'
+import { Avatar, Button, Mentions, Popconfirm, Space, Tooltip, Typography, theme as antdTheme } from 'antd'
 import { DisconnectOutlined, LinkOutlined, SendOutlined } from '@ant-design/icons'
 import type { Message } from '@/types/chat'
 import type { MentionsOptionProps } from 'antd/es/mentions'
 import { useEffect, useState } from 'react'
-import { useKeyPress } from 'ahooks';
+import { useKeyPress } from 'ahooks'
 import { t } from 'i18next'
 import { usePromptContext, useSettingContext } from '@/contexts'
 
@@ -17,8 +17,8 @@ export type BoxProps = {
 function InputArea(props: BoxProps) {
   const { coiled, setCoiled, sendMessageText } = props
   const { promptList } = usePromptContext()
-  const { common: commonConfig  } = useSettingContext()
-  const [plist, setPlist] = useState<{ label: string; value: string }[]>([])
+  const { common: commonConfig } = useSettingContext()
+  const [plist, setPlist] = useState<{ label: any; value: string }[]>([])
   const [input, setInput] = useState<string>('')
   const [canSend, setCanSend] = useState<boolean>(false)
   const { theme } = useSiteContext()
@@ -26,13 +26,18 @@ function InputArea(props: BoxProps) {
 
   useEffect(() => {
     if (promptList) {
-      const list = promptList?.map?.((item) => {
-        return {
-          key: item.uuid as string,
-          label: item.name as string,
-          value: item.prompt as string,
-        }
-      }) || []
+      const list =
+        promptList?.map?.((item) => {
+          return {
+            key: item.uuid as string,
+            label: (
+              <div>
+                <p>{item.name as string}</p>
+              </div>
+            ),
+            value: item.prompt as string,
+          }
+        }) || []
       setPlist(list)
     }
   }, [promptList])
@@ -54,19 +59,19 @@ function InputArea(props: BoxProps) {
   }
 
   useKeyPress(
-    [commonConfig?.send_style||'ctrl.enter'],
+    [commonConfig?.send_style || 'ctrl.enter'],
     (event) => {
-      console.log('event', event);
+      console.log('event', event)
       onSend()
-      setTimeout(()=>{
+      setTimeout(() => {
         setInput('')
       }, 200)
     },
     {
       exactMatch: true,
       // events: ['keydown', 'keyup'],
-    },
-  );
+    }
+  )
 
   return (
     <div
@@ -90,6 +95,7 @@ function InputArea(props: BoxProps) {
         autoFocus={true}
         placeholder={t('chat.inputPlaceholder') || ''}
         autoSize={true}
+        placement={'top'}
         value={input}
         prefix={['/']}
         onChange={inputChange}

@@ -9,8 +9,6 @@ import { Prompt } from '@/types/prompt'
 import { usePromptContext } from '@/contexts/prompt'
 import { uuidv4 } from '@/utils/uuid'
 import Edit from './Edit'
-import Store from './Store'
-import Export from './Export'
 import { useSize } from 'ahooks'
 
 function IndexPage(props: { setContent: Function; style?: React.CSSProperties }) {
@@ -18,27 +16,13 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
   const { token } = antdTheme.useToken()
   const { theme } = useSiteContext()
   const { message, modal, notification } = App.useApp()
-  const { promptList, setPromptList, delPrompt } = usePromptContext()
+  const { promptList, setPromptList, addPrompt, delPrompt } = usePromptContext()
   const { t } = useTranslation()
   const size = useSize(document.body)
   const [action, setAction] = useState<string>('')
   const [open, setOpen] = useState<boolean>(false)
   const [openItem, setOpenItem] = useState<Prompt | null>(null)
-  const [uuid, setUuid] = useState<string>('')
   const [list, setList] = useState<Prompt[]>([])
-
-  useEffect(() => {
-    const _action = router.query?.action as string
-    const _uuid = router.query?.uuid as string
-    if (_action) {
-      if (_action == 'edit' && _uuid) {
-        openAction(_action, { prompt: promptList?.find?.((item) => item.uuid == _uuid) || {} })
-      } else {
-        openAction(_action)
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query?.action])
 
   useEffect(() => {
     setList(promptList)
@@ -47,44 +31,33 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
   const deletePrompt = (uuid: string) => {
     // 从数据中删除
     delPrompt(uuid)
-    setUuid('')
     setOpen(false)
     console.log('delPrompt', uuid)
   }
 
-  const openAction = (action: string, _props: any = {}) => {
-    setUuid('')
-    console.log('openAction', action, _props)
-    switch (action) {
-      case 'add':
-        setAction('add')
-        setOpenItem(null)
-        setOpen(true)
-        break
-      case 'edit':
-        setAction('edit')
-        setOpenItem(_props?.prompt)
-        setOpen(true)
-        break
-      case 'store':
-        router.push('/prompt?action=store')
-        props?.setContent(<Store></Store>)
-        break
-      case 'export':
-        router.push('/prompt?action=export')
-        props?.setContent(<Export></Export>)
-        break
-      case 'message':
-        router.push('/chat?prompt' + _props?.prompt?.prompt || _props?.prompt?.context?.[0]?.content || '')
-        break
-      default:
-        break
-    }
+  const toAdd = () => {
+    setAction('add')
+    setOpenItem(null)
+    setOpen(true)
+  }
+  const toEdit = (item: Prompt) => {
+    setAction('edit')
+    setOpenItem(item)
+    setOpen(true)
+  }
+
+  const toCopy = (item: Prompt) => {
+    addPrompt({ ...item, uuid: uuidv4() })
+    message.success(t('prompt.copySuccess'))
+  }
+
+  const toChat = (item: Prompt) => {
+    router.push(`/chat`)
   }
 
   return (
     <div style={{ borderRight: `1px solid ${token.colorBorder}55`, width: 260, padding: 16, overflow: 'hidden', position: 'relative', ...props?.style }}>
-      <Button type="dashed" block size="large" onClick={() => openAction('add')}>
+      <Button type="dashed" block size="large" onClick={() => toAdd()}>
         {'+ ' + t('prompt.newPrompt')}
       </Button>
       <List
@@ -102,10 +75,10 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
               borderRadius: 6,
               padding: '4px 2px 4px 6px',
               marginTop: '12px',
-              borderColor: uuid == item.uuid ? token.colorPrimaryHover : undefined,
-              // backgroundColor: uuid == item.uuid ? (theme == 'dark' ? token.colorPrimaryHover : '#e8e8e8') : undefined,
+              borderColor: openItem?.uuid == item.uuid ? token.colorPrimaryHover : undefined,
+              // backgroundColor: openItem?.uuid == item.uuid ? (theme == 'dark' ? token.colorPrimaryHover : '#e8e8e8') : undefined,
             }}
-            onClick={() => openAction('edit', { prompt: item })}
+            onClick={() => toEdit(item)}
           >
             <List.Item
               style={{ padding: 2 }}
@@ -114,7 +87,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
                   key="message"
                   onClick={(e) => {
                     e.stopPropagation()
-                    openAction('message', { prompt: item })
+                    toChat(item)
                   }}
                 />,
               ]}
@@ -123,14 +96,14 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
                 style={{ alignItems: 'center' }}
                 avatar={null}
                 title={
-                  <Typography.Paragraph ellipsis={{ rows: 1 }} style={{ marginBottom: 0, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }}>
+                  <Typography.Paragraph ellipsis={{ rows: 1 }} style={{ marginBottom: 0, textAlign: 'left', color: openItem?.uuid == item.uuid ? token.colorPrimaryActive : token.colorText }}>
                     {item.name}
                   </Typography.Paragraph>
                 }
                 description={
                   <Typography.Paragraph
                     ellipsis={{ rows: 1 }}
-                    style={{ marginBottom: '0.5em', fontSize: 12, textAlign: 'left', color: uuid == item.uuid ? token.colorPrimaryActive : token.colorText }}
+                    style={{ marginBottom: '0.5em', fontSize: 12, textAlign: 'left', color: openItem?.uuid == item.uuid ? token.colorPrimaryActive : token.colorText }}
                   >
                     {item.intro || 'No intro'}
                   </Typography.Paragraph>
@@ -181,7 +154,32 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
             </Popconfirm>
           </Space>
         }
-        onClose={() => setOpen(false)}
+        footer={
+          <Space align={'end'} style={{ width: '100%', justifyContent: 'flex-end' }}>
+            <Button
+              type="default"
+              onClick={() => {
+                toCopy(openItem as Prompt)
+                setOpen(false)
+              }}
+            >
+              {t('prompt.copy')}
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                setOpen(false)
+                toChat(openItem as Prompt)
+              }}
+            >
+              {t('prompt.chat')}
+            </Button>
+          </Space>
+        }
+        onClose={() => {
+          setOpen(false)
+          setOpenItem(null)
+        }}
         open={open}
         width={578}
         height={'80%'}

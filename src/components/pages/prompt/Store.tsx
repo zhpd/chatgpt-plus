@@ -163,7 +163,7 @@ function OnlinePrompt() {
   }
 
   const toCopy = (item: Prompt) => {
-    addPrompt(item)
+    addPrompt({ ...item, uuid: uuidv4() })
     message.success(t('prompt.copySuccess'))
   }
 

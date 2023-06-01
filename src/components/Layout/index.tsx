@@ -36,7 +36,6 @@ export default function LayoutBase(props: any) {
   const { title, theme, setTheme, event$ } = useSiteContext()
   const { surface: surfaceConfig, common: commonConfig } = useSettingContext()
   const router = useRouter()
-  const [colorBgContainer, setColorBgContainer] = useState(token.colorBgContainer)
   const [colorPrimary, setColorPrimary] = useState(token.colorPrimary)
   const [collapsed, setCollapsed] = useState(true)
   const [side, setSide] = useState(true)
@@ -87,7 +86,6 @@ export default function LayoutBase(props: any) {
       default:
         break
     }
-    setColorBgContainer(newTheme == 'dark' ? token.colorFillContent : token.colorBgContainer)
     console.log('switchTheme', theme, newTheme)
     setTheme(newTheme)
   }
@@ -196,13 +194,14 @@ export default function LayoutBase(props: any) {
                     setHeadTitle(t('c.setting'))
                     router.push('/setting')
                   }}
-                  ghost={getActive('/setting') ? false : true}
+                  type={getActive('/setting') ? 'primary' : 'text'}
+                  // ghost={getActive('/setting') ? false : true}
                   style={{ border: getActive('/setting') ? undefined : 'none', color: getActive('/setting') ? colorPrimary : theme === 'dark' ? iconColor : '#555' }}
                   size={'large'}
                   icon={<SettingOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
                 ></Button>
                 <Button
-                  onClick={() =>  {
+                  onClick={() => {
                     setCollapsed(!collapsed)
                     // setSide(!side)
                   }}
@@ -237,7 +236,7 @@ export default function LayoutBase(props: any) {
               style={{
                 paddingLeft: 20,
                 paddingRight: 20,
-                background: colorBgContainer,
+                background: theme == 'dark' ? token.colorFillContent : token.colorBgContainer,
                 borderBottom: `1px solid ${theme == 'dark' ? '#42424255' : '#e8e8e855'}`,
                 display: 'flex',
                 alignItems: 'center',
@@ -258,7 +257,7 @@ export default function LayoutBase(props: any) {
                 // padding: 24,
                 minHeight: 280,
                 overflow: 'hidden',
-                background: colorBgContainer,
+                background: theme == 'dark' ? token.colorFillContent : token.colorBgContainer,
               }}
             >
               <main style={{ height: '100%' }}>{props.children}</main>

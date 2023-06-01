@@ -17,7 +17,7 @@ function Option(props: { chat: Chat }) {
   const [option, setOption] = useState<{ [key: string]: string | number }>({
     apitype: 'chatgpt-api',
     model: 'chatgpt-web' == apitype ? 'text-davinci-002-render-sha' : 'gpt-3.5-turbo',
-    max_tokens: 4000,
+    max_tokens: 2000,
     temperature: 0.8,
     top_p: 1.0,
     presence_penalty: 1.0,
@@ -121,48 +121,16 @@ function Option(props: { chat: Chat }) {
           <InputNumber max={4096} disabled={'chatgpt-web' == apitype} />
         </Form.Item>
         <Form.Item label={t('chat.option.top_p')} tooltip={{ title: t('chat.option.top_pTip') }} name="top_p">
-          <Slider
-            min={0}
-            max={1}
-            step={0.1}
-            range={false}
-            disabled={'chatgpt-web' == apitype}
-            tooltip={{ open: false }}
-            marks={{ [parseFloat(form.getFieldValue('top_p'))]: parseFloat(form.getFieldValue('top_p')) }}
-          />
+          <InputNumber min={0} max={1} step={0.1} disabled={'chatgpt-web' == apitype} />
         </Form.Item>
         <Form.Item label={t('chat.option.temperature')} tooltip={{ title: t('chat.option.temperatureTip') }} name="temperature">
-          <Slider
-            min={0.0}
-            max={0.9}
-            step={0.1}
-            range={false}
-            disabled={'chatgpt-web' == apitype}
-            tooltip={{ open: false }}
-            marks={{ [parseFloat(form.getFieldValue('temperature'))]: parseFloat(form.getFieldValue('temperature')) }}
-          />
+          <InputNumber min={0.0} max={0.9} step={0.1} disabled={'chatgpt-web' == apitype} />
         </Form.Item>
         <Form.Item label={t('chat.option.presence_penalty')} tooltip={{ title: t('chat.option.presence_penaltyTip') }} name="presence_penalty">
-          <Slider
-            min={-2.0}
-            max={2.0}
-            step={1}
-            range={false}
-            disabled={'chatgpt-web' == apitype}
-            tooltip={{ open: false }}
-            marks={{ [parseFloat(form.getFieldValue('presence_penalty'))]: parseFloat(form.getFieldValue('presence_penalty')) }}
-          />
+          <InputNumber min={-2.0} max={2.0} step={1} disabled={'chatgpt-web' == apitype} />
         </Form.Item>
         <Form.Item label={t('chat.option.frequency_penalty')} tooltip={{ title: t('chat.option.frequency_penaltyTip') }} name="frequency_penalty">
-          <Slider
-            min={-2.0}
-            max={2.0}
-            step={1}
-            range={false}
-            disabled={'chatgpt-web' == apitype}
-            tooltip={{ open: false }}
-            marks={{ [parseFloat(form.getFieldValue('frequency_penalty'))]: parseFloat(form.getFieldValue('frequency_penalty')) }}
-          />
+          <InputNumber min={-2.0} max={2.0} step={1} disabled={'chatgpt-web' == apitype} />
         </Form.Item>
       </Form>
     </>

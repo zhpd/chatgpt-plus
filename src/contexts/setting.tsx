@@ -35,6 +35,43 @@ export function SettingProvider({ children }) {
   //   console.log('window prefers-color-scheme:', window?.matchMedia('(prefers-color-scheme)'))
   // }, [theme])
 
+  useEffect(() => {
+    storage.get('setting_common').then((res) => {
+      let _value = res
+      if (!_value) {
+        _value = {}
+      }
+      setCommon(_value)
+    })
+    storage.get('setting_surface').then((res) => {
+      let _value = res
+      if (!_value) {
+        _value = {}
+      }
+      setSurface(_value)
+    })
+    storage.get('setting_network').then((res) => {
+      let _value = res
+      if (!_value) {
+        _value = {}
+      }
+      setNetwork(_value)
+    })
+  }, [])
+
+  useEffect(() => {
+    // refLang.current = lang
+    storage.set('setting_common', common)
+  }, [common])
+  useEffect(() => {
+    // refLang.current = lang
+    storage.set('setting_surface', surface)
+  }, [surface])
+  useEffect(() => {
+    // refLang.current = lang
+    storage.set('setting_network', network)
+  }, [network])
+
   return (
     <Context.Provider
       value={{

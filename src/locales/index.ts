@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
 // import path from 'path'
 // 导入语言枚举
 // const LanguageList = ['zh_CN', 'zh_TW', 'en_US']
@@ -18,24 +19,26 @@ const resources = () => {
 }
 
 // init i18next
-i18next.use(initReactI18next)
-i18next.init(
-  {
-    resources: resources(),
-    fallbackLng: {
-      default: [LanguageList?.[0]?.value],
+i18next
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init(
+    {
+      resources: resources(),
+      fallbackLng: {
+        default: [LanguageList?.[0]?.value],
+      },
+      defaultNS: 'translation',
+      ns: [],
+      detection: {
+        caches: ['localStorage', 'sessionStorage', 'cookie'],
+      },
+      debug: false,
     },
-    defaultNS: 'translation',
-    ns: [],
-    detection: {
-      caches: ['localStorage', 'sessionStorage', 'cookie'],
-    },
-    debug: false,
-  },
-  () => {
-    console.log('i18next init', i18next.t('title'))
-  }
-)
+    () => {
+      console.log('i18next init', i18next.t('title'))
+    }
+  )
 export default i18next
 
 export const changeLanguage = (val: string | undefined) => {

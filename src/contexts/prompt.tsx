@@ -2,6 +2,7 @@ import { Prompt } from '@/types/prompt'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import storage from '@/utils/storage'
+import { uuidv4 } from '@/utils'
 
 export type PromptContentType = {
   promptList: Array<Prompt>
@@ -52,6 +53,7 @@ export function PromptProvider({ children }) {
     if (!prompt) {
       return
     }
+    prompt.uuid = uuidv4()
     console.log('addPrompt', prompt)
     if (!prompt?.name || !prompt?.prompt) {
       return

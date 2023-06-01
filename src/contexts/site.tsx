@@ -2,6 +2,7 @@ import { useEventEmitter } from 'ahooks'
 import { EventEmitter } from 'ahooks/lib/useEventEmitter'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { changeLanguage } from '@/locales'
 import storage from '@/utils/storage'
 
 export type SiteType = {
@@ -34,19 +35,21 @@ export function SiteProvider({ children }) {
   // const refLang = useRef<string>('zh_CN')
 
   useEffect(() => {
-    // storage.get('theme').then((res) => {
-    //   let _theme = res
-    //   if (_theme !== 'dark' && _theme !== 'light' && _theme !== 'auto') {
-    //     _theme = 'light'
-    //   }
-    //   setTheme(_theme)
-    // })
+    storage.get('theme').then((res) => {
+      let _theme = res
+      if (_theme !== 'dark' && _theme !== 'light' && _theme !== 'auto') {
+        _theme = 'light'
+      }
+      setTheme(_theme)
+    })
     storage.get('lang').then((res) => {
       let _lang = res
       if (_lang !== 'zh_CN' && _lang !== 'en_US' && _lang !== 'zh_TW') {
         _lang = 'zh_CN'
       }
       setLang(_lang)
+      // 切换语言
+      changeLanguage(_lang)
     })
   }, [])
 
