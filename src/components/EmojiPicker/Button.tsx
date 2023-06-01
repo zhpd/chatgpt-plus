@@ -18,7 +18,9 @@ const ButtonEmojiPicker = (props: {
       destroyTooltipOnHide={true}
       trigger={'click'}
       overlayStyle={{ maxWidth: 'auto' }}
+      overlayInnerStyle={{ maxWidth: 'auto' }}
       color={'#00000000'}
+      style={{ maxWidth: 'auto' }}
       open={props.readOnly ? false : undefined}
       title={
         <EmojiPicker

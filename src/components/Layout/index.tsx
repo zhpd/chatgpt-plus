@@ -168,7 +168,7 @@ export default function LayoutBase(props: any) {
                       // @ts-ignore
                       title={t(item.name)}
                       style={{ border: 'none' }}
-                      // style={{ border: getActive(item.path) ? undefined : 'none', color: getActive(item.path) ? item.iconColorActive : theme === 'dark' ? '#fff' : '#555' }}
+                    // style={{ border: getActive(item.path) ? undefined : 'none', color: getActive(item.path) ? item.iconColorActive : theme === 'dark' ? '#fff' : '#555' }}
                     >
                       {collapsed ? '' : t(item.name)}
                     </Button>
@@ -181,7 +181,7 @@ export default function LayoutBase(props: any) {
                     // 切换antd主题
                     autoSwitchTheme()
                   }}
-                  ghost
+                  type={'text'}
                   style={{ border: 'none', color: '#fff' }}
                   size={'large'}
                   // icon={theme === 'dark' ? <SkinFilled style={{ color: iconColor }} /> : <SkinOutlined style={{ color: '#555' }} />}
@@ -196,16 +196,16 @@ export default function LayoutBase(props: any) {
                   }}
                   type={getActive('/setting') ? 'primary' : 'text'}
                   // ghost={getActive('/setting') ? false : true}
-                  style={{ border: getActive('/setting') ? undefined : 'none', color: getActive('/setting') ? colorPrimary : theme === 'dark' ? iconColor : '#555' }}
+                  style={{ border: 'none' }}
                   size={'large'}
-                  icon={<SettingOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
+                  icon={<SettingOutlined style={{ color: getActive('/setting') ? '#fff' : theme === 'dark' ? '#fff' : '#555' }} />}
                 ></Button>
                 <Button
                   onClick={() => {
                     setCollapsed(!collapsed)
                     // setSide(!side)
                   }}
-                  ghost
+                  type={'text'}
                   style={{ border: 'none' }}
                   size={'large'}
                   icon={React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
@@ -215,11 +215,10 @@ export default function LayoutBase(props: any) {
                 ></Button>
                 <Button
                   onClick={() => {
-                    setHeadTitle(t('c.github'))
                     window.open('https://github.com/zhpd/chatgpt-plus')
                   }}
-                  ghost={getActive('/github') ? false : true}
-                  style={{ border: getActive('/github') ? undefined : 'none', color: getActive('/github') ? colorPrimary : theme === 'dark' ? iconColor : '#555' }}
+                  type={'text'}
+                  style={{ border: 'none' }}
                   size={'large'}
                   icon={<GithubOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
                 ></Button>

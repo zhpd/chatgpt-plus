@@ -285,7 +285,7 @@ function OnlinePlugin() {
                 title={t('plugin.tag.recommend') as string}
                 style={{ color: openItem?.isRecommend ? token.colorError : token.colorTextLabel }}
                 icon={(openItem as Plugin)?.isRecommend ? <FireFilled color={token.colorError} /> : <FireOutlined color={token.colorTextLabel} />}
-                onClick={() => {}}
+                onClick={() => { }}
               ></Button>
             )}
             {(openItem as Plugin)?.isNew && (
@@ -294,7 +294,7 @@ function OnlinePlugin() {
                 title={t('plugin.tag.new') as string}
                 style={{ color: openItem?.isNew ? 'green' : token.colorTextLabel }}
                 icon={(openItem as Plugin)?.isNew ? <ThunderboltFilled color={'green'} /> : <ThunderboltFilled color={token.colorTextLabel} />}
-                onClick={() => {}}
+                onClick={() => { }}
               ></Button>
             )}
             <Button
@@ -315,6 +315,18 @@ function OnlinePlugin() {
                 toInstall(openItem as Plugin)
               }}
             ></Button>
+          </Space>
+        }
+        footer={
+          <Space align={'end'} style={{ width: '100%', justifyContent: 'flex-end' }}>
+            <Button
+              type={openItem?.isInstall ? 'default' : 'primary'}
+              onClick={() => {
+                toInstall(openItem as Plugin)
+              }}
+            >
+              {openItem?.isInstall ? t('plugin.tag.uninstall') : t('plugin.tag.install')}
+            </Button>
           </Space>
         }
         open={open}

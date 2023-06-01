@@ -21,7 +21,7 @@ function IndexPage() {
           {t('setting.m_surface')}
         </span>
       ),
-      children: <Surface style={{ paddingTop: 10 }} />,
+      children: <Surface style={{ paddingTop: 30 }} />,
     },
     {
       key: 'common',
@@ -31,7 +31,7 @@ function IndexPage() {
           {t('setting.m_common')}
         </span>
       ),
-      children: <Common style={{ paddingTop: 10 }} />,
+      children: <Common style={{ paddingTop: 30 }} />,
     },
     {
       key: 'network',
@@ -41,7 +41,7 @@ function IndexPage() {
           {t('setting.m_network')}
         </span>
       ),
-      children: <Network style={{ paddingTop: 10 }} />,
+      children: <Network style={{ paddingTop: 30 }} />,
     },
   ]
   useEffect(() => {
@@ -59,7 +59,7 @@ function IndexPage() {
 
   return (
     <div style={{ background: token.colorBgContainer, padding: 5, display: 'flex', width: '100%', height: '100%' }}>
-      <Tabs defaultActiveKey="surface" tabPosition="left" destroyInactiveTabPane={false} items={items} onChange={onChange} style={{width: '100%'}} />
+      <Tabs defaultActiveKey="surface" tabPosition="left" destroyInactiveTabPane={false} items={items} onChange={onChange} style={{ width: '100%' }} />
     </div>
   )
 }
