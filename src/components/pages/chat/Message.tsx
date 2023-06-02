@@ -1,6 +1,6 @@
 import { useSiteContext } from '@/contexts/site'
 import { Avatar, Button, Drawer, FloatButton, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Popover } from 'antd'
-import { AlignRightOutlined, AlignLeftOutlined, ApiOutlined, DownloadOutlined, DeleteOutlined, DisconnectOutlined, LinkOutlined, ControlOutlined, EllipsisOutlined } from '@ant-design/icons'
+import { AlignRightOutlined, AlignLeftOutlined, ApiOutlined, DownloadOutlined, DeleteOutlined, DisconnectOutlined, LinkOutlined, ControlOutlined, BulbOutlined, EllipsisOutlined } from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -18,6 +18,7 @@ import { useChat } from '@/hooks/useChat'
 import InputArea from './InputArea'
 
 function Message() {
+  const router = useRouter()
   const { token } = antdTheme.useToken()
   const { theme } = useSiteContext()
   const { message, modal } = App.useApp()
@@ -372,10 +373,20 @@ function Message() {
             size="middle"
             icon={<ApiOutlined />}
             onClick={() => {
-              message.warning(t('chat.api_warning'))
+              // message.warning(t('chat.api_warning'))
+              router.push('/plugin')
             }}
           ></Button>
-          <Tooltip trigger={['hover']} title={t('chat.coiledText', { status: coiled ? t('c.open') : t('c.close') })}>
+          <Button
+            type={'default'}
+            size="middle"
+            icon={<BulbOutlined />}
+            onClick={() => {
+              // message.warning(t('chat.api_warning'))
+              router.push('/prompt')
+            }}
+          ></Button>
+          {/* <Tooltip trigger={['hover']} title={t('chat.coiledText', { status: coiled ? t('c.open') : t('c.close') })}>
             <Button
               type={coiled ? 'default' : 'dashed'}
               size="middle"
@@ -383,7 +394,7 @@ function Message() {
               icon={coiled ? <LinkOutlined rotate={-45} /> : <DisconnectOutlined rotate={-45} />}
               onClick={() => setCoiled(!coiled)}
             ></Button>
-          </Tooltip>
+          </Tooltip> */}
           <Popconfirm
             key="del"
             title="Delete the chat"

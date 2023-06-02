@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ConfigProvider, Layout, App as AntdApp, theme as antdTheme, Avatar, Space, Button, Typography, Spin } from 'antd'
+import { ConfigProvider, Layout, App as AntdApp, theme as antdTheme, Avatar, Space, Button, Typography, Spin, Alert } from 'antd'
 import AntIcon, {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -168,7 +168,7 @@ export default function LayoutBase(props: any) {
                       // @ts-ignore
                       title={t(item.name)}
                       style={{ border: 'none' }}
-                    // style={{ border: getActive(item.path) ? undefined : 'none', color: getActive(item.path) ? item.iconColorActive : theme === 'dark' ? '#fff' : '#555' }}
+                      // style={{ border: getActive(item.path) ? undefined : 'none', color: getActive(item.path) ? item.iconColorActive : theme === 'dark' ? '#fff' : '#555' }}
                     >
                       {collapsed ? '' : t(item.name)}
                     </Button>
@@ -248,7 +248,19 @@ export default function LayoutBase(props: any) {
                   {headTitle}
                 </Typography.Title>
               </div>
-              <div></div>
+              <div>
+                <Alert
+                  message="功能持续开发中，有任何问题直接提issue，欢迎提交新功能pr"
+                  type="success"
+                  showIcon
+                  action={
+                    <Button size="small" href="https://github.com/zhpd/chatgpt-plus" target="_blank" type="link">
+                      Github
+                    </Button>
+                  }
+                  closable
+                />
+              </div>
             </Header>
             <Content
               style={{
