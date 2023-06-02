@@ -30,7 +30,7 @@ export function PluginProvider({ children }) {
 
   useEffect(() => {
     storage.get('pluginList').then((res) => {
-      let _pluginList = res
+      let _pluginList = res || []
       // 如果是string，则转换成数组
       if (typeof _pluginList == 'string') {
         _pluginList = JSON.parse(_pluginList)
@@ -40,7 +40,7 @@ export function PluginProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    refList.current = pluginList
+    refList.current = pluginList || []
     // 存储
     storage.set('pluginList', pluginList)
   }, [pluginList])
