@@ -33,7 +33,7 @@ export function PromptProvider({ children }) {
 
   useEffect(() => {
     storage.get('promptList').then((res) => {
-      let _promptList = res
+      let _promptList = res || []
       // 如果是string，则转换成数组
       if (typeof _promptList == 'string') {
         _promptList = JSON.parse(_promptList)
@@ -43,7 +43,7 @@ export function PromptProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    refList.current = promptList
+    refList.current = promptList || []
     // 存储
     storage.set('promptList', promptList)
   }, [promptList])

@@ -38,7 +38,7 @@ export function ChatProvider({ children }) {
 
   useEffect(() => {
     storage.get('chatList').then((res) => {
-      let _chatList = res
+      let _chatList = res || []
       // 如果是string，则转换成数组
       if (typeof _chatList == 'string') {
         _chatList = JSON.parse(_chatList)
@@ -48,7 +48,7 @@ export function ChatProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    refList.current = chatList
+    refList.current = chatList || []
     // 存储
     storage.set('chatList', chatList)
   }, [chatList])
