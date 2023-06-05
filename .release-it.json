@@ -22,5 +22,8 @@
       "preset": "conventionalcommits",
       "infile": "CHANGELOG.md"
     }
+  },
+  "changelog": {
+    "include": ["*"]
   }
 }
