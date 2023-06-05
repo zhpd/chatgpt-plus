@@ -248,17 +248,6 @@ function OnlinePlugin() {
           </Space>
         </div>
         <Space>
-          <Alert
-            message="插件功能开发中, 有问题提issue或者pr新功能"
-            type="warning"
-            showIcon
-            action={
-              <Button size="small" href="https://github.com/zhpd/chatgpt-plus/issues" target="_blank" type="link">
-                issue
-              </Button>
-            }
-            closable
-          />
           <Space.Compact style={{ width: '100%' }}>
             <Input.Search allowClear placeholder={t('plugin.searchPlaceholder') as string} value={search} onChange={(e) => setSearch(e.target.value)} onPressEnter={searchRequest} />
           </Space.Compact>
@@ -278,6 +267,24 @@ function OnlinePlugin() {
             })}
           </Row>
         )}
+        <Alert
+          message="插件功能开发中, 有问题提issue或者pr新功能"
+          type="warning"
+          style={{ left: 'calc( 50% - 200px)', bottom: '20px', top: 'auto', position: 'absolute' }}
+          showIcon
+          action={
+            <Button
+              size="small"
+              type="link"
+              onClick={() => {
+                window.open('https://github.com/zhpd/chatgpt-plus/issues')
+              }}
+            >
+              issue
+            </Button>
+          }
+          closable
+        />
         <FloatButton.BackTop
           style={{ marginBottom: 105, marginRight: 16 }}
           // @ts-ignore

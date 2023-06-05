@@ -19,5 +19,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "service"]
+  "exclude": ["node_modules", "service", "out", "src-tauri"]
 }

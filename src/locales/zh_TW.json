@@ -136,6 +136,7 @@
       "DEFAULT_API_TYPE": "預設存取模式",
       "apiTypeAPI": "api",
       "apiTypeWEB": "web",
+      "BACKEND_URL": "後端網址",
       "OPENAI_API_KEY": "OpenAI API 金鑰",
       "OPENAI_API_BASE_URL": "OpenAI API 網址",
       "OPENAI_ACCESS_TOKEN": "OpenAI Access Token",

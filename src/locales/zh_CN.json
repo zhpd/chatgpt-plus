@@ -139,6 +139,7 @@
       "DEFAULT_API_TYPE": "默认请求方式",
       "apiTypeAPI": "api",
       "apiTypeWEB": "web",
+      "BACKEND_URL": "服务端地址",
       "OPENAI_API_KEY": "OpenAI API Key",
       "OPENAI_API_BASE_URL": "OpenAI API Base URL",
       "OPENAI_ACCESS_TOKEN": "OpenAI Access Token",

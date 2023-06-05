@@ -113,7 +113,7 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
           </Button>
         )}
       />
-      <div
+      {/* <div
         style={{
           width: 'auto',
           position: 'absolute',
@@ -129,11 +129,11 @@ function IndexPage(props: { setContent: Function; style?: React.CSSProperties })
         }}
       >
         <Space direction={'vertical'}>
-          {/* <Button type="primary" block size="large" icon={<ExportOutlined />} onClick={() => openAction('export')}>
+          <Button type="primary" block size="large" icon={<ExportOutlined />} onClick={() => openAction('export')}>
             {t('prompt.importExport')}
-          </Button> */}
+          </Button>
         </Space>
-      </div>
+      </div> */}
       <Drawer
         title={(openItem as Prompt)?.name || t('c.prompt')}
         extra={

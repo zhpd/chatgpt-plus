@@ -1,6 +1,17 @@
 import { useSiteContext } from '@/contexts/site'
 import { Avatar, Button, Drawer, FloatButton, App, Popconfirm, Space, theme as antdTheme, Tooltip, Typography, Popover } from 'antd'
-import { AlignRightOutlined, AlignLeftOutlined, ApiOutlined, DownloadOutlined, DeleteOutlined, DisconnectOutlined, LinkOutlined, ControlOutlined, BulbOutlined, EllipsisOutlined } from '@ant-design/icons'
+import {
+  AlignRightOutlined,
+  AlignLeftOutlined,
+  ApiOutlined,
+  DownloadOutlined,
+  DeleteOutlined,
+  DisconnectOutlined,
+  LinkOutlined,
+  ControlOutlined,
+  BulbOutlined,
+  EllipsisOutlined,
+} from '@ant-design/icons'
 import { useTranslation } from '@/locales'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -142,7 +153,7 @@ function Message() {
       const _list = [...getList()]
       _list.push(nMessage)
       setList(_list)
-      newMessage(uuid, nMessage)
+      newMessage(_uuid, nMessage)
       // 滚动到最底部
       scrollBottom()
     }
