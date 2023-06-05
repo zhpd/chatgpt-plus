@@ -128,15 +128,18 @@ export default function LayoutBase(props: any) {
         </Head>
         <Layout
           style={{
-            borderRadius: '6px',
+            // @ts-ignore
+            borderRadius: window?.__TAURI__ ? '0' : '6px',
             overflow: 'hidden',
-            height: 'calc(100vh - 20px)',
+            // @ts-ignore
+            height: window?.__TAURI__ ? '100vh' : 'calc(100vh - 20px)',
             // maxWidth: '1024px',
             // maxHeight: '768px',
             // justifyContent: 'center',
             // alignSelf: 'center',
             // margin: '10px auto',
-            margin: '10px',
+            // @ts-ignore
+            margin: window?.__TAURI__ ? '0' : '10px',
             backgroundColor: '#000',
             border: theme === 'dark' ? `1px solid ${token.colorBorder}22` : '1px solid #ffffffff',
           }}
@@ -151,7 +154,7 @@ export default function LayoutBase(props: any) {
           >
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
               <div style={{ height: '64px', display: 'flex', alignItems: 'center' }}>{renderLogo()}</div>
-              <Space direction="vertical" size={'middle'} style={{ marginTop: 60 }}>
+              <Space direction="vertical" size={'middle'} style={{ marginTop: 50 }}>
                 {menuList.map((item, index) => {
                   return (
                     <Button
@@ -200,7 +203,7 @@ export default function LayoutBase(props: any) {
                   size={'large'}
                   icon={<SettingOutlined style={{ color: getActive('/setting') ? '#fff' : theme === 'dark' ? '#fff' : '#555' }} />}
                 ></Button>
-                <Button
+                {/* <Button
                   onClick={() => {
                     setCollapsed(!collapsed)
                     // setSide(!side)
@@ -212,7 +215,7 @@ export default function LayoutBase(props: any) {
                     className: 'trigger',
                     style: { color: theme === 'dark' ? iconColor : '#555' },
                   })}
-                ></Button>
+                ></Button> */}
                 <Button
                   onClick={() => {
                     window.open('https://github.com/zhpd/chatgpt-plus')
