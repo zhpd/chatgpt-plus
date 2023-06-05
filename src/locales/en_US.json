@@ -134,6 +134,7 @@
       "DEFAULT_API_TYPE": "API_TYPE",
       "apiTypeAPI": "api",
       "apiTypeWEB": "web",
+      "BACKEND_URL": "BACKEND_URL",
       "OPENAI_API_KEY": "OpenAI API Key",
       "OPENAI_API_BASE_URL": "OpenAI API Base URL",
       "OPENAI_ACCESS_TOKEN": "OpenAI Access Token",

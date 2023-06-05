@@ -235,7 +235,13 @@ function OnlinePrompt() {
             type="warning"
             showIcon
             action={
-              <Button size="small" href="https://github.com/zhpd/chatgpt-plus/issues" target="_blank" type="link">
+              <Button
+                size="small"
+                type="link"
+                onClick={() => {
+                  window.open('https://github.com/zhpd/chatgpt-plus/issues')
+                }}
+              >
                 issue
               </Button>
             }

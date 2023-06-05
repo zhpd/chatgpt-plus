@@ -1,21 +1,31 @@
 /** @type {import('next').NextConfig} */
 
+// output mode: 'export' | 'standalone'
+let output = 'standalone'
+if (process.env.APP_ENV === 'tauri') {
+  output = 'export'
+  console.log('APP_ENV', process.env.APP_ENV)
+}
 const nextConfig = {
   reactStrictMode: false,
+  output: output,
   // distDir: 'dist', // 静态化
-  output: 'standalone',
   trailingSlash: true,
   transpilePackages: ['antd'],
-  async rewrites() {
-    return {
-      fallback: [
-        {
-          source: '/api/:path*',
-          destination: `${process.env.NEXT_PUBLIC_API_URL || ''}/api/:path*`, // Proxy to Backend
+  ...(output !== 'export'
+    ? {
+        rewrites() {
+          return {
+            fallback: [
+              {
+                source: '/api/:path*',
+                destination: `${process.env.NEXT_PUBLIC_API_URL || ''}/api/:path*`, // Proxy to Backend
+              },
+            ],
+          }
         },
-      ],
-    }
-  },
+      }
+    : {}),
   images: {
     unoptimized: true,
     remotePatterns: [

@@ -226,7 +226,7 @@ export default function LayoutBase(props: any) {
                   icon={<GithubOutlined style={{ color: theme === 'dark' ? iconColor : '#555' }} />}
                 ></Button>
                 {packageVersion && (
-                  <Typography.Paragraph type="secondary" style={{ color: theme === 'dark' ? '#555' : '#ccc', fontSize: '8px', marginBottom: 0 }}>
+                  <Typography.Paragraph type="secondary" style={{ color: theme === 'dark' ? '#555' : '#ccc', fontSize: '8px', marginBottom: 0, textAlign: 'center' }}>
                     {'v' + packageVersion}
                   </Typography.Paragraph>
                 )}
@@ -257,7 +257,13 @@ export default function LayoutBase(props: any) {
                   type="success"
                   showIcon
                   action={
-                    <Button size="small" href="https://github.com/zhpd/chatgpt-plus" target="_blank" type="link">
+                    <Button
+                      size="small"
+                      type="link"
+                      onClick={() => {
+                        window.open('https://github.com/zhpd/chatgpt-plus')
+                      }}
+                    >
                       Github
                     </Button>
                   }
