@@ -15,15 +15,13 @@
     "publish": false
   },
   "github": {
-    "release": true
+    "release": true,
+    "autoGenerate": true
   },
   "plugins": {
     "@release-it/conventional-changelog": {
       "preset": "conventionalcommits",
       "infile": "CHANGELOG.md"
     }
-  },
-  "changelog": {
-    "include": ["*"]
   }
 }
