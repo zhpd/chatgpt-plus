@@ -230,23 +230,6 @@ function OnlinePrompt() {
           </Space>
         </div>
         <Space>
-          <Alert
-            message="优质的提示词模块, 有问题提issue或者pr提示词"
-            type="warning"
-            showIcon
-            action={
-              <Button
-                size="small"
-                type="link"
-                onClick={() => {
-                  window.open('https://github.com/zhpd/chatgpt-plus/issues')
-                }}
-              >
-                issue
-              </Button>
-            }
-            closable
-          />
           <Select
             style={{ width: 120 }}
             value={language}
@@ -290,6 +273,24 @@ function OnlinePrompt() {
             })}
           </Row>
         )}
+        <Alert
+          message="优质的提示词模块, 有问题提issue或者pr提示词"
+          type="warning"
+          style={{ left: 'calc( 50% - 200px)', bottom: '20px', top: 'auto', position: 'absolute' }}
+          showIcon
+          action={
+            <Button
+              size="small"
+              type="link"
+              onClick={() => {
+                window.open('https://github.com/zhpd/chatgpt-plus/issues')
+              }}
+            >
+              issue
+            </Button>
+          }
+          closable
+        />
         <FloatButton.BackTop
           style={{ marginBottom: 105, marginRight: 16 }}
           // @ts-ignore
