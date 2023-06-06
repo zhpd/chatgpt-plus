@@ -46,8 +46,8 @@
     "optionTitle": "選項",
     "option": {
       "apiType": "存取方式",
-      "apiTypeAPI": "api",
-      "apiTypeWEB": "web",
+      "apiTypeAPI": "API",
+      "apiTypeWEB": "網頁",
       "model": "模型",
       "modelTip": "選擇模型",
       "max_tokens": "單次回覆限制",
@@ -89,21 +89,21 @@
     }
   },
   "plugin": {
-    "newPlugin": "创建插件",
-    "editPlugin": "编辑插件",
-    "save": "保存",
-    "onlinePlugin": "在线插件",
-    "pluginStoreTitle": "推荐插件",
-    "importExport": "导入导出",
-    "search": "搜索",
-    "searchPlaceholder": "请输入插件",
+    "newPlugin": "建立外掛",
+    "editPlugin": "編輯外掛",
+    "save": "儲存",
+    "onlinePlugin": "線上外掛",
+    "pluginStoreTitle": "推薦外掛",
+    "importExport": "匯入匯出",
+    "search": "搜尋",
+    "searchPlaceholder": "請輸入外掛",
     "tag": {
       "all": "全部",
-      "new": "新建",
+      "new": "新增",
       "recommend": "推薦",
       "star": "收藏",
       "install": "安裝",
-      "uninstall": "卸載",
+      "uninstall": "移除",
       "delete": "刪除",
       "deleteSuccess": "刪除成功",
       "deleteFailed": "刪除失敗",
@@ -113,8 +113,8 @@
       "unstarFailed": "取消收藏失敗",
       "installSuccess": "安裝成功",
       "installFailed": "安裝失敗",
-      "uninstallSuccess": "卸載成功",
-      "uninstallFailed": "卸載失敗"
+      "uninstallSuccess": "移除成功",
+      "uninstallFailed": "移除失敗"
     }
   },
   "setting": {
@@ -134,8 +134,8 @@
     "m_network": "網路設定",
     "m_network_option": {
       "DEFAULT_API_TYPE": "預設存取模式",
-      "apiTypeAPI": "api",
-      "apiTypeWEB": "web",
+      "apiTypeAPI": "API",
+      "apiTypeWEB": "網頁",
       "BACKEND_URL": "後端網址",
       "OPENAI_API_KEY": "OpenAI API 金鑰",
       "OPENAI_API_BASE_URL": "OpenAI API 網址",
