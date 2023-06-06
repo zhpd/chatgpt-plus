@@ -124,6 +124,7 @@
       "colorPrimary": "主色",
       "radius": "圓角",
       "loose": "寬鬆",
+      "compact": "緊湊",
       "default": "預設"
     },
     "m_common": "一般設定",

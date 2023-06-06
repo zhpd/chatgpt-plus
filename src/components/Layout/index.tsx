@@ -118,7 +118,7 @@ export default function LayoutBase(props: any) {
           colorPrimary: surfaceConfig?.colorPrimary || colorPrimary,
           borderRadius: surfaceConfig?.radius || 6,
         },
-        algorithm: [theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm, ...(surfaceConfig?.loose == 'loose' ? [antdTheme.compactAlgorithm] : [])],
+        algorithm: [theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm, ...(surfaceConfig?.loose == 'compact' ? [antdTheme.compactAlgorithm] : [])],
       }}
     >
       <AntdApp style={{ height: '100vh', width: '100vw', overflow: 'hidden', display: 'flex' }}>
@@ -171,7 +171,7 @@ export default function LayoutBase(props: any) {
                       // @ts-ignore
                       title={t(item.name)}
                       style={{ border: 'none' }}
-                      // style={{ border: getActive(item.path) ? undefined : 'none', color: getActive(item.path) ? item.iconColorActive : theme === 'dark' ? '#fff' : '#555' }}
+                    // style={{ border: getActive(item.path) ? undefined : 'none', color: getActive(item.path) ? item.iconColorActive : theme === 'dark' ? '#fff' : '#555' }}
                     >
                       {collapsed ? '' : t(item.name)}
                     </Button>

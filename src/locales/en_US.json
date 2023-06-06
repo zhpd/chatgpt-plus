@@ -122,6 +122,7 @@
       "colorPrimary": "colorPrimary",
       "radius": "radius",
       "loose": "loose",
+      "compact": "compact",
       "default": "default"
     },
     "m_common": "Common",

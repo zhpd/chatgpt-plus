@@ -127,6 +127,7 @@
       "colorPrimary": "主色",
       "radius": "圆角",
       "loose": "宽松",
+      "compact": "紧凑",
       "default": "默认"
     },
     "m_common": "通用配置",

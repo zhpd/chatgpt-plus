@@ -74,8 +74,8 @@ function Setting(props: { children?: React.ReactElement; style?: React.CSSProper
             <Radio value={'default'}>
               {t('setting.m_surface_option.default')}
             </Radio>
-            <Radio value={'loose'}>
-              {t('setting.m_surface_option.loose')}
+            <Radio value={'compact'}>
+              {t('setting.m_surface_option.compact')}
             </Radio>
           </Radio.Group>
         </Form.Item>
