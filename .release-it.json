@@ -15,8 +15,7 @@
     "publish": false
   },
   "github": {
-    "release": true,
-    "autoGenerate": true
+    "release": true
   },
   "plugins": {
     "@release-it/conventional-changelog": {
