@@ -53,10 +53,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
-        "resizable": true,
         "title": "ChatGPT-Plus",
-        "width": 800
+        "resizable": true,
+        "height": 600,
+        "width": 900
       }
     ],
     "systemTray": {
