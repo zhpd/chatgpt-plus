@@ -9,7 +9,7 @@ const ButtonEmojiPicker = (props: {
   onChange?: (val: any) => void
   onEmojiClick?: (emoji: any) => void
   theme?: 'auto' | 'light' | 'dark'
-  style?: 'native' | 'apple' | 'google' | 'facebook'
+  style?: 'native' | 'apple' | 'google' | 'facebook' | 'microsoft' | 'bubble'
 }) => {
   const [_value, setValue] = React.useState(props.value)
   return (
@@ -24,8 +24,8 @@ const ButtonEmojiPicker = (props: {
       open={props.readOnly ? false : undefined}
       title={
         <EmojiPicker
-          theme={props?.theme || 'auto'}
-          style={props?.style || 'apple'}
+          theme={props?.theme}
+          style={props?.style}
           onEmojiClick={(emoji: any) => {
             props?.onEmojiClick?.(emoji)
             props?.onChange?.(emoji.imageUrl)

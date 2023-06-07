@@ -134,7 +134,7 @@ function Edit(props: { action: string; page: boolean; prompt?: Prompt; edit: boo
           </Radio.Group>
         </Form.Item> */}
         <Form.Item label="图标" name="image" required>
-          <ButtonEmojiPicker theme={theme} style={'apple'} readOnly={!edit} />
+          <ButtonEmojiPicker theme={theme} readOnly={!edit} />
         </Form.Item>
         <Form.Item label="名称" name="name" required>
           <Input readOnly={!edit} />
