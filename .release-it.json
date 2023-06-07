@@ -19,8 +19,20 @@
   },
   "plugins": {
     "@release-it/conventional-changelog": {
-      "preset": "conventionalcommits",
-      "infile": "CHANGELOG.md"
+      "infile": "CHANGELOG.md",
+      "preset": {
+        "name": "conventionalcommits",
+        "types": [
+          { "type": "feat", "section": "Features" },
+          { "type": "fix", "section": "Bug Fixes" },
+          { "type": "chore", "hidden": false },
+          { "type": "docs", "hidden": false },
+          { "type": "style", "hidden": false },
+          { "type": "refactor", "hidden": false },
+          { "type": "perf", "hidden": false },
+          { "type": "test", "hidden": false }
+        ]
+      }
     }
   }
 }
