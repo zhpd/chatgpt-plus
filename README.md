@@ -368,6 +368,11 @@ A: 一种可能原因是经过 Nginx 反向代理，开启了 buffer，则 Nginx
   <img src="https://contrib.rocks/image?repo=zhpd/chatgpt-plus" />
 </a>
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=zhpd/chatgpt-plus&type=Date)](https://star-history.com/#zhpd/chatgpt-plus&Date)
+
+
 ## 🙏感谢
 
 - 非常感谢项目支持者和所有其他贡献者 💪

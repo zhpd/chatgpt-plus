@@ -363,6 +363,11 @@ Thanks to all the contributors who have contributed to this project!
   <img src="https://contrib.rocks/image?repo=zhpd/chatgpt-plus" />
 </a>
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=zhpd/chatgpt-plus&type=Date)](https://star-history.com/#zhpd/chatgpt-plus&Date)
+
+
 ## 🙏Acknowledgments
 
 - Many thanks to the supporters and all other contributors to the project! 💪
