@@ -37,6 +37,10 @@ export function SiteProvider({ children }) {
   useEffect(() => {
     storage.get('theme').then((res) => {
       let _theme = res
+      if (!_theme) {
+        // 从浏览器获取
+        _theme = window?.matchMedia && window?.matchMedia('(prefers-color-scheme)').matches ? (window?.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : 'light'
+      }
       if (_theme !== 'dark' && _theme !== 'light' && _theme !== 'auto') {
         _theme = 'light'
       }
@@ -44,6 +48,12 @@ export function SiteProvider({ children }) {
     })
     storage.get('lang').then((res) => {
       let _lang = res
+      if (!_lang) {
+        // 从浏览器获取
+        _lang = navigator?.language
+        // 转换成xx_XX格式
+        _lang = _lang.replace('-', '_')
+      }
       if (_lang !== 'zh_CN' && _lang !== 'en_US' && _lang !== 'zh_TW') {
         _lang = 'zh_CN'
       }
