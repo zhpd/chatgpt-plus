@@ -9,7 +9,11 @@ import { SiteProvider, ChatProvider, PromptProvider, useSiteContext, SettingProv
 import dynamic from 'next/dynamic'
 import withTheme from '@/themes'
 import { GetServerSideProps } from 'next'
+import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/react'
+
+const isProduction = process.env.NODE_ENV === 'production'
+const GOOGLE_GA_ID = process.env.GOOGLE_GA_ID || ''
 
 const Layout = dynamic(() => import('@/components/Layout'), {
   ssr: false,
@@ -42,6 +46,21 @@ function App({ Component, pageProps: { ...pageProps } }: AppProps) {
         </SettingProvider>
       </SiteProvider>
       <Analytics />
+      {/* Global Site Tag (gtag.js) - Google Analytics */}
+      {isProduction && GOOGLE_GA_ID && (
+        <>
+          <Script src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_GA_ID}`} strategy="afterInteractive" />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag("js", new Date());
+                gtag("config", "${GOOGLE_GA_ID}");
+                conosle.log('google-analytics loaded')
+              `}
+          </Script>
+        </>
+      )}
     </>
   )
 }
