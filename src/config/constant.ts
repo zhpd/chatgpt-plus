@@ -15,10 +15,14 @@ export enum Theme {
 export enum Model {
   'GPT-3.5-Turbo' = 'gpt-3.5-turbo',
   'GPT-3.5-Turbo-0301' = 'gpt-3.5-turbo-0301',
+  'GPT-3.5-Turbo-0613' = 'gpt-3.5-turbo-0613',
+  'GPT-3.5-Turbo-16k' = 'gpt-3.5-turbo-16k',
   'GPT-4' = 'gpt-4',
   'GPT-4-0314' = 'gpt-4-0314',
+  'GPT-4-0613' = 'gpt-4-0613',
   'GPT-4-32k' = 'gpt-4-32k',
   'GPT-4-32k-0314' = 'gpt-4-32k-0314',
+  'GPT-4-32k-0613' = 'gpt-4-32k-0613',
   'GPT-4-Mobile' = 'gpt-4-mobile',
 }
 
@@ -29,8 +33,16 @@ export const ModelList = [
     value: Model['GPT-3.5-Turbo'],
   },
   {
+    label: 'GPT-3.5-Turbo-16k',
+    value: Model['GPT-3.5-Turbo-16k'],
+  },
+  {
     label: 'GPT-3.5-Turbo-0301',
     value: Model['GPT-3.5-Turbo-0301'],
+  },
+  {
+    label: 'GPT-3.5-Turbo-0613',
+    value: Model['GPT-3.5-Turbo-0613'],
   },
   {
     label: 'GPT-4',
@@ -41,12 +53,20 @@ export const ModelList = [
     value: Model['GPT-4-0314'],
   },
   {
+    label: 'GPT-4-0613',
+    value: Model['GPT-4-0613'],
+  },
+  {
     label: 'GPT-4-32k',
     value: Model['GPT-4-32k'],
   },
   {
     label: 'GPT-4-32k-0314',
     value: Model['GPT-4-32k-0314'],
+  },
+  {
+    label: 'GPT-4-32k-0613',
+    value: Model['GPT-4-32k-0613'],
   },
   {
     label: 'GPT-4-Mobile',
