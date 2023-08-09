@@ -10,8 +10,8 @@ const nextConfig = {
   reactStrictMode: false,
   output: output,
   // distDir: 'dist', // 静态化
-  trailingSlash: true,
-  transpilePackages: ['antd'],
+  // trailingSlash: true,
+  transpilePackages: ['antd','ahooks'],
   ...(output !== 'export'
     ? {
         rewrites() {

@@ -6,8 +6,9 @@ import { ReactNode, useRef } from 'react'
 import { useImperativeHandle } from 'react'
 import { useEffect } from 'react'
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
-import { nanoid } from 'nanoid'
+// import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client';
+import { nanoid } from 'nanoid/index'
 // import './index.less'
 
 let global_drawer_nodes: HTMLDivElement[] = [],
@@ -89,7 +90,7 @@ export function showDrawer(dom: ReactNode, drawerProps: DrawerProps): React.RefO
   global_drawer_nodes.push(_nn)
 
   // 弹窗属性
-  let _dom = dom
+  let _dom: any = dom
   let _drawerProps = {
     footerStyle: { display: 'flex', justifyContent: 'flex-end' },
     ...drawerProps,
@@ -108,9 +109,11 @@ export function showDrawer(dom: ReactNode, drawerProps: DrawerProps): React.RefO
       })
       if (_drawerProps?.footer) {
         if (Array.isArray(_drawerProps.footer)) {
+          // @ts-ignore
           _drawerProps.footer.push(<span key={targetId} id={targetId} className="drawerFooterBtn" style={{ marginLeft: '10px' }} />)
         }
         if (React.isValidElement(_drawerProps.footer)) {
+          // @ts-ignore
           _drawerProps.footer = [_drawerProps.footer, <span key={targetId} id={targetId} className="drawerFooterBtn" style={{ marginLeft: '10px' }} />]
         }
         // 循环添加key
@@ -125,18 +128,23 @@ export function showDrawer(dom: ReactNode, drawerProps: DrawerProps): React.RefO
           })
         }
       } else {
+        // @ts-ignore
         _drawerProps.footer = <span key={targetId} id={targetId} className="drawerFooterBtn" />
       }
     }
   }
 
   console.log('showDrawer _', _dom, _drawerProps)
-  ReactDOM.render(
-    <RenderDrawer ref={ref} node={node} {..._drawerProps}>
-      {_dom}
-    </RenderDrawer>,
-    node
-  )
+  // ReactDOM.render(
+  //   <RenderDrawer ref={ref} node={node} {..._drawerProps}>
+  //     {_dom}
+  //   </RenderDrawer>,
+  //   node
+  // )
+  const root = createRoot(node);
+  root.render(<RenderDrawer ref={ref} node={node} {..._drawerProps}>
+    {_dom}
+  </RenderDrawer>)
   // const xx = ReactDOM.createPortal(<RenderDrawer {..._drawerProps}>{dom}</RenderDrawer>, document.body);
   // ReactDOM.render(<>{xx.children}</>, node);
   return ref
@@ -157,7 +165,7 @@ export function closeDrawer(ref?: React.RefObject<CommonRefObj> | null, node?: E
       if (item?.ref) {
         item.ref?.current?.close()
       } else {
-        ReactDOM.unmountComponentAtNode(item?.node)
+        // ReactDOM.unmountComponentAtNode(item?.node)
       }
     })
   } else {
@@ -165,7 +173,9 @@ export function closeDrawer(ref?: React.RefObject<CommonRefObj> | null, node?: E
       ref?.current?.close()
     }
     if (node) {
-      ReactDOM.unmountComponentAtNode(node)
+      const root = createRoot(node);
+      root.unmount()
+      // ReactDOM.unmountComponentAtNode(node)
     }
   }
 }
@@ -249,7 +259,7 @@ export function showModal(dom: ReactNode, modalProps: ModalProps): React.RefObje
   global_modal_nodes.push(_nn)
 
   // 弹窗属性
-  let _dom = dom
+  let _dom: any = dom
   let _modalProps = { ...modalProps }
   // 获取组件属性
   if (React.isValidElement(_dom)) {
@@ -265,9 +275,11 @@ export function showModal(dom: ReactNode, modalProps: ModalProps): React.RefObje
       })
       if (_modalProps?.footer) {
         if (Array.isArray(_modalProps.footer)) {
+          // @ts-ignore
           _modalProps.footer.push(<span key={targetId} id={targetId} style={{ marginLeft: '10px' }} />)
         }
         if (React.isValidElement(_modalProps.footer)) {
+          // @ts-ignore
           _modalProps.footer = [_modalProps.footer, <span key={targetId} id={targetId} style={{ marginLeft: '10px' }} />]
         }
         // 循环添加key
@@ -282,18 +294,23 @@ export function showModal(dom: ReactNode, modalProps: ModalProps): React.RefObje
           })
         }
       } else {
+        //  @ts-ignore
         _modalProps.footer = <span key={targetId} id={targetId} />
       }
     }
   }
 
   console.log('showModal _', _dom, _modalProps)
-  ReactDOM.render(
-    <RenderModal ref={ref} node={node} {..._modalProps}>
-      {_dom}
-    </RenderModal>,
-    node
-  )
+  // ReactDOM.render(
+  //   <RenderModal ref={ref} node={node} {..._modalProps}>
+  //     {_dom}
+  //   </RenderModal>,
+  //   node
+  // )
+  const root = createRoot(node);
+  root.render(<RenderModal ref={ref} node={node} {..._modalProps}>
+    {_dom}
+  </RenderModal>)
   // const xx = ReactDOM.createPortal(<RenderModal {..._modalProps}>{dom}</RenderModal>, document.body);
   // ReactDOM.render(<>{xx.children}</>, node);
   return ref
@@ -314,7 +331,7 @@ export function closeModal(ref?: React.RefObject<CommonRefObj> | null, node?: El
       if (item?.ref) {
         item.ref?.current?.close()
       } else {
-        ReactDOM.unmountComponentAtNode(item?.node)
+        // ReactDOM.unmountComponentAtNode(item?.node)
       }
     })
   } else {
@@ -322,7 +339,9 @@ export function closeModal(ref?: React.RefObject<CommonRefObj> | null, node?: El
       ref?.current?.close()
     }
     if (node) {
-      ReactDOM.unmountComponentAtNode(node)
+      // ReactDOM.unmountComponentAtNode(node)
+      const root = createRoot(node);
+      root.unmount()
     }
   }
 }
